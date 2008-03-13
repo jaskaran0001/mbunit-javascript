@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CEFA82BA-9494-4457-B77F-2825B36DB4B3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MbUnit.JavaScript</RootNamespace>
+    <AssemblyName>MbUnit.JavaScript</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework, Version=1.0.2642.28107, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
+    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
+    <Reference Include="QuickGraph.Algorithms, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Delegates.cs" />
+    <Compile Include="Engines\Base\ScriptArrayBase.cs" />
+    <Compile Include="Engines\IScriptArray.cs" />
+    <Compile Include="Engines\IScriptFunction.cs" />
+    <Compile Include="Engines\IScriptObject.cs" />
+    <Compile Include="Engines\Microsoft\ComScriptConverter.cs" />
+    <Compile Include="Engines\Microsoft\IComObjectWrapper.cs" />
+    <Compile Include="Engines\Microsoft\Threading\IThreadingRequirement.cs" />
+    <Compile Include="Engines\Microsoft\Threading\MtaThreadOnly.cs" />
+    <Compile Include="Engines\Microsoft\Types\ComScriptArray.cs" />
+    <Compile Include="Engines\Microsoft\Types\ComScriptFunction.cs" />
+    <Compile Include="Engines\Microsoft\Types\ComScriptObject.cs" />
+    <Compile Include="Engines\Microsoft\Caching\WeakReferenceCache.cs" />
+    <Compile Include="Engines\Microsoft\Caching\WeakReferenceEqualityComparer.cs" />
+    <Compile Include="Engines\Microsoft\Types\ThreadAwareComScriptObject.cs" />
+    <Compile Include="Engines\ScriptException.cs" />
+    <Compile Include="Engines\ScriptFunctionDelegate.cs" />
+    <Compile Include="Engines\IScriptEngine.cs" />
+    <Compile Include="Engines\Microsoft\MicrosoftScriptControlEngine.cs" />
+    <Compile Include="Engines\ScriptEngineFactory.cs" />
+    <Compile Include="Engines\Base\ScriptObjectBase.cs" />
+    <Compile Include="Engines\ScriptSyntaxException.cs" />
+    <Compile Include="Internal\JavaScriptImportedFixture.cs" />
+    <Compile Include="JavaScriptProviderAttribute.cs" />
+    <Compile Include="JavaScriptFixtureBase.cs" />
+    <Compile Include="References\JavaScriptFileReference.cs" />
+    <Compile Include="JavaScriptFixtureAttribute.cs" />
+    <Compile Include="JavaScriptReference.cs" />
+    <Compile Include="References\JavaScriptResourceReference.cs" />
+    <Compile Include="JavaScriptRun.cs" />
+    <Compile Include="JavaScriptRunInvoker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Assert.js" />
+    <EmbeddedResource Include="Framework.js" />
+    <EmbeddedResource Include="js\TestFixture.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Common.js" />
+    <EmbeddedResource Include="js\Core\Runner.js" />
+    <EmbeddedResource Include="js\Test.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSScriptControl">
+      <Guid>{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\RowTest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Row.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Core\Invokers\ExpectedExceptionRunInvoker.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\ExpectedException.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
