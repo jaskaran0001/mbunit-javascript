@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
+using MbUnit.JavaScript.References;
+
 namespace MbUnit.JavaScript {
     public abstract class JavaScriptReference {
         public abstract IEnumerable<string> LoadAll();

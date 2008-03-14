@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace MbUnit.JavaScript {
+namespace MbUnit.JavaScript.References {
     internal class JavaScriptResourceReference : JavaScriptReference {
         public string Pattern { get; private set; }
         public Assembly Assembly { get; private set; }
@@ -24,7 +24,7 @@ namespace MbUnit.JavaScript {
             var resourceNames = new List<string>(this.Assembly.GetManifestResourceNames());
             var pattern = new Regex(this.Pattern);
 
-            return resourceNames.FindAll(name => pattern.IsMatch(name));
+            return resourceNames.FindAll(pattern.IsMatch);
         }
 
         private IEnumerable<string> LoadAllScripts(IEnumerable<string> names) {
