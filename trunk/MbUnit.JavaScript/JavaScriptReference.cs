@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -15,6 +16,14 @@ namespace MbUnit.JavaScript {
 
         public static JavaScriptReference Resources(string pattern, Assembly assembly) {
             return new JavaScriptResourceReference(pattern, assembly);
+        }
+
+        public static JavaScriptReference Files(string path, string pattern) {
+            return new JavaScriptFileReference(path, pattern);
+        }
+
+        public static JavaScriptReference Files(string path, string pattern, SearchOption searchOption) {
+            return new JavaScriptFileReference(path, pattern, searchOption);
         }
     }
 }
