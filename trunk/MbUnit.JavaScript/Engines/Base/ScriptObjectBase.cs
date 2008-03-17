@@ -69,8 +69,10 @@ namespace MbUnit.JavaScript.Engines.Base {
                        .Append(", ");
             }
 
-            int lastCommaLength = ", ".Length;
-            builder.Remove(builder.Length - lastCommaLength, lastCommaLength);
+            if (this.Count > 0) {
+                int lastCommaLength = ", ".Length;
+                builder.Remove(builder.Length - lastCommaLength, lastCommaLength);
+            }
 
             builder.Append("}");
 

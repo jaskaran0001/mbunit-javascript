@@ -7,23 +7,35 @@ using MbUnit.JavaScript.Engines;
 
 namespace MbUnit.JavaScript.Tests.Of.Engines {
     partial class ScriptEngineTest {
+        private const string ThrowingFunction = "function() { throw 'some error'; }";
+
         [Test]
         public void TestExceptionDuringEval() {
             ExceptionAssert.Throws<ScriptException>(
-                () => this.Eval<object>("(function() { throw 'some error'; })()"),
+                () => this.Eval<object>("(" + ThrowingFunction + ")()"),
                 ex => Assert.AreEqual(ex.WrappedException, "some error")
             );
         }
 
-        //[Test]
-        //public void TestExceptionFromFunction() {
-        //    var function = this.Eval<IScriptFunction>("function() { throw 'some error'; }").ToDelegate();
+        [Test]
+        public void TestExceptionFromFunction() {
+            var function = this.Eval<IScriptFunction>(ThrowingFunction).ToDelegate();
 
-        //    ExceptionAssert.Throws<ScriptException>(
-        //        () => function(),
-        //        ex => Assert.AreEqual(ex.WrappedException, "some error")
-        //    );
-        //}
+            ExceptionAssert.Throws<ScriptException>(
+                () => function(),
+                ex => Assert.AreEqual(ex.WrappedException, "some error")
+            );
+        }
+
+        [Test]
+        public void TestExceptionFromMethod() {
+            var @object = this.Eval<IScriptObject>("{ test : " + ThrowingFunction + " }");
+
+            ExceptionAssert.Throws<ScriptException>(
+                () => @object.Invoke("test"),
+                ex => Assert.AreEqual(ex.WrappedException, "some error")
+            );
+        }
 
         [Test]
         public void TestSyntaxErrorDuringLoadCode() {
