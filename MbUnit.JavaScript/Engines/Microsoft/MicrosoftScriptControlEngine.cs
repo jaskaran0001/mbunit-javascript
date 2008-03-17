@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Expando;
@@ -9,10 +8,12 @@ using System.Text;
 
 using MSScriptControl;
 
+using MbUnit.JavaScript.Engines.Microsoft.Invokers;
 using MbUnit.JavaScript.Engines.Microsoft.Threading;
+using MbUnit.JavaScript.Properties;
 
 namespace MbUnit.JavaScript.Engines.Microsoft {
-    internal class MicrosoftScriptControlEngine : IScriptEngine {
+    internal class MicrosoftScriptControlEngine : IScriptEngine, IWrappedResultParser {
         private readonly IScriptControl control = new ScriptControlClass {
             Language = "JScript",
             AllowUI = false,
@@ -24,33 +25,42 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
         private readonly ComScriptConverter converter;
 
         public MicrosoftScriptControlEngine() {
-            this.converter = new ComScriptConverter(threading);
+            IComArrayConstructor arrayConstructor = null;
+            this.threading.InvokeAsRequired(
+                () => arrayConstructor = new ComArrayConstructor(this.control)
+            );
+
+            var exceptionWrapper = this.CreateExceptionWrapper();
+            var scriptInvoker = new WrappedComScriptInvoker(exceptionWrapper, DirectComScriptInvoker.Default, this, arrayConstructor);
+
+            this.converter = new ComScriptConverter(scriptInvoker, threading, arrayConstructor);
         }
 
-//        private ScriptFunction CreateExceptionWrapper() {
-//            var wrapperCode = @"
-//                function(wrapped, wrappedThis, wrappedArguments) {
-//                    var result;
-//                    var error;
-//                    try {
-//                        result = wrapped.apply(wrappedThis, wrappedArguments);
-//                    }
-//                    catch (ex) {
-//                        error = ex;
-//                    }
-//
-//                    return { result : result, error : error };
-//                }
-//            ";
+        private IExpando CreateExceptionWrapper() {
+            IExpando wrapper = null;
+            threading.InvokeAsRequired(
+                () => wrapper = this.CreateExceptionWrapperNoThreading()
+            );
+            return wrapper;
+        }
 
-//            wrapperCode = wrapperCode.Replace("                ", "");
+        private IExpando CreateExceptionWrapperNoThreading() {
+            var wrapperCode = new StringBuilder()
+                .AppendLine("({ wrap :")
+                .AppendFormat(
+                    Resources.ScriptExceptionWrapper, 
+                        "wrapped, wrappedThis, wrappedArguments",
+                        "wrapped.apply(wrappedThis || this, wrappedArguments)"
+                )
+                .AppendLine()
+                .Append("})")
+                .ToString();
 
-//            var converter = new FunctionConverter();
-//            var wrapperRaw = control.Eval(wrapperCode);
+            var wrapperRaw = (IExpando)this.control.Eval(wrapperCode);
+            var wrapperFunction = wrapperRaw.GetProperty("wrap", BindingFlags.Instance).GetValue(wrapperRaw, null);
 
-//            var wrapper = converter.ConvertFromScript((IExpando)wrapperRaw);
-//            return wrapper;
-//        }
+            return (IExpando)wrapperFunction;
+        }
 
         public void Load(string script) {
             const int SyntaxErrorCode = -2146827286;
@@ -78,25 +88,17 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
         }
 
         private object EvalNoThreading(string expression) {
-            var wrapperBuilder = new StringBuilder();
-            wrapperBuilder.AppendLine("(function() {")
-                          .AppendLine("    var result;")
-                          .AppendLine("    var error;")
-                          .AppendLine("    try {")
-                              .Append("        result = ").Append(expression).AppendLine(";")
-                          .AppendLine("    }")
-                          .AppendLine("    catch (ex) {")
-                          .AppendLine("        error = ex;")
-                          .AppendLine("    }")
-                          .AppendLine()
-                          .AppendLine("    return { result : result, error : error };")
-                          .AppendLine("})()");
+            var wrapped = string.Format(Resources.ScriptExceptionWrapper, "", expression);
+            var rawResultOrError = (IExpando)control.Eval("(" + wrapped + ")()");
 
-            var rawResultOrError = (IExpando)control.Eval(wrapperBuilder.ToString());
+            return this.ProcessRawResult(rawResultOrError);
+        }
+
+        private object ProcessRawResult(object rawResultOrError) {
             var resultOrError = (IScriptObject)this.converter.ConvertFromScript(rawResultOrError);
-
             this.EnsureNotError(resultOrError);
-            return resultOrError["result"];
+
+            return resultOrError["result"];            
         }
 
         private void EnsureNotError(IScriptObject resultOrError) {
@@ -104,7 +106,17 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
             if (error == null)
                 return;
 
-            throw new ScriptException("JavaScript evaluation failed.", error);
+            throw new ScriptException(
+                "JavaScript evaluation failed: " + error + ".", error
+            );
         }
+
+        #region IWrappedResultParser Members
+
+        object IWrappedResultParser.GetResult(object wrapperFunctionResult) {
+            return this.ProcessRawResult(wrapperFunctionResult);
+        }
+
+        #endregion
     }
 }

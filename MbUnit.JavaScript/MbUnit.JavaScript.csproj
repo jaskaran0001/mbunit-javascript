@@ -44,8 +44,14 @@
     <Compile Include="Engines\IScriptArray.cs" />
     <Compile Include="Engines\IScriptFunction.cs" />
     <Compile Include="Engines\IScriptObject.cs" />
+    <Compile Include="Engines\Microsoft\ComArrayConstructor.cs" />
     <Compile Include="Engines\Microsoft\ComScriptConverter.cs" />
+    <Compile Include="Engines\Microsoft\IComArrayConstructor.cs" />
+    <Compile Include="Engines\Microsoft\Invokers\DirectComScriptInvoker.cs" />
     <Compile Include="Engines\Microsoft\IComObjectWrapper.cs" />
+    <Compile Include="Engines\Microsoft\IComScriptInvoker.cs" />
+    <Compile Include="Engines\Microsoft\Invokers\WrappedComScriptInvoker.cs" />
+    <Compile Include="Engines\Microsoft\Invokers\IWrappedResultParser.cs" />
     <Compile Include="Engines\Microsoft\Threading\IThreadingRequirement.cs" />
     <Compile Include="Engines\Microsoft\Threading\MtaThreadOnly.cs" />
     <Compile Include="Engines\Microsoft\Types\ComScriptArray.cs" />
@@ -64,6 +70,11 @@
     <Compile Include="Internal\JavaScriptImportedFixture.cs" />
     <Compile Include="JavaScriptProviderAttribute.cs" />
     <Compile Include="JavaScriptFixtureBase.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="References\JavaScriptFileReference.cs" />
     <Compile Include="JavaScriptFixtureAttribute.cs" />
     <Compile Include="JavaScriptReference.cs" />
@@ -83,16 +94,6 @@
     <EmbeddedResource Include="js\Test.js" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="MSScriptControl">
-      <Guid>{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="js\RowTest.js" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +104,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="js\ExpectedException.js" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Engines\Microsoft\ExceptionWrapper.js.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSScriptControl">
+      <Guid>{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

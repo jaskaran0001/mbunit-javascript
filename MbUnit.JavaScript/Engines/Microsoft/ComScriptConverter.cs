@@ -12,16 +12,25 @@ using MbUnit.JavaScript.Engines.Microsoft.Types;
 namespace MbUnit.JavaScript.Engines.Microsoft {
     internal class ComScriptConverter {
         private readonly WeakReferenceCache<IExpando, IComObjectWrapper> cache = new WeakReferenceCache<IExpando, IComObjectWrapper>();
+        private readonly IComScriptInvoker invoker;       
         private readonly IThreadingRequirement threading;
+        private readonly IComArrayConstructor arrayConstructor;
 
-        public ComScriptConverter(IThreadingRequirement threading) {
+        public ComScriptConverter(IComScriptInvoker invoker, IThreadingRequirement threading, IComArrayConstructor arrayConstructor) {
+            this.invoker = invoker;  
             this.threading = threading;
+            this.arrayConstructor = arrayConstructor;
         }
 
         public object ConvertToScript(object value) {
             var wrapper = value as IComObjectWrapper;
             if (wrapper != null)
                 return wrapper.ComObject;
+
+            var array = value as object[];
+            if (array != null) {
+                return this.arrayConstructor.ToScriptArray(array);
+            }
 
             return value;
         }
@@ -49,7 +58,11 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
         }
 
         private IComObjectWrapper WrapFromScript(IExpando comObject) {
-            var wrapper = new ThreadAwareComScriptObject(comObject, this, this.threading);
+            return this.WrapFromScript(comObject, this.invoker);
+        }
+
+        private IComObjectWrapper WrapFromScript(IExpando comObject, IComScriptInvoker invokeWrapper) {
+            var wrapper = new ThreadAwareComScriptObject(comObject, this, invokeWrapper, this.threading);
 
             if (IsFunction(wrapper))
                 return new ComScriptFunction(wrapper);

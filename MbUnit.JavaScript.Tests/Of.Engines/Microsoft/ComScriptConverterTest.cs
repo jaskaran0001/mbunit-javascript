@@ -28,8 +28,11 @@ namespace MbUnit.JavaScript.Tests.Of.Engines.Microsoft {
         }
 
         private ComScriptConverter CreateConverter(Mockery mockery) {
+            var invoker = mockery.NewMock<IComScriptInvoker>();
             var threading = mockery.NewMock<IThreadingRequirement>();
-            return new ComScriptConverter(threading);
+            var arrayConstructor = mockery.NewMock<IComArrayConstructor>();
+
+            return new ComScriptConverter(invoker, threading, arrayConstructor);
         }
     }
 }

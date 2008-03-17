@@ -5,6 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript", "MbUnit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Tests", "MbUnit.JavaScript.Tests\MbUnit.JavaScript.Tests.csproj", "{E348E333-254C-430F-92B3-1F6B7CFE26AE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "[References]", "[References]", "{1DA74EE0-C040-4346-BC46-FE0E425E157B}"
+	ProjectSection(SolutionItems) = preProject
+		[References]\NMock2.dll = [References]\NMock2.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

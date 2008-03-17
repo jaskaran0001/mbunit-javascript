@@ -10,8 +10,8 @@ namespace MbUnit.JavaScript.Engines.Microsoft.Types
     internal class ThreadAwareComScriptObject : ComScriptObject {
         private readonly IThreadingRequirement threading;
 
-        public ThreadAwareComScriptObject(IExpando innerObject, ComScriptConverter converter, IThreadingRequirement threading)
-            : base(innerObject, converter)
+        public ThreadAwareComScriptObject(IExpando innerObject, ComScriptConverter converter, IComScriptInvoker invokeWrapper, IThreadingRequirement threading)
+            : base(innerObject, converter, invokeWrapper)
         {
             this.threading = threading;
         }

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices.Expando;
-using System.Text;
 
 using MbUnit.JavaScript.Engines.Base;
-using MbUnit.JavaScript.Engines.Microsoft.Threading;
 
 namespace MbUnit.JavaScript.Engines.Microsoft.Types {
     internal class ComScriptObject : ScriptObjectBase, IComObjectWrapper {
         private readonly IExpando innerObject;
         private readonly ComScriptConverter converter;
+        private readonly IComScriptInvoker invoker;
 
-        public ComScriptObject(IExpando innerObject, ComScriptConverter converter) {
+        public ComScriptObject(IExpando innerObject, ComScriptConverter converter, IComScriptInvoker invoker) {
             this.innerObject = innerObject;
             this.converter = converter;
+            this.invoker = invoker;
         }
 
         public override void Add(string key, object value) {
@@ -88,15 +87,7 @@ namespace MbUnit.JavaScript.Engines.Microsoft.Types {
         }
 
         public override object Invoke(string key, params object[] args) {
-            var method = this.innerObject.GetMethod(key, BindingFlags.Instance);
-
-            var actualArgs = new List<object>(args.Length);
-            foreach (var arg in args) {
-                actualArgs.Add(this.converter.ConvertToScript(arg));
-            }
-
-            var result = method.Invoke(this.innerObject, actualArgs.ToArray());
-            return this.converter.ConvertFromScript(result);
+            return this.invoker.Invoke(this.innerObject, key, args);
         }
 
         private PropertyInfo GetProperty(string name) {
