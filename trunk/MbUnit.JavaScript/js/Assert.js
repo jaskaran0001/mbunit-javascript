@@ -9,8 +9,10 @@ var Assert = {
     
     areEqual : function(expected, actual) {
         var equal = (expected == actual);
-        if (!equal)
-            Assert.fail();
+        if (!equal) {
+            var message = ["Equal assertion failed: [[", expected, "]]!=[[", actual, "]]"].join('');
+            Assert.fail(message);
+        }
     },
     
     isDefined : function(value) {
