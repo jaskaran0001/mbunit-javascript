@@ -10,6 +10,18 @@ namespace MbUnit.JavaScript.Tests.Of.Engines {
         private const string ThrowingFunction = "function() { throw 'some error'; }";
 
         [Test]
+        public void TestExceptionMessageFromFunction() {
+            var function = this.Eval<IScriptFunction>(
+                "(function() { throw { message : 'x' }; })"
+            ).ToDelegate();
+
+            ExceptionAssert.Throws<ScriptException>(
+                () => function(),
+                ex => Assert.AreEqual(ex.Message, "x")
+            );
+        }
+
+        [Test]
         public void TestExceptionDuringEval() {
             ExceptionAssert.Throws<ScriptException>(
                 () => this.Eval<object>("(" + ThrowingFunction + ")()"),

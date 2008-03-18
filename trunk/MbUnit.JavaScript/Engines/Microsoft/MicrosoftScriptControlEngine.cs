@@ -106,9 +106,16 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
             if (error == null)
                 return;
 
-            throw new ScriptException(
-                "JavaScript evaluation failed: " + error + ".", error
-            );
+            string message = this.GetErrorMessage(error);
+            throw new ScriptException(message, error);
+        }
+
+        private string GetErrorMessage(object scriptError) {
+            var errorObject = scriptError as IScriptObject;
+            if (errorObject == null || !errorObject.ContainsKey("message"))
+                return "JavaScript evaluation failed: " + scriptError.ToString() + ".";
+
+            return (string)errorObject["message"];
         }
 
         #region IWrappedResultParser Members
