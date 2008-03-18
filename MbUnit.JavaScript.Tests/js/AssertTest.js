@@ -11,5 +11,16 @@ var AssertTest = TestFixture({
         function(first, second) {
             Assert.areEqual(first, second);
         }
-    )
+    ),
+    
+    testAreEqualExceptionMessage : Test(
+        function() {
+            try {
+                Assert.areEqual(1, 2);
+            }
+            catch (ex) {
+                Assert.areEqual(ex.message, "Equal assertion failed: [[1]]!=[[2]]");
+            }
+        }
+    )    
 });
