@@ -55,6 +55,7 @@
     <Compile Include="Of.Engines\ScriptEngineTest.Exceptions.cs" />
     <Compile Include="Of.Engines\ScriptEngineTest.Invoke.cs" />
     <Compile Include="Of.References\Xml\XmlAllReferencesResolverTest.cs" />
+    <Compile Include="Of.References\Xml\XmlPathToResourceReferenceResolverTest.cs" />
     <Compile Include="Of.References\Xml\XmlReferenceParserTest.cs" />
     <Compile Include="Of.References\Xml\XmlPathReferenceResolverTest.cs" />
     <Compile Include="Of.References\Xml\XmlReferenceResolverTestBase.cs" />
