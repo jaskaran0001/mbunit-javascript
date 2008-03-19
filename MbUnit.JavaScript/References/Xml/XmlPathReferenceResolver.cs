@@ -5,11 +5,19 @@ using System.Text;
 using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
-    internal class XmlPathReferenceProvider : IXmlReferenceResolver {
-        public IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, string scriptPath) {
+    internal class XmlPathReferenceResolver : IXmlReferenceResolver {
+        public bool CanGetReferences(JavaScriptReference original) {
+            return original is JavaScriptFileReference;
+        }
+
+        public IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptReference original) {
+            return this.GetReferences(referencesRoot, (JavaScriptFileReference) original);
+        }
+
+        private IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptFileReference original) {
             var pathNodes = referencesRoot.CreateNavigator().Select("reference/@path");
             foreach (XPathNavigator pathNode in pathNodes) {
-                string path = this.GetFullPath(scriptPath, pathNode.Value);
+                string path = this.GetFullPath(original.Path, pathNode.Value);
                 yield return JavaScriptReference.Files(path, "");
             }
         }

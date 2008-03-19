@@ -4,6 +4,6 @@ using System.Text;
 
 namespace MbUnit.JavaScript.References {
     public interface IJavaScriptReferenceExtractor {
-        IEnumerable<JavaScriptReference> GetReferences(string script, string scriptPath);
+        IEnumerable<JavaScriptReference> GetReferences(JavaScriptReference script, string scriptContent);
     }
 }

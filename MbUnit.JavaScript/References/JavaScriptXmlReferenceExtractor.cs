@@ -17,9 +17,9 @@ namespace MbUnit.JavaScript.References {
             this.provider = provider;
         }
 
-        public IEnumerable<JavaScriptReference> GetReferences(string script, string scriptPath) {
-            var xml = this.parser.Parse(script);
-            return provider.GetReferences(xml, scriptPath);
+        public IEnumerable<JavaScriptReference> GetReferences(JavaScriptReference script, string scriptContent) {
+            var xml = this.parser.Parse(scriptContent);
+            return provider.GetReferences(xml, script);
         }
     }
 }
