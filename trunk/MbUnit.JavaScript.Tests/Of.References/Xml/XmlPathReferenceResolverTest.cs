@@ -13,9 +13,11 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
     [TestsOn(typeof(XmlPathReferenceResolver))]
     public class XmlPathReferenceResolverTest : XmlReferenceResolverTestBase {
         [RowTest]
-        [Row(@"C:\Test.js",   "",                     @"C:\Test.js",          Description = "Absolute path with no orignal path.")]
-        [Row(@"C:\Test.js",   @"D:\",                 @"C:\Test.js",          Description = "Absolute path with original path.")]
-        [Row(@"T2\Test.js",   @"C:\T1\Original.js",   @"C:\T1\T2\Test.js",    Description = "Relative path.")]
+        [Row(@"C:\Test.js",   "",                     @"C:\Test.js"         )]
+        [Row(@"C:\Test.js",   @"D:\",                 @"C:\Test.js"         )]
+        [Row(@"T2\Test.js",   @"C:\T1\Original.js",   @"C:\T1\T2\Test.js"   )]
+        [Row(@"..\Test.js",   @"C:\T1\Original.js",   @"C:\Test.js"         )]
+        [Row(@"..\Test.js",   @"C:/T1/Original.js",   @"C:\Test.js"         )]
         public void TestLoadReferences(string referencePath, string originalPath, string expectedPath) {
             var resolver = new XmlPathReferenceResolver();
             var xmlRoot = this.GetPathReferencesXml(referencePath);

@@ -19,5 +19,13 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
                                 .SelectSingleNode("references");
             }
         }
+
+        protected JavaScriptReference GetFirst(IEnumerable<JavaScriptReference> references) {
+            // ashmind: this can obviously be upgraded if we move to LINQ
+            foreach (var reference in references) {
+                return reference;
+            }
+            return null;
+        }
     }
 }

@@ -37,14 +37,6 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             return (JavaScriptResourceReference)this.GetFirst(references);            
         }
 
-        private JavaScriptReference GetFirst(IEnumerable<JavaScriptReference> references) {
-            // ashmind: this can obviously be upgraded if we move to LINQ
-            foreach (var reference in references) {
-                return reference;
-            }
-            return null;
-        }
-
         private XPathNavigator GetResourceReferenceXml(string name, string assembly) {
             var attributeString = string.Format("name='{0}'", name);
             if (assembly != null)
