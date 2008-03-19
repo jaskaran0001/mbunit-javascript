@@ -91,6 +91,7 @@
     <Compile Include="References\Xml\IXmlReferenceResolver.cs" />
     <Compile Include="References\Xml\XmlPathReferenceResolver.cs" />
     <Compile Include="References\Xml\XmlReferenceParser.cs" />
+    <Compile Include="References\Xml\XmlResourceReferenceResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="js\Assert.js" />
