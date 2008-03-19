@@ -26,5 +26,22 @@ namespace MbUnit.JavaScript.References {
                 yield return File.ReadAllText(file);
             }
         }
+
+        public bool Equals(JavaScriptFileReference reference) {
+            if (reference == null)
+                return false;
+
+            return this.Path == reference.Path
+                || this.Pattern == reference.Pattern
+                || this.SearchOption == reference.SearchOption;
+        }
+
+        public override bool Equals(object obj) {
+            return this.Equals(obj as JavaScriptFileReference);
+        }
+
+        public override int GetHashCode() {
+            return this.Path.GetHashCode() ^ this.Pattern.GetHashCode() ^ this.SearchOption.GetHashCode();
+        }
     }
 }
