@@ -4,6 +4,6 @@ using System.Text;
 
 namespace MbUnit.JavaScript {
     public interface IJavaScriptReference {
-        IEnumerable<string> LoadAll();
+        string LoadContent();
     }
 }

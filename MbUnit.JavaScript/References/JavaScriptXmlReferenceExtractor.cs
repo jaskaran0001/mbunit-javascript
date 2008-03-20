@@ -12,6 +12,20 @@ namespace MbUnit.JavaScript.References {
         private readonly XmlReferenceParser parser;
         private readonly IXmlReferenceResolver resolver;
 
+        // ashmind: this makes me think of DI container, but it feels like an overkill.
+        // Still, this is too hacky.
+        public JavaScriptXmlReferenceExtractor() 
+            : this(
+                XmlReferenceParser.Default,
+                new XmlAllReferencesResolver(
+                    new XmlResourceReferenceResolver(),
+                    new XmlPathReferenceResolver(),
+                    new XmlPathToResourceReferenceResolver()
+                ) 
+            )
+        {
+        }
+
         public JavaScriptXmlReferenceExtractor(XmlReferenceParser parser, IXmlReferenceResolver resolver) {
             this.parser = parser;
             this.resolver = resolver;

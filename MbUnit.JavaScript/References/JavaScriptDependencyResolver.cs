@@ -23,8 +23,8 @@ namespace MbUnit.JavaScript.References {
         private void CollectReferencesRecursive(IJavaScriptReference script, ICollection<string> allScriptContents, IDictionary<IJavaScriptReference, bool> alreadyCollected) {
             if (alreadyCollected.ContainsKey(script))
                 return;
-            
-            string scriptContent = this.GetFirst(script.LoadAll());
+
+            string scriptContent = script.LoadContent();
             var references = referenceExtractor.GetReferences(script, scriptContent);
             foreach (var reference in references) {
                 this.CollectReferencesRecursive(reference, allScriptContents, alreadyCollected);
@@ -32,14 +32,6 @@ namespace MbUnit.JavaScript.References {
 
             alreadyCollected.Add(script, true);
             allScriptContents.Add(scriptContent);
-        }
-
-        // TODO: This is a temporary hack to support obsolete API
-        private string GetFirst(IEnumerable<string> scripts) {
-            foreach (var script in scripts) {
-                return script;
-            }
-            return null;
         }
     }
 }

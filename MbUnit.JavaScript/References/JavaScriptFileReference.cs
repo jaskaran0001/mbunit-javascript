@@ -4,36 +4,22 @@ using System.IO;
 using System.Text;
 
 namespace MbUnit.JavaScript.References {
-    internal class JavaScriptFileReference : JavaScriptReference {
+    internal class JavaScriptFileReference : IJavaScriptReference {
         public string Path                  { get; private set; }
-        public string Pattern               { get; private set; }
-        public SearchOption SearchOption    { get; private set; }
 
-        public JavaScriptFileReference(string path, string pattern)
-            : this (path, pattern, SearchOption.TopDirectoryOnly)
-        {
-        }
-
-        public JavaScriptFileReference(string path, string pattern, SearchOption option) {
+        public JavaScriptFileReference(string path) {
             this.Path = path;
-            this.Pattern = pattern;
-            this.SearchOption = option;
         }
 
-        public override IEnumerable<string> LoadAll() {
-            var files = Directory.GetFiles(this.Path, this.Pattern, this.SearchOption);
-            foreach (var file in files) {
-                yield return File.ReadAllText(file);
-            }
+        public string LoadContent() {
+            return File.ReadAllText(this.Path);
         }
 
         public bool Equals(JavaScriptFileReference reference) {
             if (reference == null)
                 return false;
 
-            return this.Path == reference.Path
-                || this.Pattern == reference.Pattern
-                || this.SearchOption == reference.SearchOption;
+            return this.Path == reference.Path;
         }
 
         public override bool Equals(object obj) {
@@ -41,7 +27,7 @@ namespace MbUnit.JavaScript.References {
         }
 
         public override int GetHashCode() {
-            return this.Path.GetHashCode() ^ this.Pattern.GetHashCode() ^ this.SearchOption.GetHashCode();
+            return this.Path.GetHashCode();
         }
     }
 }

@@ -73,7 +73,7 @@
     <Compile Include="IJavaScriptReference.cs" />
     <Compile Include="Internal\JavaScriptImportedFixture.cs" />
     <Compile Include="JavaScriptProviderAttribute.cs" />
-    <Compile Include="JavaScriptFixtureBase.cs" />
+    <Compile Include="JavaScriptResourceReferenceAttribute.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -83,7 +83,7 @@
     <Compile Include="References\JavaScriptDependencyResolver.cs" />
     <Compile Include="References\JavaScriptFileReference.cs" />
     <Compile Include="JavaScriptFixtureAttribute.cs" />
-    <Compile Include="JavaScriptReference.cs" />
+    <Compile Include="References\JavaScriptReferenceAttribute.cs" />
     <Compile Include="References\JavaScriptResourceReference.cs" />
     <Compile Include="JavaScriptRun.cs" />
     <Compile Include="JavaScriptRunInvoker.cs" />

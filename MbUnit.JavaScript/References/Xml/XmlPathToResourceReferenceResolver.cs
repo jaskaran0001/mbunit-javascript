@@ -18,7 +18,7 @@ namespace MbUnit.JavaScript.References.Xml {
             if (originalAsResourceReference == null || Path.IsPathRooted(path))
                 return null;
 
-            string resourceName = this.GetResourceName(path, originalAsResourceReference.Pattern);
+            string resourceName = this.GetResourceName(path, originalAsResourceReference.ResourceName);
             return new JavaScriptResourceReference(resourceName, originalAsResourceReference.Assembly);
         }
 

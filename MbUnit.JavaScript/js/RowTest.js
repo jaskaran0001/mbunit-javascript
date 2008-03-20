@@ -1,4 +1,5 @@
 ﻿/// <reference path="Test.js" />
+/// <reference path="Row.js" />
 /// <reference path="Core\Invokers\ExpectedExceptionRunInvoker.js" />
 
 function RowTest() {

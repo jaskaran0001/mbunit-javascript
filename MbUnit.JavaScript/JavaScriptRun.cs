@@ -4,20 +4,27 @@ using System.Collections.Generic;
 using MbUnit.Core;
 using MbUnit.Core.Invokers;
 using MbUnit.Core.Runs;
+
 using MbUnit.JavaScript.Engines;
 using MbUnit.JavaScript.Internal;
+using MbUnit.JavaScript.References;
 
 namespace MbUnit.JavaScript {
+    [JavaScriptResourceReference("MbUnit.JavaScript.js.Core.Runner.js", typeof(JavaScriptRun))]
     internal class JavaScriptRun : Run {
         internal const string RunnerTypeName = "MbUnit.Core.Runner";
         internal const string CurrentRunnerName = RunnerTypeName + ".__current";
 
         // ashmind: Script Engine has to be preserved during the life of the run,
         // or the referenced scripts will be unloaded.
-        private IScriptEngine engine;
+        // TODO: Fix it by referencing engine in each ScriptObject.
+        private readonly IScriptEngine engine;
 
-        public JavaScriptRun() : base("JavaScript", false) {
+        private readonly JavaScriptDependencyResolver dependencyResolver;
+
+        public JavaScriptRun(IJavaScriptReferenceExtractor referenceExtractor) : base("JavaScript", false) {
             this.engine = ScriptEngineFactory.Create();
+            this.dependencyResolver = new JavaScriptDependencyResolver(referenceExtractor);
         }
 
         public override void Reflect(RunInvokerTree tree, RunInvokerVertex parent, Type t) {
@@ -67,24 +74,12 @@ namespace MbUnit.JavaScript {
         }
 
         private IEnumerable<string> ReflectAndLoadScripts(Type type) {
-            var method = TypeHelper.GetAttributedMethod(type, typeof(JavaScriptProviderAttribute));
-            object instance = null;            
-            if (!method.IsStatic)
-                instance = TypeHelper.CreateInstance(type);
+            var attributes = (JavaScriptReferenceAttribute[])type.GetCustomAttributes(
+                typeof(JavaScriptReferenceAttribute), true
+            );
             
-            var references = (IEnumerable<JavaScriptReference>)method.Invoke(instance, null);
-            var scripts = new List<string>();
-            foreach (var reference in references) {
-                scripts.AddRange(reference.LoadAll());
-            }
-
-            return scripts;
-        }
-
-        [JavaScriptProvider]
-        public IEnumerable<JavaScriptReference> GetRequiredScripts() {
-            yield return JavaScriptReference.Resources(@"Common\.js$");
-            yield return JavaScriptReference.Resources(@".js$");
+            var references = Array.ConvertAll(attributes, a => a.Reference);
+            return this.dependencyResolver.LoadScripts(references);
         }
     }
 }
