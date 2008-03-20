@@ -5,6 +5,6 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     public interface IXmlReferenceResolver {
-        JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original);
+        IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original);
     }
 }

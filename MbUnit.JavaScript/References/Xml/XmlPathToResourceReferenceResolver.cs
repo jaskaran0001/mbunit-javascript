@@ -9,7 +9,7 @@ namespace MbUnit.JavaScript.References.Xml {
     internal class XmlPathToResourceReferenceResolver : IXmlReferenceResolver {
         private static readonly Regex ResourceNameToPathRegex = new Regex(@"\.(?=.*\.)");
 
-        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+        public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
             var path = referenceNode.GetAttribute("path", "");
             if (string.IsNullOrEmpty(path))
                 return null;

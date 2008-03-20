@@ -7,7 +7,7 @@ using System.Text;
 using MbUnit.JavaScript.References;
 
 namespace MbUnit.JavaScript {
-    public abstract class JavaScriptReference {
+    public abstract class JavaScriptReference : IJavaScriptReference {
         public abstract IEnumerable<string> LoadAll();
 
         public static JavaScriptReference Resources(string pattern) {

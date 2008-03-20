@@ -6,7 +6,7 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     internal class XmlPathReferenceResolver : IXmlReferenceResolver {
-        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+        public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
             var path = referenceNode.GetAttribute("path", "");
             if (string.IsNullOrEmpty(path))
                 return null;

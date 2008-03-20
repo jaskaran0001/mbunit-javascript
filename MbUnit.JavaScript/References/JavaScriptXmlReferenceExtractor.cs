@@ -17,7 +17,7 @@ namespace MbUnit.JavaScript.References {
             this.resolver = resolver;
         }
 
-        public IEnumerable<JavaScriptReference> GetReferences(JavaScriptReference script, string scriptContent) {
+        public IEnumerable<IJavaScriptReference> GetReferences(IJavaScriptReference script, string scriptContent) {
             var xml = this.parser.Parse(scriptContent);
             var referenceNodes = xml.CreateNavigator().Select("reference");
 
