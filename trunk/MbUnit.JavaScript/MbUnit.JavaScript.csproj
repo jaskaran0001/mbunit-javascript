@@ -70,15 +70,14 @@
     <Compile Include="Engines\ScriptEngineFactory.cs" />
     <Compile Include="Engines\Base\ScriptObjectBase.cs" />
     <Compile Include="Engines\ScriptSyntaxException.cs" />
-    <Compile Include="IJavaScriptReference.cs" />
     <Compile Include="Internal\JavaScriptImportedFixture.cs" />
-    <Compile Include="JavaScriptProviderAttribute.cs" />
     <Compile Include="JavaScriptResourceReferenceAttribute.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="References\IJavaScriptReference.cs" />
     <Compile Include="References\IJavaScriptReferenceExtractor.cs" />
     <Compile Include="References\JavaScriptDependencyResolver.cs" />
     <Compile Include="References\JavaScriptFileReference.cs" />
