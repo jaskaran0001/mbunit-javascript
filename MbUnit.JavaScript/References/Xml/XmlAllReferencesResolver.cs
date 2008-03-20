@@ -15,24 +15,15 @@ namespace MbUnit.JavaScript.References.Xml {
             this.resolvers = resolvers;
         }
 
-        public IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptReference original) {
+        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+            JavaScriptReference reference = null;
             foreach (var resolver in this.resolvers) {
-                if (!resolver.CanGetReferences(original))
-                    continue;
-
-                foreach (var reference in resolver.GetReferences(referencesRoot, original)) {
-                    yield return reference;
-                }
-            }
-        }
-
-        public bool CanGetReferences(JavaScriptReference original) {
-            foreach (var resolver in this.resolvers) {
-                if (resolver.CanGetReferences(original))
-                    return true;
+                reference = resolver.TryResolve(referenceNode, original);
+                if (reference != null)
+                    break;
             }
 
-            return false;
+            return reference;
         }
     }
 }

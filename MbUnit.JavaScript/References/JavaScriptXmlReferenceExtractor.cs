@@ -10,16 +10,25 @@ using MbUnit.JavaScript.References.Xml;
 namespace MbUnit.JavaScript.References {
     public class JavaScriptXmlReferenceExtractor : IJavaScriptReferenceExtractor {
         private readonly XmlReferenceParser parser;
-        private readonly IXmlReferenceResolver provider;
+        private readonly IXmlReferenceResolver resolver;
 
-        public JavaScriptXmlReferenceExtractor(XmlReferenceParser parser, IXmlReferenceResolver provider) {
+        public JavaScriptXmlReferenceExtractor(XmlReferenceParser parser, IXmlReferenceResolver resolver) {
             this.parser = parser;
-            this.provider = provider;
+            this.resolver = resolver;
         }
 
         public IEnumerable<JavaScriptReference> GetReferences(JavaScriptReference script, string scriptContent) {
             var xml = this.parser.Parse(scriptContent);
-            return provider.GetReferences(xml, script);
+            var referenceNodes = xml.CreateNavigator().Select("reference");
+
+            foreach (XPathNavigator referenceNode in referenceNodes) {
+                // ashmind: Should we throw here or should we throw only if reference was not found?
+                // I think it should be made configurable in the future.
+
+                var reference = resolver.TryResolve(referenceNode, script);
+                if (reference != null)
+                    yield return reference;
+            }
         }
     }
 }

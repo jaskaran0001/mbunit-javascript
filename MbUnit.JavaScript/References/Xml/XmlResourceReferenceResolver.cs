@@ -8,18 +8,11 @@ namespace MbUnit.JavaScript.References.Xml {
     internal class XmlResourceReferenceResolver : IXmlReferenceResolver {
         private const string DefaultAssemblyName = "System.Web.Extensions";
 
-        public bool CanGetReferences(JavaScriptReference original) {
-            return true;
-        }
+        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+            var resourceName = referenceNode.GetAttribute("name", "");
+            if (string.IsNullOrEmpty(resourceName))
+                return null;
 
-        public IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptReference original) {
-            var resourceNodes = referencesRoot.CreateNavigator().Select("reference[@name]");
-            foreach (XPathNavigator node in resourceNodes) {
-                yield return this.GetReference(node);
-            }
-        }
-
-        private JavaScriptResourceReference GetReference(XPathNavigator referenceNode) {
             var assemblyName = referenceNode.GetAttribute("assembly", "");
             if (string.IsNullOrEmpty(assemblyName))
                 assemblyName = DefaultAssemblyName;
@@ -35,8 +28,6 @@ namespace MbUnit.JavaScript.References.Xml {
 
                 assembly = Assembly.Load(assemblyName);
             }
-
-            var resourceName = referenceNode.GetAttribute("name", "");
 
             return new JavaScriptResourceReference(resourceName, assembly);
         }
