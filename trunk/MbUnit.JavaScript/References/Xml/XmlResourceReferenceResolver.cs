@@ -6,7 +6,9 @@ using System.Reflection;
 
 namespace MbUnit.JavaScript.References.Xml {
     internal class XmlResourceReferenceResolver : IXmlReferenceResolver {
-        private const string DefaultAssemblyName = "System.Web.Extensions";
+        // ashmind: I am not sure that full name is the best solution considering
+        // .Net 2.0 compatibility, but there is no good way to load it from GAC otherwise.
+        private const string DefaultAssemblyName = "System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35";
 
         public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
             var resourceName = referenceNode.GetAttribute("name", "");
@@ -19,15 +21,8 @@ namespace MbUnit.JavaScript.References.Xml {
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var assembly = Array.Find(assemblies, a => a.GetName().Name == assemblyName);
-            if (assembly == null) {
-                // TODO: Make it work when the System.Web.Extensions or other GAC assemblies are referenced
-                // by their partial name but not loaded in the current AppDomain. I should check what 
-                // Visual Studio does in these cases.
-                // Right now I can't even test System.Web.Extensions special case without mocking Assembly.Load,
-                // which is a bit of an overkill.
-
+            if (assembly == null)
                 assembly = Assembly.Load(assemblyName);
-            }
 
             return new JavaScriptResourceReference(resourceName, assembly);
         }
