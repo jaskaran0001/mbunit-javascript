@@ -17,7 +17,7 @@ namespace MbUnit.JavaScript.References.Xml {
 
             var fullPath = this.GetFullPath(path, originalAsFileReference);
 
-            return new JavaScriptFileReference(fullPath, "");
+            return new JavaScriptFileReference(fullPath);
         }
 
         private string GetFullPath(string referencePath, JavaScriptFileReference original) {

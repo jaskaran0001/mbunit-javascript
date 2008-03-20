@@ -1,4 +1,4 @@
-﻿/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.ExpectedException.js" />
+﻿/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.Framework.js" />
 
 function TestException() {}
 

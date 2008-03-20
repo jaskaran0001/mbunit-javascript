@@ -18,7 +18,7 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
         public void TestGetReferences(string name, string assemblyName) {
             var reference = GetReference(name, assemblyName);
 
-            Assert.AreEqual(name, reference.Pattern);
+            Assert.AreEqual(name, reference.ResourceName);
             Assert.AreEqual(assemblyName, reference.Assembly.GetName().Name);
         }
 

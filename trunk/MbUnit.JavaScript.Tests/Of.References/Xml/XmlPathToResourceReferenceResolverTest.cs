@@ -26,7 +26,7 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
 
             Assert.IsNotNull(reference);
             Assert.AreSame(original.Assembly, reference.Assembly);
-            Assert.AreEqual(expectedResourceName, reference.Pattern);
+            Assert.AreEqual(expectedResourceName, reference.ResourceName);
         }
 
         private XPathNavigator GetPathReferenceXml(string path) {

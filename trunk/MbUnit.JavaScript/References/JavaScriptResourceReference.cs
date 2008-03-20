@@ -6,34 +6,36 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MbUnit.JavaScript.References {
-    internal class JavaScriptResourceReference : JavaScriptReference {
-        public string Pattern { get; private set; }
+    internal class JavaScriptResourceReference : IJavaScriptReference {
+        public string ResourceName { get; private set; }
         public Assembly Assembly { get; private set; }
 
-        public JavaScriptResourceReference(string pattern, Assembly asssembly) {
-            this.Pattern = pattern;
-            this.Assembly = asssembly;
+        public JavaScriptResourceReference(string resourceName, Assembly assembly) {
+            this.ResourceName = resourceName;
+            this.Assembly = assembly;
         }
 
-        public override IEnumerable<string> LoadAll() {
-            var names = this.FindScriptNames();
-            return this.LoadAllScripts(names);
-        }
-
-        private IList<string> FindScriptNames() {
-            var resourceNames = new List<string>(this.Assembly.GetManifestResourceNames());
-            var pattern = new Regex(this.Pattern);
-
-            return resourceNames.FindAll(pattern.IsMatch);
-        }
-
-        private IEnumerable<string> LoadAllScripts(IEnumerable<string> names) {
-            foreach (var name in names) {
-                using (var stream = this.Assembly.GetManifestResourceStream(name))
-                using (var reader = new StreamReader(stream)) {
-                    yield return reader.ReadToEnd();
-                }
+        public string LoadContent() {
+            using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName))
+            using (var reader = new StreamReader(stream)) {
+                return reader.ReadToEnd();
             }
+        }
+
+        public bool Equals(JavaScriptResourceReference reference) {
+            if (reference == null)
+                return false;
+
+            return this.Assembly == reference.Assembly
+                && this.ResourceName == reference.ResourceName;
+        }
+
+        public override bool Equals(object obj) {
+            return this.Equals(obj as JavaScriptResourceReference);
+        }
+
+        public override int GetHashCode() {
+            return this.Assembly.GetHashCode() ^ this.ResourceName.GetHashCode();
         }
     }
 }

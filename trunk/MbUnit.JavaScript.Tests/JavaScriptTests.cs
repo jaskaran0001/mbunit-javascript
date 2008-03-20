@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace MbUnit.JavaScript.Tests {
-    public class JavaScriptTests : JavaScriptFixtureBase {
-        public override IEnumerable<JavaScriptReference> GetScripts() {
-            return new[] {
-                JavaScriptReference.Resources("Test.js$") 
-            };
-        }
+    [JavaScriptFixture]
+    [JavaScriptResourceReference("MbUnit.JavaScript.Tests.js.AssertTest.js", typeof(JavaScriptTests))]
+    [JavaScriptResourceReference("MbUnit.JavaScript.Tests.js.ExpectedExceptionTest.js", typeof(JavaScriptTests))]
+    public class JavaScriptTests {
     }
 }

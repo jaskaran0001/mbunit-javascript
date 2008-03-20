@@ -22,8 +22,8 @@ namespace MbUnit.JavaScript.Tests.Of.References {
             public string Content { get; private set; }
             public IEnumerable<IJavaScriptReference> References { get; private set; }
 
-            public IEnumerable<string> LoadAll() {
-                yield return this.Content;
+            public string LoadContent() {
+                return this.Content;
             }
         }
 

@@ -1,5 +1,4 @@
-﻿/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.Assert.js" />
-/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.TestFixture.js" />
+﻿/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.Framework.js" />
 
 var AssertTest = TestFixture({
     testAreEqual : RowTest(
