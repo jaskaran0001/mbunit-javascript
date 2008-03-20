@@ -6,29 +6,27 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     internal class XmlPathReferenceResolver : IXmlReferenceResolver {
-        public bool CanGetReferences(JavaScriptReference original) {
-            return original is JavaScriptFileReference;
+        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+            var path = referenceNode.GetAttribute("path", "");
+            if (string.IsNullOrEmpty(path))
+                return null;
+
+            var originalAsFileReference = original as JavaScriptFileReference;
+            if (originalAsFileReference == null && !Path.IsPathRooted(path))
+                return null;
+
+            var fullPath = this.GetFullPath(path, originalAsFileReference);
+
+            return new JavaScriptFileReference(fullPath, "");
         }
 
-        public IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptReference original) {
-            return this.GetReferences(referencesRoot, (JavaScriptFileReference) original);
-        }
-
-        private IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptFileReference original) {
-            var pathNodes = referencesRoot.CreateNavigator().Select("reference/@path");
-            foreach (XPathNavigator pathNode in pathNodes) {
-                string path = this.GetFullPath(original.Path, pathNode.Value);
-                yield return JavaScriptReference.Files(path, "");
-            }
-        }
-
-        private string GetFullPath(string scriptPath, string referencePath) {
+        private string GetFullPath(string referencePath, JavaScriptFileReference original) {
             if (Path.IsPathRooted(referencePath))
                 return referencePath;
 
-            var scriptDirectory = Path.GetDirectoryName(scriptPath);
+            var scriptDirectory = Path.GetDirectoryName(original.Path);
 
-            return Path.Combine(scriptDirectory, referencePath);
+            return Path.GetFullPath(Path.Combine(scriptDirectory, referencePath));
         }
     }
 }

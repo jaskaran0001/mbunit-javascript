@@ -9,20 +9,17 @@ namespace MbUnit.JavaScript.References.Xml {
     internal class XmlPathToResourceReferenceResolver : IXmlReferenceResolver {
         private static readonly Regex ResourceNameToPathRegex = new Regex(@"\.(?=.*\.)");
 
-        public bool CanGetReferences(JavaScriptReference original) {
-            return original is JavaScriptResourceReference;
-        }
+        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+            var path = referenceNode.GetAttribute("path", "");
+            if (string.IsNullOrEmpty(path))
+                return null;
 
-        public IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptReference original) {
-            return this.GetReferences(referencesRoot, (JavaScriptResourceReference)original);
-        }
+            var originalAsResourceReference = original as JavaScriptResourceReference;
+            if (originalAsResourceReference == null || Path.IsPathRooted(path))
+                return null;
 
-        private IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptResourceReference original) {
-            var pathNodes = referencesRoot.CreateNavigator().Select("reference/@path");
-            foreach (XPathNavigator pathNode in pathNodes) {
-                string resourceName = this.GetResourceName(pathNode.Value, original.Pattern);
-                yield return new JavaScriptResourceReference(resourceName, original.Assembly);
-            }
+            string resourceName = this.GetResourceName(path, originalAsResourceReference.Pattern);
+            return new JavaScriptResourceReference(resourceName, originalAsResourceReference.Assembly);
         }
 
         private string GetResourceName(string referencePath, string originalResourceName) {

@@ -5,7 +5,6 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     public interface IXmlReferenceResolver {
-        bool CanGetReferences(JavaScriptReference original);
-        IEnumerable<JavaScriptReference> GetReferences(IXPathNavigable referencesRoot, JavaScriptReference original);
+        JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original);
     }
 }

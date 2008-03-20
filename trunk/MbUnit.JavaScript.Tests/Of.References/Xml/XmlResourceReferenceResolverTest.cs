@@ -32,9 +32,9 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
 
         private JavaScriptResourceReference GetReference(string resourceName, string assemblyName) {
             var xml = this.GetResourceReferenceXml(resourceName, assemblyName);
-            var references = new XmlResourceReferenceResolver().GetReferences(xml, null);
+            var reference = new XmlResourceReferenceResolver().TryResolve(xml, null);
 
-            return (JavaScriptResourceReference)this.GetFirst(references);            
+            return (JavaScriptResourceReference)reference;            
         }
 
         private XPathNavigator GetResourceReferenceXml(string name, string assembly) {
@@ -42,7 +42,7 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             if (assembly != null)
                 attributeString += string.Format(" assembly='{0}'", assembly);
 
-            return this.GetReferencesXml(attributeString);
+            return this.GetReferenceXml(attributeString);
         }
     }
 }

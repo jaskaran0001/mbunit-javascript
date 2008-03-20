@@ -6,6 +6,7 @@ using System.Xml.XPath;
 
 using MbUnit.Framework;
 
+using MbUnit.JavaScript.References;
 using MbUnit.JavaScript.References.Xml;
 
 namespace MbUnit.JavaScript.Tests.Of.References.Xml {
@@ -20,16 +21,17 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
         [Row(@"..\Test.js",   @"C:/T1/Original.js",   @"C:\Test.js"         )]
         public void TestLoadReferences(string referencePath, string originalPath, string expectedPath) {
             var resolver = new XmlPathReferenceResolver();
-            var xmlRoot = this.GetPathReferencesXml(referencePath);
+            var xmlRoot = this.GetPathReferenceXml(referencePath);
 
-            var references = resolver.GetReferences(xmlRoot, JavaScriptReference.Files(originalPath, ""));
-            
-            CollectionAssert.AreElementsEqual(references, new[] { JavaScriptReference.Files(expectedPath, "") });
+            var reference = resolver.TryResolve(xmlRoot, JavaScriptReference.Files(originalPath, "")) as JavaScriptFileReference;
+
+            Assert.IsNotNull(reference);
+            Assert.AreEqual(expectedPath, reference.Path);
         }
 
-        private XPathNavigator GetPathReferencesXml(params string[] paths) {
-            var attributeStrings = Array.ConvertAll(paths, path => string.Format("path='{0}'", path));
-            return this.GetReferencesXml(attributeStrings);
+        private XPathNavigator GetPathReferenceXml(string path) {
+            var attributeString = string.Format("path='{0}'", path);
+            return this.GetReferenceXml(attributeString);
         }
     }
 }
