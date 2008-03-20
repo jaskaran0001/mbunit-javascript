@@ -8,7 +8,7 @@ namespace MbUnit.JavaScript.References.Xml {
     internal class XmlResourceReferenceResolver : IXmlReferenceResolver {
         private const string DefaultAssemblyName = "System.Web.Extensions";
 
-        public JavaScriptReference TryResolve(XPathNavigator referenceNode, JavaScriptReference original) {
+        public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
             var resourceName = referenceNode.GetAttribute("name", "");
             if (string.IsNullOrEmpty(resourceName))
                 return null;

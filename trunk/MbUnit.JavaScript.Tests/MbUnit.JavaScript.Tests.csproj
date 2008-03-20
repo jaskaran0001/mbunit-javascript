@@ -50,10 +50,12 @@
     <Compile Include="JavaScriptRunTest.cs" />
     <Compile Include="JavaScriptTests.cs" />
     <Compile Include="MockingTestBase.cs" />
+    <Compile Include="Mocking\Be.cs" />
     <Compile Include="Of.Engines\Microsoft\ComScriptConverterTest.cs" />
     <Compile Include="Of.Engines\ScriptEngineTest.cs" />
     <Compile Include="Of.Engines\ScriptEngineTest.Exceptions.cs" />
     <Compile Include="Of.Engines\ScriptEngineTest.Invoke.cs" />
+    <Compile Include="Of.References\JavaScriptDependencyResolverTest.cs" />
     <Compile Include="Of.References\Xml\XmlAllReferencesResolverTest.cs" />
     <Compile Include="Of.References\Xml\XmlPathToResourceReferenceResolverTest.cs" />
     <Compile Include="Of.References\Xml\XmlReferenceParserTest.cs" />
