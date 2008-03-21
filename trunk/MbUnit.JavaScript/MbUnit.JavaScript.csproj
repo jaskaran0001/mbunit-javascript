@@ -88,6 +88,10 @@
     <Compile Include="JavaScriptRunInvoker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="References\JavaScriptXmlReferenceExtractor.cs" />
+    <Compile Include="References\Xml\Resources\IResourceLookup.cs" />
+    <Compile Include="References\Xml\Resources\IResourceLookupFactory.cs" />
+    <Compile Include="References\Xml\Resources\ResourceLookup.cs" />
+    <Compile Include="References\Xml\Resources\ResourceLookupFactory.cs" />
     <Compile Include="References\Xml\XmlAllReferencesResolver.cs" />
     <Compile Include="References\Xml\IXmlReferenceResolver.cs" />
     <Compile Include="References\Xml\XmlPathReferenceResolver.cs" />
