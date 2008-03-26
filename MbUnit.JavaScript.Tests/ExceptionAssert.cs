@@ -18,6 +18,9 @@ namespace MbUnit.JavaScript.Tests {
                 asserter(ex);
                 return;
             }
+            catch (Exception ex) {
+                throw new ExceptionTypeMistmachException(typeof(TException), "Exception type mismatch.", ex);
+            }
 
             throw new ExceptionNotThrownException(
                 typeof(TException), "Expected exception was not thrown."

@@ -16,9 +16,13 @@ namespace MbUnit.JavaScript.References {
         }
 
         public string LoadContent() {
-            using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName))
-            using (var reader = new StreamReader(stream)) {
-                return reader.ReadToEnd();
+            using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName)) {
+                if (stream == null)
+                    throw new ResourceNotFoundException(this.Assembly, this.ResourceName);
+
+                using (var reader = new StreamReader(stream)) {
+                    return reader.ReadToEnd();
+                }
             }
         }
 

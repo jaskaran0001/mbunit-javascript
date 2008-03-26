@@ -12,6 +12,10 @@
     <AssemblyName>MbUnit.JavaScript</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -98,6 +102,7 @@
     <Compile Include="References\Xml\XmlPathToResourceReferenceResolver.cs" />
     <Compile Include="References\Xml\XmlReferenceParser.cs" />
     <Compile Include="References\Xml\XmlResourceReferenceResolver.cs" />
+    <Compile Include="ResourceNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="js\Assert.js" />
