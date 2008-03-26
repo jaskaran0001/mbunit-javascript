@@ -88,10 +88,10 @@ namespace MbUnit.JavaScript.References.Xml {
 
         private Exception GetNotFoundException(string referencePath, JavaScriptResourceReference original, List<string> suggestedNames) {
             var namesString = string.Join(", ", suggestedNames.ToArray());
-            return new FileNotFoundException(string.Format(
+            return new ResourceNotFoundException(string.Format(
                 "Resource '{0}' referenced by {1} was not found in {2}. Following names were tried: {3}.",
-                    referencePath, original.ResourceName, original.Assembly,namesString
-            ));
+                    referencePath, original.ResourceName, original.Assembly, namesString
+            ), original.Assembly, namesString);
         }
     }
 }
