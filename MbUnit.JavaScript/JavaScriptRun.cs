@@ -48,17 +48,19 @@ namespace MbUnit.JavaScript {
 
             var fixturesData = this.LoadTests(engine);
             foreach (IScriptObject fixtureData in fixturesData) {
-                yield return new JavaScriptImportedFixture {
-                    Name     = (string)fixtureData["name"],
-                    Invokers = this.GetInvokers(fixtureData)
+                var fixture = new JavaScriptImportedFixture {
+                    Name     = (string)fixtureData["name"]
                 };
+                fixture.Invokers = this.GetInvokers(fixture, fixtureData);
+
+                yield return fixture;
             }
         }
 
-        private IEnumerable<JavaScriptRunInvoker> GetInvokers(IDictionary<string, object> fixtureData) {
+        private IEnumerable<JavaScriptRunInvoker> GetInvokers(JavaScriptImportedFixture fixture, IScriptObject fixtureData) {
             var invokersData = (IScriptArray)fixtureData["invokers"];
             foreach (IScriptObject invokerData in invokersData) {
-                yield return new JavaScriptRunInvoker(this, invokerData);
+                yield return new JavaScriptRunInvoker(this, fixture, invokerData);
             }
         }
 

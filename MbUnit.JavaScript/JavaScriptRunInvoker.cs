@@ -6,16 +6,19 @@ using System.Text;
 using MbUnit.Core.Invokers;
 
 using MbUnit.JavaScript.Engines;
+using MbUnit.JavaScript.Internal;
 
 namespace MbUnit.JavaScript {
     internal class JavaScriptRunInvoker : RunInvoker {
         private readonly string name;
         private readonly IScriptObject invoker;
+        private readonly JavaScriptImportedFixture fixture;
 
-        public JavaScriptRunInvoker(JavaScriptRun run, IScriptObject invoker) 
+        public JavaScriptRunInvoker(JavaScriptRun run, JavaScriptImportedFixture fixture, IScriptObject invoker) 
             : base(run) {
 
             this.name = (string)invoker["name"];
+            this.fixture = fixture;
             this.invoker = invoker;
         }
 
@@ -27,7 +30,7 @@ namespace MbUnit.JavaScript {
         }
 
         public override string Name {
-            get { return this.name; }
+            get { return this.fixture.Name + "." + this.name; }
         }
     }
 }
