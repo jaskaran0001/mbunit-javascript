@@ -31,6 +31,8 @@ namespace MbUnit.JavaScript.Engines {
     [Serializable]
     public class ScriptException : Exception {
         public ScriptException() : base("Exception happened in script code.") { }
+        public ScriptException(string message) : base(message) { }
+
         public ScriptException(string message, object wrappedException)
             : base(message) 
         {

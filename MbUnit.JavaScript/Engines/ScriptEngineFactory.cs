@@ -31,7 +31,7 @@ using MbUnit.JavaScript.Engines.Microsoft;
 namespace MbUnit.JavaScript.Engines {
     internal static class ScriptEngineFactory {
         public static IScriptEngine Create() {
-            return new MicrosoftScriptControlEngine();
+            return new ComActiveScriptEngine();
         }
     }
 }

@@ -27,7 +27,7 @@
 using System;
 
 namespace MbUnit.JavaScript.Engines {
-    public interface IScriptEngine {
+    public interface IScriptEngine : IDisposable {
         void Load(string script);
         object Eval(string expression);
     }

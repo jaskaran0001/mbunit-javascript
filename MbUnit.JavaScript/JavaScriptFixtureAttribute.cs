@@ -36,12 +36,12 @@ namespace MbUnit.JavaScript {
         
         private Type referenceExtractorType;
 
-        public JavaScriptFixtureAttribute() : base() {
-            this.ApartmentState = System.Threading.ApartmentState.MTA;
+        public JavaScriptFixtureAttribute() {
+            this.ApartmentState = System.Threading.ApartmentState.STA;
         }        
         
         public JavaScriptFixtureAttribute(string description) : base(description) {
-            this.ApartmentState = System.Threading.ApartmentState.MTA;
+            this.ApartmentState = System.Threading.ApartmentState.STA;
         }
 
         public Type ReferenceExtractorType {

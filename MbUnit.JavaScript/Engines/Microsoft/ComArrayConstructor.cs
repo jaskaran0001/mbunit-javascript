@@ -28,14 +28,12 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices.Expando;
 
-using MSScriptControl;
-
 namespace MbUnit.JavaScript.Engines.Microsoft {
     internal class ComArrayConstructor : IComArrayConstructor {
         private readonly IExpando arrayConstructor;
 
-        public ComArrayConstructor(IScriptControl control) {
-            arrayConstructor = (IExpando)control.Eval(@"({ create : function() {
+        public ComArrayConstructor(Func<string, object> eval) {
+            arrayConstructor = (IExpando)eval(@"({ create : function() {
                 var array = [];
                 for (var i = 0; i < arguments.length; i++) {
                     array[i] = arguments[i];

@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\[References]\MbUnit\MbUnit.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="ProcessDebugManagerLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\ProcessDebugManagerLib.dll</HintPath>
+    </Reference>
     <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="QuickGraph.Algorithms, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="System" />
@@ -53,14 +57,19 @@
     <Compile Include="Engines\IScriptObject.cs" />
     <Compile Include="Engines\Microsoft\ComArrayConstructor.cs" />
     <Compile Include="Engines\Microsoft\ComScriptConverter.cs" />
+    <Compile Include="Engines\Microsoft\ComScriptErrorInfo.cs" />
+    <Compile Include="Engines\Microsoft\ComScriptHost.cs" />
     <Compile Include="Engines\Microsoft\IComArrayConstructor.cs" />
+    <Compile Include="Engines\Microsoft\Interop\tagSCRIPTTEXT.cs" />
+    <Compile Include="Engines\Microsoft\Interop\IActiveScriptParse.cs" />
+    <Compile Include="Engines\Microsoft\Interop\JScript.cs" />
     <Compile Include="Engines\Microsoft\Invokers\DirectComScriptInvoker.cs" />
     <Compile Include="Engines\Microsoft\IComObjectWrapper.cs" />
     <Compile Include="Engines\Microsoft\IComScriptInvoker.cs" />
     <Compile Include="Engines\Microsoft\Invokers\WrappedComScriptInvoker.cs" />
     <Compile Include="Engines\Microsoft\Invokers\IWrappedResultParser.cs" />
     <Compile Include="Engines\Microsoft\Threading\IThreadingRequirement.cs" />
-    <Compile Include="Engines\Microsoft\Threading\MtaThreadOnly.cs" />
+    <Compile Include="Engines\Microsoft\Threading\SingleThreadOnly.cs" />
     <Compile Include="Engines\Microsoft\Types\ComScriptArray.cs" />
     <Compile Include="Engines\Microsoft\Types\ComScriptFunction.cs" />
     <Compile Include="Engines\Microsoft\Types\ComScriptObject.cs" />
@@ -70,7 +79,7 @@
     <Compile Include="Engines\ScriptException.cs" />
     <Compile Include="Engines\ScriptFunctionDelegate.cs" />
     <Compile Include="Engines\IScriptEngine.cs" />
-    <Compile Include="Engines\Microsoft\MicrosoftScriptControlEngine.cs" />
+    <Compile Include="Engines\Microsoft\ComActiveScriptEngine.cs" />
     <Compile Include="Engines\ScriptEngineFactory.cs" />
     <Compile Include="Engines\Base\ScriptObjectBase.cs" />
     <Compile Include="Engines\ScriptSyntaxException.cs" />
@@ -135,12 +144,12 @@
     <Content Include="Engines\Microsoft\ExceptionWrapper.js.txt" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="MSScriptControl">
-      <Guid>{0E59F1D2-1FBE-11D0-8FF2-00A0D10038BC}</Guid>
-      <VersionMajor>1</VersionMajor>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
+      <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
   </ItemGroup>

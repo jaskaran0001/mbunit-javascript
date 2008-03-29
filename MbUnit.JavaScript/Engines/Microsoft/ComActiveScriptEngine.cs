@@ -26,33 +26,26 @@
 
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Expando;
 using System.Text;
-
-using MSScriptControl;
 
 using MbUnit.JavaScript.Engines.Microsoft.Invokers;
 using MbUnit.JavaScript.Engines.Microsoft.Threading;
 using MbUnit.JavaScript.Properties;
 
 namespace MbUnit.JavaScript.Engines.Microsoft {
-    internal class MicrosoftScriptControlEngine : IScriptEngine, IWrappedResultParser {
-        private readonly IScriptControl control = new ScriptControlClass {
-            Language = "JScript",
-            AllowUI = false,
-            UseSafeSubset = false,
-            Timeout = 500000
-        };
-
-        private readonly IThreadingRequirement threading = new MtaThreadOnly();
+    internal class ComActiveScriptEngine : IScriptEngine, IWrappedResultParser {
+        private ComScriptHost host;
+        private readonly IThreadingRequirement threading = new SingleThreadOnly();
         private readonly ComScriptConverter converter;
 
-        public MicrosoftScriptControlEngine() {
+        public ComActiveScriptEngine() {
             IComArrayConstructor arrayConstructor = null;
-            this.threading.InvokeAsRequired(
-                () => arrayConstructor = new ComArrayConstructor(this.control)
-            );
+
+            this.threading.InvokeAsRequired(() => {
+                host = new ComScriptHost();
+                arrayConstructor = new ComArrayConstructor(host.Eval);
+            });
 
             var exceptionWrapper = this.CreateExceptionWrapper();
             var scriptInvoker = new WrappedComScriptInvoker(exceptionWrapper, DirectComScriptInvoker.Default, this, arrayConstructor);
@@ -80,29 +73,14 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
                 .Append("})")
                 .ToString();
 
-            var wrapperRaw = (IExpando)this.control.Eval(wrapperCode);
+            var wrapperRaw = (IExpando)this.host.Eval(wrapperCode);
             var wrapperFunction = wrapperRaw.GetProperty("wrap", BindingFlags.Instance).GetValue(wrapperRaw, null);
 
             return (IExpando)wrapperFunction;
         }
 
         public void Load(string script) {
-            const int SyntaxErrorCode = -2146827286;
-
-            try {
-                control.AddCode(script);
-            }
-            catch (COMException ex) {
-                if (ex.ErrorCode == SyntaxErrorCode) {
-                    throw new ScriptSyntaxException(
-                        control.Error.Text,
-                        control.Error.Line,
-                        control.Error.Column
-                    );
-                }
-                else
-                    throw;
-            }
+            this.threading.InvokeAsRequired(() => this.host.LoadScript(script));
         }
 
         public object Eval(string expression) {
@@ -113,7 +91,7 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
 
         private object EvalNoThreading(string expression) {
             var wrapped = string.Format(Resources.ScriptExceptionWrapper, "", expression);
-            var rawResultOrError = (IExpando)control.Eval("(" + wrapped + ")()");
+            var rawResultOrError = (IExpando)this.host.Eval("(" + wrapped + ")()");
 
             return this.ProcessRawResult(rawResultOrError);
         }
@@ -149,5 +127,9 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
         }
 
         #endregion
+
+        public void Dispose() {
+            this.host.Dispose();
+        }
     }
 }
