@@ -25,19 +25,12 @@
 */
 
 using System;
-using System.Threading;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace MbUnit.JavaScript.Engines.Microsoft.Threading {
-    internal class MtaThreadOnly : IThreadingRequirement {
-        public void InvokeAsRequired(Action action) {
-            if (Thread.CurrentThread.GetApartmentState() == ApartmentState.MTA) {
-                action();
-                return;
-            }
-
-            var result = action.BeginInvoke(ar => { }, null);
-            result.AsyncWaitHandle.WaitOne();
-            action.EndInvoke(result);
-        }
+namespace MbUnit.JavaScript.Engines.Microsoft.Interop {
+    [ComImport]
+    [Guid("F414C260-6AC0-11CF-B6D1-00AA00BBBB58")] 
+    internal class JScript {
     }
 }
