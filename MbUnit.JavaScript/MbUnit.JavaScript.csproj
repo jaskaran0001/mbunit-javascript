@@ -142,6 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engines\Microsoft\ExceptionWrapper.js.txt" />
+    <EmbeddedResource Include="js\ArrayAssert.js" />
+    <EmbeddedResource Include="js\External\json.js" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">
