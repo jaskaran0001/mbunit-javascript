@@ -25,6 +25,7 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
@@ -39,24 +40,36 @@ namespace MbUnit.JavaScript.References {
             var scriptContents = new List<string>();
             
             foreach (var entry in entryScripts) {
-                this.CollectReferencesRecursive(entry, scriptContents, new Dictionary<IJavaScriptReference, bool>());
+                this.CollectReferencesRecursive(
+                    entry, scriptContents,
+                    new Dictionary<IJavaScriptReference, bool>(),
+                    new Dictionary<IJavaScriptReference, bool>()
+                );
             }
 
             return scriptContents;
         }
 
-        private void CollectReferencesRecursive(IJavaScriptReference script, ICollection<string> allScriptContents, IDictionary<IJavaScriptReference, bool> alreadyCollected) {
-            if (alreadyCollected.ContainsKey(script))
+        private void CollectReferencesRecursive(
+            IJavaScriptReference script,
+            ICollection<string> allScriptContents,
+            IDictionary<IJavaScriptReference, bool> alreadyCollected,
+            IDictionary<IJavaScriptReference, bool> processing
+        ) {
+            if (processing.ContainsKey(script) || alreadyCollected.ContainsKey(script))
                 return;
+
+            processing.Add(script, true);
 
             string scriptContent = script.LoadContent();
             var references = referenceExtractor.GetReferences(script, scriptContent);
             foreach (var reference in references) {
-                this.CollectReferencesRecursive(reference, allScriptContents, alreadyCollected);
+                this.CollectReferencesRecursive(reference, allScriptContents, alreadyCollected, processing);
             }
 
             alreadyCollected.Add(script, true);
             allScriptContents.Add(scriptContent);
+            processing.Remove(script);
         }
     }
 }
