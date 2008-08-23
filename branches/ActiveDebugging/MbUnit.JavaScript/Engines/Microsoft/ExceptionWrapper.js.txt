@@ -1,0 +1,13 @@
+﻿    function({0}) {{
+        var result;
+        var error;
+        
+        try {{
+            result = {1};
+        }}
+        catch (ex) {{
+            error = ex;
+        }}
+
+        return {{ result : result, error : error }};
+    }}

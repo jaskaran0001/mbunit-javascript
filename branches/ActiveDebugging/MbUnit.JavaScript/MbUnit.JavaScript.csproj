@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CEFA82BA-9494-4457-B77F-2825B36DB4B3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MbUnit.JavaScript</RootNamespace>
+    <AssemblyName>MbUnit.JavaScript</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\MbUnit\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="ProcessDebugManagerLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\ProcessDebugManagerLib.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
+    <Reference Include="QuickGraph.Algorithms, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Delegates.cs" />
+    <Compile Include="Engines\Base\ScriptArrayBase.cs" />
+    <Compile Include="Engines\IScriptArray.cs" />
+    <Compile Include="Engines\IScriptFunction.cs" />
+    <Compile Include="Engines\IScriptObject.cs" />
+    <Compile Include="Engines\Microsoft\ComArrayConstructor.cs" />
+    <Compile Include="Engines\Microsoft\ComScriptConverter.cs" />
+    <Compile Include="Engines\Microsoft\ComScriptErrorInfo.cs" />
+    <Compile Include="Engines\Microsoft\ComScriptHost.cs" />
+    <Compile Include="Engines\Microsoft\IComArrayConstructor.cs" />
+    <Compile Include="Engines\Microsoft\Interop\tagSCRIPTTEXT.cs" />
+    <Compile Include="Engines\Microsoft\Interop\IActiveScriptParse.cs" />
+    <Compile Include="Engines\Microsoft\Interop\JScript.cs" />
+    <Compile Include="Engines\Microsoft\Invokers\DirectComScriptInvoker.cs" />
+    <Compile Include="Engines\Microsoft\IComObjectWrapper.cs" />
+    <Compile Include="Engines\Microsoft\IComScriptInvoker.cs" />
+    <Compile Include="Engines\Microsoft\Invokers\WrappedComScriptInvoker.cs" />
+    <Compile Include="Engines\Microsoft\Invokers\IWrappedResultParser.cs" />
+    <Compile Include="Engines\Microsoft\Threading\IThreadingRequirement.cs" />
+    <Compile Include="Engines\Microsoft\Threading\SingleThreadOnly.cs" />
+    <Compile Include="Engines\Microsoft\Types\ComScriptArray.cs" />
+    <Compile Include="Engines\Microsoft\Types\ComScriptFunction.cs" />
+    <Compile Include="Engines\Microsoft\Types\ComScriptObject.cs" />
+    <Compile Include="Engines\Microsoft\Caching\WeakReferenceCache.cs" />
+    <Compile Include="Engines\Microsoft\Caching\WeakReferenceEqualityComparer.cs" />
+    <Compile Include="Engines\Microsoft\Types\ThreadAwareComScriptObject.cs" />
+    <Compile Include="Engines\ScriptException.cs" />
+    <Compile Include="Engines\ScriptFunctionDelegate.cs" />
+    <Compile Include="Engines\IScriptEngine.cs" />
+    <Compile Include="Engines\Microsoft\ComActiveScriptEngine.cs" />
+    <Compile Include="Engines\ScriptEngineFactory.cs" />
+    <Compile Include="Engines\Base\ScriptObjectBase.cs" />
+    <Compile Include="Engines\ScriptSyntaxException.cs" />
+    <Compile Include="Internal\JavaScriptImportedFixture.cs" />
+    <Compile Include="JavaScriptResourceReferenceAttribute.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="References\IJavaScriptReference.cs" />
+    <Compile Include="References\IJavaScriptReferenceExtractor.cs" />
+    <Compile Include="References\JavaScriptDependencyResolver.cs" />
+    <Compile Include="References\JavaScriptFileReference.cs" />
+    <Compile Include="JavaScriptFixtureAttribute.cs" />
+    <Compile Include="References\JavaScriptReferenceAttribute.cs" />
+    <Compile Include="References\JavaScriptResourceReference.cs" />
+    <Compile Include="JavaScriptRun.cs" />
+    <Compile Include="JavaScriptRunInvoker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="References\JavaScriptXmlReferenceExtractor.cs" />
+    <Compile Include="References\Xml\Resources\IResourceLookup.cs" />
+    <Compile Include="References\Xml\Resources\IResourceLookupFactory.cs" />
+    <Compile Include="References\Xml\Resources\ResourceLookup.cs" />
+    <Compile Include="References\Xml\Resources\ResourceLookupFactory.cs" />
+    <Compile Include="References\Xml\XmlAllReferencesResolver.cs" />
+    <Compile Include="References\Xml\IXmlReferenceResolver.cs" />
+    <Compile Include="References\Xml\XmlPathReferenceResolver.cs" />
+    <Compile Include="References\Xml\XmlPathToResourceReferenceResolver.cs" />
+    <Compile Include="References\Xml\XmlReferenceParser.cs" />
+    <Compile Include="References\Xml\XmlResourceReferenceResolver.cs" />
+    <Compile Include="ResourceNotFoundException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Assert.js" />
+    <EmbeddedResource Include="Framework.js" />
+    <EmbeddedResource Include="js\TestFixture.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Common.js" />
+    <EmbeddedResource Include="js\Core\Runner.js" />
+    <EmbeddedResource Include="js\Test.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\RowTest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Row.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\Core\Invokers\ExpectedExceptionRunInvoker.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\ExpectedException.js" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Engines\Microsoft\ExceptionWrapper.js.txt" />
+    <EmbeddedResource Include="js\ArrayAssert.js" />
+    <EmbeddedResource Include="js\External\json.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E348E333-254C-430F-92B3-1F6B7CFE26AE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MbUnit.JavaScript.Tests</RootNamespace>
+    <AssemblyName>MbUnit.JavaScript.Tests</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\MbUnit\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\NMock2.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Disposer.cs" />
+    <Compile Include="ExceptionAssert.cs" />
+    <Compile Include="JavaScriptRunTest.cs" />
+    <Compile Include="JavaScriptTests.cs" />
+    <Compile Include="MockingTestBase.cs" />
+    <Compile Include="Mocking\Be.cs" />
+    <Compile Include="Of.Engines\Microsoft\ComScriptConverterTest.cs" />
+    <Compile Include="Of.Engines\ScriptEngineTest.cs" />
+    <Compile Include="Of.Engines\ScriptEngineTest.Exceptions.cs" />
+    <Compile Include="Of.Engines\ScriptEngineTest.Invoke.cs" />
+    <Compile Include="Of.References\JavaScriptDependencyResolverTest.cs" />
+    <Compile Include="Of.References\JavaScriptResourceReferenceTest.cs" />
+    <Compile Include="Of.References\Xml\XmlAllReferencesResolverTest.cs" />
+    <Compile Include="Of.References\Xml\XmlPathToResourceReferenceResolverTest.cs" />
+    <Compile Include="Of.References\Xml\XmlReferenceParserTest.cs" />
+    <Compile Include="Of.References\Xml\XmlPathReferenceResolverTest.cs" />
+    <Compile Include="Of.References\Xml\XmlReferenceResolverTestBase.cs" />
+    <Compile Include="Of.References\Xml\XmlResourceReferenceResolverTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XPathAssert.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MbUnit.JavaScript\MbUnit.JavaScript.csproj">
+      <Project>{CEFA82BA-9494-4457-B77F-2825B36DB4B3}</Project>
+      <Name>MbUnit.JavaScript</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\AssertTest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\ExpectedExceptionTest.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
