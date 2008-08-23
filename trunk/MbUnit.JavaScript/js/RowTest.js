@@ -1,6 +1,9 @@
 ﻿/// <reference path="Test.js" />
 /// <reference path="Row.js" />
+/// <reference path="Core\Formatter.js" />
 /// <reference path="Core\Invokers\ExpectedExceptionRunInvoker.js" />
+
+with (MbUnit.Core) {
 
 function RowTest() {
     Test.processArguments(arguments);  
@@ -30,7 +33,7 @@ RowTest.prototype = {
     _getRunInvoker : function(methodName, row) {
         var name = methodName + "(";       
         row.forEach(function(value, index) {
-            name += value.toString();
+            name += Formatter.toString(value);
             if (index < row.length - 1)
                 name += ", ";
         });
@@ -47,4 +50,6 @@ RowTest.prototype = {
         
         return invoker;
     }
+}
+
 }

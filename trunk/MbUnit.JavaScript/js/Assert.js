@@ -1,4 +1,6 @@
-﻿/// <reference path="External\json.js" />
+﻿/// <reference path="Core\Formatter.js" />
+
+with (MbUnit.Core) {
 
 function AssertionFailureException(message) {
     this.message = message;
@@ -7,14 +9,14 @@ function AssertionFailureException(message) {
 var Assert = {
     _fail : {
         is : function(value, unexpected) {
-            Assert.fail(["Assertion failed: [[", Assert.toString(value), "]] is ", Assert.toString(unexpected), "."].join(''));
+            Assert.fail(["Assertion failed: [[", Formatter.toString(value), "]] is ", Formatter.toString(unexpected), "."].join(''));
         },
         
         comparison : function(expected, isNotOperator, actual, message) {
             message = message ? message + " " : "";    
             Assert.fail([
                 message,
-                "Assertion failed: [[", Assert.toString(expected), "]]", isNotOperator, "[[", Assert.toString(actual), "]]"
+                "Assertion failed: [[", Formatter.toString(expected), "]]", isNotOperator, "[[", Formatter.toString(actual), "]]"
             ].join(''));
         }  
     },
@@ -60,9 +62,7 @@ var Assert = {
     isDefined : function(value) {
         if (value === undefined)
             Assert._fail.is(value, "undefined");
-    },
-    
-    toString : function(o) {
-        return Object.toJSONString(o);
     }
 };
+
+}
