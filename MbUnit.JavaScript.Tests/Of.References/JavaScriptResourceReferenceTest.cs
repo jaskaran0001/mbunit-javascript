@@ -14,7 +14,7 @@ namespace MbUnit.JavaScript.Tests.Of.References {
             var reference = new JavaScriptResourceReference(ResourceName, assembly);
 
             ExceptionAssert.Throws<ResourceNotFoundException>(
-                () => reference.LoadContent(),
+                () => reference.LoadScript(),
                 ex => {
                     Assert.AreEqual(assembly, ex.Assembly);
                     Assert.AreEqual(ResourceName, ex.ResourceName);

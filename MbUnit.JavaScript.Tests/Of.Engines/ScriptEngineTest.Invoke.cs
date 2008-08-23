@@ -27,10 +27,10 @@ namespace MbUnit.JavaScript.Tests.Of.Engines {
 
         [Test]
         public void TestEvalObjectAndInvokeFromPrototype() {
-            this.engine.Load(@"__TestObject = function() {};
-                               __TestObject.prototype = " + CodeOfObjectWithSumFunction);
+            this.Load(@"__TestObject = function() {};
+                        __TestObject.prototype = " + CodeOfObjectWithSumFunction);
 
-            Block clean = () => this.engine.Load("delete this['__TestObject']");
+            Block clean = () => this.Load("delete this['__TestObject']");
 
             using (new Disposer(clean)) {
                 TestEvalAndInvokeSum("new __TestObject()");

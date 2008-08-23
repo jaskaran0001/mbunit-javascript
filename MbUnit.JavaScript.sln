@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "[References]", "[References]", "{3AA2CE58-072E-4487-A978-6E6D33803903}"
 	ProjectSection(SolutionItems) = preProject
 		[References]\NMock2.dll = [References]\NMock2.dll
-		[References]\ProcessDebugManagerLib.dll = [References]\ProcessDebugManagerLib.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MbUnit", "MbUnit", "{7D6929B2-EBB3-4684-910A-A84C6950DC48}"

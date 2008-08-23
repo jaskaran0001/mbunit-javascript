@@ -26,6 +26,7 @@
 
 using System;
 using System.IO;
+using IO = System.IO;
 
 namespace MbUnit.JavaScript.References {
     internal class JavaScriptFileReference : IJavaScriptReference {
@@ -35,8 +36,9 @@ namespace MbUnit.JavaScript.References {
             this.Path = path;
         }
 
-        public string LoadContent() {
-            return File.ReadAllText(this.Path);
+        public ScriptInfo LoadScript() {
+            var name = IO.Path.GetFileName(this.Path);
+            return new ScriptInfo(name, File.ReadAllText(this.Path));
         }
 
         public bool Equals(JavaScriptFileReference reference) {

@@ -38,13 +38,13 @@ namespace MbUnit.JavaScript.References {
             this.Assembly = assembly;
         }
 
-        public string LoadContent() {
+        public ScriptInfo LoadScript() {
             using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName)) {
                 if (stream == null)
                     throw new ResourceNotFoundException(this.Assembly, this.ResourceName);
 
                 using (var reader = new StreamReader(stream)) {
-                    return reader.ReadToEnd();
+                    return new ScriptInfo(this.ResourceName, reader.ReadToEnd());
                 }
             }
         }

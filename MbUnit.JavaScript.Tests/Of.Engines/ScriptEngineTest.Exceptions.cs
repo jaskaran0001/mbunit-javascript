@@ -52,7 +52,7 @@ namespace MbUnit.JavaScript.Tests.Of.Engines {
         [Test]
         public void TestSyntaxErrorDuringLoadCode() {
             ExceptionAssert.Throws<ScriptSyntaxException>(
-                () => this.engine.Load("var a = 5; var b = "),
+                () => this.Load("var a = 5; var b = "),
                 ex => Assert.AreEqual(1, ex.Line)
                     // ashmind: I think it is impossible to require 
                     // consistent column number in all implementations 
