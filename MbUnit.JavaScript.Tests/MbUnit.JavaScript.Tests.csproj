@@ -73,10 +73,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="js\AssertTest.js" />
+    <EmbeddedResource Include="Of.js\AssertTest.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="js\ExpectedExceptionTest.js" />
+    <EmbeddedResource Include="Of.js\ExpectedExceptionTest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Of.js\Core\FormatterTest.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
