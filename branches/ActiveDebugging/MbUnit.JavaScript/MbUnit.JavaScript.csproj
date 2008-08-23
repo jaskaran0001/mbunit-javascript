@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2, Version=2.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\[References]\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
     <Reference Include="MbUnit.Framework, Version=1.0.2700.29885, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\[References]\MbUnit\MbUnit.Framework.dll</HintPath>
@@ -59,6 +67,12 @@
     <Compile Include="Engines\Microsoft\ComScriptConverter.cs" />
     <Compile Include="Engines\Microsoft\ComScriptErrorInfo.cs" />
     <Compile Include="Engines\Microsoft\ComScriptHost.cs" />
+    <Compile Include="Engines\Microsoft\Debug\ActiveScriptDebugDelegator.cs" />
+    <Compile Include="Engines\Microsoft\Debug\DebugApplicationDelegator.cs" />
+    <Compile Include="Engines\Microsoft\Debug\DebugCodeContextDelegator.cs" />
+    <Compile Include="Engines\Microsoft\Debug\DebugDocumentContextDelegator.cs" />
+    <Compile Include="Engines\Microsoft\Debug\DebugLog.cs" />
+    <Compile Include="Engines\Microsoft\Debug\EnumDebugCodeContextsDelegator.cs" />
     <Compile Include="Engines\Microsoft\IComArrayConstructor.cs" />
     <Compile Include="Engines\Microsoft\Interop\tagSCRIPTTEXT.cs" />
     <Compile Include="Engines\Microsoft\Interop\IActiveScriptParse.cs" />
@@ -68,6 +82,7 @@
     <Compile Include="Engines\Microsoft\IComScriptInvoker.cs" />
     <Compile Include="Engines\Microsoft\Invokers\WrappedComScriptInvoker.cs" />
     <Compile Include="Engines\Microsoft\Invokers\IWrappedResultParser.cs" />
+    <Compile Include="Engines\Microsoft\Debugging\ComScriptDebugSupport.cs" />
     <Compile Include="Engines\Microsoft\Threading\IThreadingRequirement.cs" />
     <Compile Include="Engines\Microsoft\Threading\SingleThreadOnly.cs" />
     <Compile Include="Engines\Microsoft\Types\ComScriptArray.cs" />
@@ -112,6 +127,7 @@
     <Compile Include="References\Xml\XmlReferenceParser.cs" />
     <Compile Include="References\Xml\XmlResourceReferenceResolver.cs" />
     <Compile Include="ResourceNotFoundException.cs" />
+    <Compile Include="ScriptInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="js\Assert.js" />

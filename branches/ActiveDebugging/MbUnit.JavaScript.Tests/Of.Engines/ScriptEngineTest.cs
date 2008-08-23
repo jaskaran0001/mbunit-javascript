@@ -42,7 +42,7 @@ namespace MbUnit.JavaScript.Tests.Of.Engines {
 
         [Test]
         public void TestEvalArrayWithPrototypeExtensions() {
-            this.engine.Load("Array.prototype.x = 'This Should Be Ignored';");
+            this.Load("Array.prototype.x = 'This Should Be Ignored';");
             this.TestEvalArray();
         }
 
@@ -64,6 +64,10 @@ namespace MbUnit.JavaScript.Tests.Of.Engines {
 
         private IScriptObject EvalObject(string expression) {
             return this.Eval<IScriptObject>(expression);
+        }
+
+        private void Load(string script) {
+            this.engine.Load(new ScriptInfo("Test.js", script));
         }
 
         private T Eval<T>(string expression) {

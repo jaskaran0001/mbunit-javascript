@@ -29,21 +29,25 @@ using System.Reflection;
 using System.Runtime.InteropServices.Expando;
 using System.Text;
 
+using MbUnit.JavaScript.Engines.Microsoft.Debugging;
 using MbUnit.JavaScript.Engines.Microsoft.Invokers;
 using MbUnit.JavaScript.Engines.Microsoft.Threading;
 using MbUnit.JavaScript.Properties;
 
 namespace MbUnit.JavaScript.Engines.Microsoft {
     internal class ComActiveScriptEngine : IScriptEngine, IWrappedResultParser {
-        private ComScriptHost host;
         private readonly IThreadingRequirement threading = new SingleThreadOnly();
+        private ComScriptHost host;
+        private ComScriptDebugSupport debugSupport;
         private readonly ComScriptConverter converter;
 
         public ComActiveScriptEngine() {
             IComArrayConstructor arrayConstructor = null;
 
             this.threading.InvokeAsRequired(() => {
-                host = new ComScriptHost();
+                this.debugSupport = new ComScriptDebugSupport();
+                this.host = new ComScriptHost(this.debugSupport);
+
                 arrayConstructor = new ComArrayConstructor(host.Eval);
             });
 
@@ -79,8 +83,10 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
             return (IExpando)wrapperFunction;
         }
 
-        public void Load(string script) {
-            this.threading.InvokeAsRequired(() => this.host.LoadScript(script));
+        public void Load(ScriptInfo script) {
+            this.threading.InvokeAsRequired(
+                () => this.host.LoadScript(script.Content, script.Name)
+            );
         }
 
         public object Eval(string expression) {

@@ -25,7 +25,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
@@ -36,40 +35,35 @@ namespace MbUnit.JavaScript.References {
             this.referenceExtractor = referenceExtractor;
         }
 
-        public IEnumerable<string> LoadScripts(IEnumerable<IJavaScriptReference> entryScripts) {
-            var scriptContents = new List<string>();
-            
-            foreach (var entry in entryScripts) {
+        public IEnumerable<ScriptInfo> LoadScripts(IEnumerable<IJavaScriptReference> entryScriptReferences) {
+            var scripts = new List<ScriptInfo>();
+
+            foreach (var reference in entryScriptReferences) {
                 this.CollectReferencesRecursive(
-                    entry, scriptContents,
+                    reference, scripts,
                     new Dictionary<IJavaScriptReference, bool>(),
-                    new Dictionary<IJavaScriptReference, bool>()
+                    new Stack<IJavaScriptReference>()
                 );
             }
 
-            return scriptContents;
+            return scripts;
         }
 
-        private void CollectReferencesRecursive(
-            IJavaScriptReference script,
-            ICollection<string> allScriptContents,
-            IDictionary<IJavaScriptReference, bool> alreadyCollected,
-            IDictionary<IJavaScriptReference, bool> processing
-        ) {
-            if (processing.ContainsKey(script) || alreadyCollected.ContainsKey(script))
+        private void CollectReferencesRecursive(IJavaScriptReference scriptReference, ICollection<ScriptInfo> allScripts, IDictionary<IJavaScriptReference, bool> alreadyCollected, Stack<IJavaScriptReference> processing) {
+            if (alreadyCollected.ContainsKey(scriptReference) || processing.Contains(scriptReference))
                 return;
 
-            processing.Add(script, true);
+            processing.Push(scriptReference);
 
-            string scriptContent = script.LoadContent();
-            var references = referenceExtractor.GetReferences(script, scriptContent);
+            var script = scriptReference.LoadScript();
+            var references = referenceExtractor.GetReferences(scriptReference, script.Content);
             foreach (var reference in references) {
-                this.CollectReferencesRecursive(reference, allScriptContents, alreadyCollected, processing);
+                this.CollectReferencesRecursive(reference, allScripts, alreadyCollected, processing);
             }
 
-            alreadyCollected.Add(script, true);
-            allScriptContents.Add(scriptContent);
-            processing.Remove(script);
+            processing.Pop();
+            alreadyCollected.Add(scriptReference, true);
+            allScripts.Add(script);
         }
     }
 }
