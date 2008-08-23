@@ -18,7 +18,7 @@ var AssertTest = TestFixture({
                 Assert.areEqual(1, 2);
             }
             catch (ex) {
-                Assert.areEqual(ex.message, "Equal assertion failed: [[1]]!=[[2]]");
+                Assert.areEqual(ex.message, "Assertion failed: [[1]]!=[[2]]");
             }
         }
     )    
