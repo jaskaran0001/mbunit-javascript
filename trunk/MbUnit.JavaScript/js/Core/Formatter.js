@@ -1,4 +1,4 @@
-﻿MbUnit = MbUnit || {};
+﻿MbUnit = window.MbUnit || {};
 MbUnit.Core = MbUnit.Core || {};
 
 MbUnit.Core.Formatter = {
