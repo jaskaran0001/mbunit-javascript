@@ -21,16 +21,5 @@ var AssertTest = TestFixture({
                 Assert.areEqual(ex.message, "Assertion failed: [[1]]!=[[2]]");
             }
         }
-    ),
-    
-    testToString : Test(
-        function() {
-            try {
-                Assert.areEqual(1, 2);
-            }
-            catch (ex) {
-                Assert.areEqual(ex.message, "Assertion failed: [[1]]!=[[2]]");
-            }
-        }
     )
 });
