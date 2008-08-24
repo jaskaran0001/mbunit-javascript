@@ -27,9 +27,7 @@
 using System;
 using System.Reflection;
 
-using MbUnit.JavaScript.References.Xml.Resources;
-
-namespace MbUnit.JavaScript.References.Xml {
+namespace MbUnit.JavaScript.References.Xml.Resources {
     internal class ResourceLookupFactory : IResourceLookupFactory {
         public IResourceLookup CreateLookup(Assembly assembly) {
             return new ResourceLookup(assembly);
