@@ -27,10 +27,11 @@
 using System;
 using System.Collections.Generic;
 
+using Moq;
+
 using MbUnit.Framework;
+
 using MbUnit.JavaScript.References;
-using MbUnit.JavaScript.Tests.Mocking;
-using NMock2;
 
 namespace MbUnit.JavaScript.Tests.Of.References {
     [TestFixture]
@@ -94,13 +95,14 @@ namespace MbUnit.JavaScript.Tests.Of.References {
         }
 
         private IJavaScriptReferenceExtractor MockExtractor() {
-            return this.Mock<IJavaScriptReferenceExtractor>(mock => {
-                Expect.AtLeastOnce.On(mock)
-                      .Method("GetReferences")
-                      .Will(Be.A(
-                           (IJavaScriptReference script) => ((ScriptStub)script).References
-                      ));
-            });
+            return Mock<IJavaScriptReferenceExtractor>(
+                mock => mock.Expect(x => x.GetReferences(
+                    It.IsAny<IJavaScriptReference>(),
+                    It.IsAny<string>()
+                )).Returns(
+                    (ScriptStub script, string content) => script.References
+                )
+            );
         }
     }
 }

@@ -28,7 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.Expando;
 
-using NMock2;
+using Moq;
 
 using MbUnit.Framework;
 using MbUnit.JavaScript.Engines.Microsoft;
@@ -39,11 +39,8 @@ namespace MbUnit.JavaScript.Tests.Of.Engines.Microsoft {
     public class ComScriptConverterTest {
         [Test]
         public void TestConvertFromScriptHasIdentityMap() {
-            var mockery = new Mockery();
-            var converter = CreateConverter(mockery);
-            var value = mockery.NewMock<IExpando>();
-
-            Stub.On(value).Method("GetProperty");
+            var converter = CreateConverter();
+            var value = new Mock<IExpando>().Object;
 
             var first = converter.ConvertFromScript(value);
             var second = converter.ConvertFromScript(value);
@@ -51,10 +48,10 @@ namespace MbUnit.JavaScript.Tests.Of.Engines.Microsoft {
             Assert.AreSame(first, second);
         }
 
-        private ComScriptConverter CreateConverter(Mockery mockery) {
-            var invoker = mockery.NewMock<IComScriptInvoker>();
-            var threading = mockery.NewMock<IThreadingRequirement>();
-            var arrayConstructor = mockery.NewMock<IComArrayConstructor>();
+        private ComScriptConverter CreateConverter() {
+            var invoker = new Mock<IComScriptInvoker>().Object;
+            var threading = new Mock<IThreadingRequirement>().Object;
+            var arrayConstructor = new Mock<IComArrayConstructor>().Object;
 
             return new ComScriptConverter(invoker, threading, arrayConstructor);
         }

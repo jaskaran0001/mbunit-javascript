@@ -26,9 +26,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Xml.XPath;
 
-using NMock2;
+using Moq;
 
 using MbUnit.Framework;
 
@@ -52,7 +53,7 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             var resolver = new XmlPathToResourceReferenceResolver(lookupFactory);
 
             var original = new JavaScriptResourceReference(originalResourceName, this.GetType().Assembly);
-            var reference = resolver.TryResolve(xml, original) as JavaScriptResourceReference;
+            var reference = (JavaScriptResourceReference)resolver.TryResolve(xml, original);
 
             Assert.IsNotNull(reference);
             Assert.AreSame(original.Assembly, reference.Assembly);
@@ -61,20 +62,11 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
 
         private IResourceLookupFactory MockLookupFactoryWithOneExistingResource(string resourceName) {
             var lookup = Mock<IResourceLookup>(
-                mock => {
-                    Expect.Once.On(mock)
-                        .Method("ResourceExists")
-                        .With(resourceName)
-                        .Will(Return.Value(true));
-
-                    Stub.On(mock).Method("ResourceExists").Will(Return.Value(false));
-                }
+                mock => mock.Expect(x => x.ResourceExists(resourceName)).Returns(true)
             );
 
             return Mock<IResourceLookupFactory>(
-                mock => Expect.Once.On(mock)
-                              .Method("CreateLookup")
-                              .Will(Return.Value(lookup))
+                mock => mock.Expect(x => x.CreateLookup(It.IsAny<Assembly>())).Returns(lookup)
             );            
         }
 
