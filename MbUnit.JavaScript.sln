@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "[References]", "[References]", "{3AA2CE58-072E-4487-A978-6E6D33803903}"
 	ProjectSection(SolutionItems) = preProject
-		[References]\NMock2.dll = [References]\NMock2.dll
+		[References]\Moq.dll = [References]\Moq.dll
+		[References]\Moq.pdb = [References]\Moq.pdb
+		[References]\Moq.xml = [References]\Moq.xml
 		[References]\ProcessDebugManagerLib.dll = [References]\ProcessDebugManagerLib.dll
 	EndProjectSection
 EndProject
