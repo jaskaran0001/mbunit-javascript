@@ -34,7 +34,7 @@ using MbUnit.JavaScript.Engines.Microsoft.Threading;
 using MbUnit.JavaScript.Properties;
 
 namespace MbUnit.JavaScript.Engines.Microsoft {
-    internal class ComActiveScriptEngine : IScriptEngine, IWrappedResultParser {
+    public class ComActiveScriptEngine : IScriptEngine, IWrappedResultParser {
         private ComScriptHost host;
         private readonly IThreadingRequirement threading = new SingleThreadOnly();
         private readonly ComScriptConverter converter;
@@ -115,7 +115,7 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
         private string GetErrorMessage(object scriptError) {
             var errorObject = scriptError as IScriptObject;
             if (errorObject == null || !errorObject.ContainsKey("message"))
-                return "JavaScript evaluation failed: " + scriptError.ToString() + ".";
+                return "JavaScript evaluation failed: " + scriptError + ".";
 
             return (string)errorObject["message"];
         }
