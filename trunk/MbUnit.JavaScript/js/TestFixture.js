@@ -40,7 +40,7 @@ TestFixture.prototype = {
         for (var name in this) {
             var value = this[name];
             if (value && value.getRunInvokers) {
-                tests = tests.concat(value.getRunInvokers(name));
+                tests = tests.concat(value.getRunInvokers(this, name));
             }
         }
         

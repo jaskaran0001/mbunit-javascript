@@ -49,14 +49,14 @@ function RowTest() {
 }
 
 RowTest.prototype = {
-    getRunInvokers : function(methodName) {
+    getRunInvokers : function(fixture, methodName) {
         return this._rows
                    .select(function(row) { 
-                        return this._getRunInvoker(methodName, row); 
+                        return this._getRunInvoker(fixture, methodName, row); 
                     }, this);
     },
 
-    _getRunInvoker : function(methodName, row) {
+    _getRunInvoker : function(fixture, methodName, row) {
         var name = methodName + "(";       
         row.forEach(function(value, index) {
             name += Formatter.toString(value);
@@ -68,7 +68,7 @@ RowTest.prototype = {
         var test = this;
         var invoker = {
             name : name,
-            execute : function() { test.apply(this, row); }
+            execute : function() { test.apply(fixture, row); }
         };
         
         if (row.expectedException)
