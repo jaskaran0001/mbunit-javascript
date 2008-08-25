@@ -29,6 +29,7 @@ using System.Collections.Generic;
 
 using MbUnit.Framework;
 using MbUnit.JavaScript.Engines;
+using MbUnit.JavaScript.Engines.Microsoft;
 
 namespace MbUnit.JavaScript.Tests.Of.Engines {
     // ashmind:
@@ -43,7 +44,7 @@ namespace MbUnit.JavaScript.Tests.Of.Engines {
 
         [SetUp]
         public void SetUp() {
-            engine = ScriptEngineFactory.Create();
+            engine = new ComActiveScriptEngine();
         }
 
         [RowTest]

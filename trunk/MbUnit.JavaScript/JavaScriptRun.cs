@@ -47,8 +47,10 @@ namespace MbUnit.JavaScript {
 
         private readonly JavaScriptDependencyResolver dependencyResolver;
 
-        public JavaScriptRun(IJavaScriptReferenceExtractor referenceExtractor) : base("JavaScript", false) {
-            this.engine = ScriptEngineFactory.Create();
+        public JavaScriptRun(IScriptEngine engine, IJavaScriptReferenceExtractor referenceExtractor)
+            : base("JavaScript", false) 
+        {
+            this.engine = engine;
             this.dependencyResolver = new JavaScriptDependencyResolver(referenceExtractor);
         }
 
@@ -71,7 +73,7 @@ namespace MbUnit.JavaScript {
             
             scripts.ForEach(engine.Load);
 
-            var fixturesData = this.LoadTests(engine);
+            var fixturesData = this.LoadTests();
             foreach (IScriptObject fixtureData in fixturesData) {
                 var fixture = new JavaScriptImportedFixture {
                     Name     = (string)fixtureData["name"]
@@ -89,7 +91,7 @@ namespace MbUnit.JavaScript {
             }
         }
 
-        private IScriptArray LoadTests(IScriptEngine engine) {
+        private IScriptArray LoadTests() {
             string loadFunction = string.Format(
                 @"function() {{
                     {0} = new {1}();
@@ -97,7 +99,7 @@ namespace MbUnit.JavaScript {
                  }}", CurrentRunnerName, RunnerTypeName
             );
 
-            return (IScriptArray)engine.Eval("(" + loadFunction + ")()");
+            return (IScriptArray)this.engine.Eval("(" + loadFunction + ")()");
         }
 
         private IEnumerable<string> ReflectAndLoadScripts(Type type) {

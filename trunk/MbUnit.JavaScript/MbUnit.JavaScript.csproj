@@ -80,7 +80,6 @@
     <Compile Include="Engines\ScriptFunctionDelegate.cs" />
     <Compile Include="Engines\IScriptEngine.cs" />
     <Compile Include="Engines\Microsoft\ComActiveScriptEngine.cs" />
-    <Compile Include="Engines\ScriptEngineFactory.cs" />
     <Compile Include="Engines\Base\ScriptObjectBase.cs" />
     <Compile Include="Engines\ScriptSyntaxException.cs" />
     <Compile Include="Internal\JavaScriptImportedFixture.cs" />
