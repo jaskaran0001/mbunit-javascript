@@ -54,10 +54,11 @@ Test.processArguments = function(arguments) {
     arguments.method = method;
 }
 
-Test.prototype.getRunInvokers = function(methodName) {
+Test.prototype.getRunInvokers = function(fixture, methodName) {
+    var test = this;
     var invoker = {
-        name : methodName,
-        execute : this
+        name: methodName,
+        execute: function() { test.apply(fixture, arguments); }
     };
     this._decorators.forEach(function(decorator) {
         invoker = decorator.getRunInvoker(invoker);
