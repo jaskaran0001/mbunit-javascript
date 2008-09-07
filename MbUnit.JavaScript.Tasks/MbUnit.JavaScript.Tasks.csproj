@@ -59,6 +59,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MbUnit.JavaScript\MbUnit.JavaScript.csproj">
+      <Project>{CEFA82BA-9494-4457-B77F-2825B36DB4B3}</Project>
+      <Name>MbUnit.JavaScript</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
