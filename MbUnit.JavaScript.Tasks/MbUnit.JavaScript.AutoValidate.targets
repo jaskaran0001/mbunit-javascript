@@ -1,0 +1,13 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="ValidateJavaScriptTests">
+  <Import Project="MbUnit.JavaScript.targets" />
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn); ValidateJavaScriptTests
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateJavaScriptTests">
+    <ValidateJavaScriptTests AssemblyPath="$(TargetPath)" />
+  </Target>
+</Project>

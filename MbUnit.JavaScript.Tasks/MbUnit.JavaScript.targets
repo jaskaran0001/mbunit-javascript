@@ -1,0 +1,7 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MbUnitJavaScriptTasksAssembly>MbUnit.JavaScript.Tasks.dll</MbUnitJavaScriptTasksAssembly>
+  </PropertyGroup>
+
+  <UsingTask AssemblyFile="$(MbUnitJavaScriptTasksAssembly)" TaskName="ValidateJavaScriptTests" />
+</Project>
