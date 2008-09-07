@@ -6,7 +6,7 @@ using MbUnit.Core;
 using MbUnit.Core.Filters;
 using MbUnit.Core.Invokers;
 using MbUnit.Core.Remoting;
-
+using MbUnit.JavaScript.Engines;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
@@ -45,12 +45,27 @@ namespace MbUnit.JavaScript.Tasks {
             foreach (RunInvokerVertex invokerVertex in starter.Pipe.Invokers) {
                 var failed = invokerVertex.Invoker as FailedLoadingRunInvoker;
                 if (failed != null) {
-                    Log.LogErrorFromException(failed.Exception, true);
+                    this.DescribeException(failed.Exception);
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private void DescribeException(Exception ex) {
+            var syntax = ex as ScriptSyntaxException;
+            if (syntax != null) {
+                Log.LogError(
+                    "ValidateJavaScriptTests", "", "", "???",
+                        syntax.Line, syntax.Column,
+                        syntax.Line, syntax.Column,
+                        syntax.Message
+                );
+                return;
+            }
+
+            Log.LogErrorFromException(ex, true);
         }
     }
 }
