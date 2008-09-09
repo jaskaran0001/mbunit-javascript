@@ -15,6 +15,7 @@ namespace MbUnit.JavaScript.Tasks {
         private static readonly IRunPipeFilter NoFilter = new AnyRunPipeFilter();
 
         public ITaskItem AssemblyPath { get; set; }
+        public ITaskItem[] EmbeddedResources { get; set; }
 
         public override bool Execute() {
             try {
@@ -58,15 +59,28 @@ namespace MbUnit.JavaScript.Tasks {
             if (syntax != null) {
                 Log.LogError(
                     "ValidateJavaScriptTests", "", "",
-                        syntax.Script.Name,
+                        this.GetPath(syntax.Script),
                         syntax.Line, syntax.Column,
-                        syntax.Line, syntax.Column,
+                        syntax.Line, syntax.Column + 1,
                         syntax.Message
                 );
                 return;
             }
 
             Log.LogErrorFromException(ex, true);
+        }
+
+        private string GetPath(Script script) {
+            if (this.EmbeddedResources == null)
+                return script.Name;
+
+            foreach (var resource in this.EmbeddedResources) {
+                var manifestName = resource.GetMetadata("ManifestResourceName");
+                if (manifestName == script.Name)
+                    return resource.ItemSpec;
+            }
+
+            return script.Name;
         }
     }
 }
