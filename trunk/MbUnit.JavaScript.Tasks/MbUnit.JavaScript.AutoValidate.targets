@@ -7,7 +7,7 @@
     </BuildDependsOn>
   </PropertyGroup>
 
-  <Target Name="ValidateJavaScriptTests">
-    <ValidateJavaScriptTests AssemblyPath="$(TargetPath)" />
+  <Target Name="ValidateJavaScriptTests" DependsOnTargets="CreateManifestResourceNames">
+    <ValidateJavaScriptTests AssemblyPath="$(TargetPath)" EmbeddedResources="@(EmbeddedResource)" />
   </Target>
 </Project>
