@@ -38,7 +38,11 @@ namespace MbUnit.JavaScript.References {
             this.Assembly = assembly;
         }
 
-        public string LoadContent() {
+        public Script LoadScript() {
+            return new Script(this.ResourceName, this.LoadContent());
+        }
+
+        private string LoadContent() {
             using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName)) {
                 if (stream == null)
                     throw new ResourceNotFoundException(this.Assembly, this.ResourceName);

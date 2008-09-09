@@ -66,7 +66,7 @@ namespace MbUnit.JavaScript {
         }
 
         internal IEnumerable<JavaScriptImportedFixture> Reflect(Type t) {
-            var scripts = new List<string>();
+            var scripts = new List<Script>();
 
             scripts.AddRange(this.ReflectAndLoadScripts(this.GetType()));
             scripts.AddRange(this.ReflectAndLoadScripts(t));
@@ -102,7 +102,7 @@ namespace MbUnit.JavaScript {
             return (IScriptArray)this.engine.Eval("(" + loadFunction + ")()");
         }
 
-        private IEnumerable<string> ReflectAndLoadScripts(Type type) {
+        private IEnumerable<Script> ReflectAndLoadScripts(Type type) {
             var attributes = (JavaScriptReferenceAttribute[])type.GetCustomAttributes(
                 typeof(JavaScriptReferenceAttribute), true
             );

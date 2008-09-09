@@ -76,6 +76,7 @@
     <Compile Include="Engines\Microsoft\Caching\WeakReferenceCache.cs" />
     <Compile Include="Engines\Microsoft\Caching\WeakReferenceEqualityComparer.cs" />
     <Compile Include="Engines\Microsoft\Types\ThreadAwareComScriptObject.cs" />
+    <Compile Include="Script.cs" />
     <Compile Include="Engines\ScriptException.cs" />
     <Compile Include="Engines\ScriptFunctionDelegate.cs" />
     <Compile Include="Engines\IScriptEngine.cs" />
