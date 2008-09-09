@@ -57,7 +57,8 @@ namespace MbUnit.JavaScript.Tasks {
             var syntax = ex as ScriptSyntaxException;
             if (syntax != null) {
                 Log.LogError(
-                    "ValidateJavaScriptTests", "", "", "???",
+                    "ValidateJavaScriptTests", "", "",
+                        syntax.Script.Name,
                         syntax.Line, syntax.Column,
                         syntax.Line, syntax.Column,
                         syntax.Message
