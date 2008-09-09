@@ -31,22 +31,25 @@ namespace MbUnit.JavaScript.Engines {
     [Serializable]
     public class ScriptSyntaxException : Exception {
         public ScriptSyntaxException() : base() { }
-        public ScriptSyntaxException(string message, int line, int column)
+        public ScriptSyntaxException(string message, Script script, int line, int column)
             : base(message) 
         {
+            this.Script = script;
             this.Line = line;
             this.Column = column;
         }
 
-        public ScriptSyntaxException(string message, int line, int column, Exception innerException)
+        public ScriptSyntaxException(string message, Script script, int line, int column, Exception innerException)
             : base(message, innerException) 
         {
+            this.Script = script;
             this.Line = line;
             this.Column = column;
         }
 
         protected ScriptSyntaxException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
+        public Script Script { get; private set; }
         public int Line { get; private set; }
         public int Column { get; private set; }
     }

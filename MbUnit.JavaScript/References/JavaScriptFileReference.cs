@@ -35,8 +35,9 @@ namespace MbUnit.JavaScript.References {
             this.Path = path;
         }
 
-        public string LoadContent() {
-            return File.ReadAllText(this.Path);
+        public Script LoadScript() {
+            var content = File.ReadAllText(this.Path);
+            return new Script(this.Path, content);
         }
 
         public bool Equals(JavaScriptFileReference reference) {

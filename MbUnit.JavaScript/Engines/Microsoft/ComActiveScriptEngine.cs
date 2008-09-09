@@ -79,7 +79,7 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
             return (IExpando)wrapperFunction;
         }
 
-        public void Load(string script) {
+        public void Load(Script script) {
             this.threading.InvokeAsRequired(() => this.host.LoadScript(script));
         }
 

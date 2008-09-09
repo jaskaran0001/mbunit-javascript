@@ -48,19 +48,18 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
             this.activeScript.SetScriptState(tagSCRIPTSTATE.SCRIPTSTATE_CONNECTED);
         }
 
-        public void LoadScript(string script) {
+        public void LoadScript(Script script) {
             //const int SyntaxErrorCode = unchecked((int)0x800A03EA);
             const int ReportedErrorCode = unchecked((int)0x80020101);
 
             try {
-                this.ParseScriptText(script, false);
+                this.ParseScriptText(script.Content, false);
             }
             catch (COMException ex) {
                 if (ex.ErrorCode == ReportedErrorCode) {
                     throw new ScriptSyntaxException(
                         this.lastError.Description,
-                        this.lastError.Line,
-                        this.lastError.Column,
+                        script, this.lastError.Line, this.lastError.Column,
                         ex
                     );
                 }
