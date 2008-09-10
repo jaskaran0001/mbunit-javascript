@@ -54,7 +54,7 @@ namespace MbUnit.JavaScript.References {
             this.resolver = resolver;
         }
 
-        public IEnumerable<IJavaScriptReference> GetReferences(IJavaScriptReference scriptReference, string scriptContent) {
+        public IEnumerable<IJavaScriptReference> GetReferences(IJavaScriptReference originalReference, string scriptContent) {
             var xml = this.parser.Parse(scriptContent);
             var referenceNodes = xml.CreateNavigator().Select("reference");
 
@@ -62,7 +62,7 @@ namespace MbUnit.JavaScript.References {
                 // ashmind: Should we throw here or should we throw only if reference was not found?
                 // I think it should be made configurable in the future.
 
-                var reference = resolver.TryResolve(referenceNode, scriptReference);
+                var reference = resolver.TryResolve(referenceNode, originalReference);
                 if (reference != null)
                     yield return reference;
             }

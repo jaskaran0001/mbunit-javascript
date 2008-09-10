@@ -35,25 +35,30 @@ namespace MbUnit.JavaScript.References {
             this.referenceExtractor = referenceExtractor;
         }
 
-        public IEnumerable<ScriptInfo> LoadScripts(IEnumerable<IJavaScriptReference> entryScriptReferences) {
-            var scripts = new List<ScriptInfo>();
-
-            foreach (var reference in entryScriptReferences) {
+        public IEnumerable<Script> LoadScripts(IEnumerable<IJavaScriptReference> entryScripts) {
+            var scripts = new List<Script>();
+            
+            foreach (var entry in entryScripts) {
                 this.CollectReferencesRecursive(
-                    reference, scripts,
+                    entry, scripts,
                     new Dictionary<IJavaScriptReference, bool>(),
-                    new Stack<IJavaScriptReference>()
+                    new Dictionary<IJavaScriptReference, bool>()
                 );
             }
 
             return scripts;
         }
 
-        private void CollectReferencesRecursive(IJavaScriptReference scriptReference, ICollection<ScriptInfo> allScripts, IDictionary<IJavaScriptReference, bool> alreadyCollected, Stack<IJavaScriptReference> processing) {
-            if (alreadyCollected.ContainsKey(scriptReference) || processing.Contains(scriptReference))
+        private void CollectReferencesRecursive(
+            IJavaScriptReference scriptReference,
+            ICollection<Script> allScripts,
+            IDictionary<IJavaScriptReference, bool> alreadyCollected,
+            IDictionary<IJavaScriptReference, bool> processing
+        ) {
+            if (processing.ContainsKey(scriptReference) || alreadyCollected.ContainsKey(scriptReference))
                 return;
 
-            processing.Push(scriptReference);
+            processing.Add(scriptReference, true);
 
             var script = scriptReference.LoadScript();
             var references = referenceExtractor.GetReferences(scriptReference, script.Content);
@@ -61,9 +66,9 @@ namespace MbUnit.JavaScript.References {
                 this.CollectReferencesRecursive(reference, allScripts, alreadyCollected, processing);
             }
 
-            processing.Pop();
             alreadyCollected.Add(scriptReference, true);
             allScripts.Add(script);
+            processing.Remove(scriptReference);
         }
     }
 }

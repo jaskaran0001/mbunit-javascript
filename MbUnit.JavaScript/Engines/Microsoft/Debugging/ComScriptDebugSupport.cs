@@ -51,7 +51,7 @@ namespace MbUnit.JavaScript.Engines.Microsoft.Debugging {
             this.debugManager.CreateApplication(out application);
             application.SetName(name);
 
-            application = new DebugApplicationDelegator(application);
+            //application = new DebugApplicationDelegator(application);
 
             uint appCode;
             debugManager.AddApplication(application, out appCode);

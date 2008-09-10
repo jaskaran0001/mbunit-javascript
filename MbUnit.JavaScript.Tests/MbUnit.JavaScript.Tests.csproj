@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E348E333-254C-430F-92B3-1F6B7CFE26AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MbUnit.JavaScript.Tests</RootNamespace>
     <AssemblyName>MbUnit.JavaScript.Tests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,12 +35,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\[References]\MbUnit\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Moq, Version=2.6.3127.18174, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\[References]\NMock2.dll</HintPath>
+      <HintPath>..\[References]\Moq.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -50,7 +53,6 @@
     <Compile Include="JavaScriptRunTest.cs" />
     <Compile Include="JavaScriptTests.cs" />
     <Compile Include="MockingTestBase.cs" />
-    <Compile Include="Mocking\Be.cs" />
     <Compile Include="Of.Engines\Microsoft\ComScriptConverterTest.cs" />
     <Compile Include="Of.Engines\ScriptEngineTest.cs" />
     <Compile Include="Of.Engines\ScriptEngineTest.Exceptions.cs" />
@@ -73,12 +75,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="js\AssertTest.js" />
+    <EmbeddedResource Include="Of.js\AssertTest.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="js\ExpectedExceptionTest.js" />
+    <EmbeddedResource Include="Of.js\ExpectedExceptionTest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Of.js\Core\FormatterTest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Of.js\MetaTest.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <JavaScriptValidateTargets>..\MbUnit.JavaScript.Tasks\$(OutputPath)\MbUnit.JavaScript.AutoValidate.targets</JavaScriptValidateTargets>
+  </PropertyGroup>
+  
+  <Import Project="$(JavaScriptValidateTargets)" Condition="Exists('$(JavaScriptValidateTargets)')"/>
+  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

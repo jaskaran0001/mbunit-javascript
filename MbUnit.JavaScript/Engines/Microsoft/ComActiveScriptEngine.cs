@@ -35,7 +35,7 @@ using MbUnit.JavaScript.Engines.Microsoft.Threading;
 using MbUnit.JavaScript.Properties;
 
 namespace MbUnit.JavaScript.Engines.Microsoft {
-    internal class ComActiveScriptEngine : IScriptEngine, IWrappedResultParser {
+    public class ComActiveScriptEngine : IScriptEngine, IWrappedResultParser {
         private readonly IThreadingRequirement threading = new SingleThreadOnly();
         private ComScriptHost host;
         private ComScriptDebugSupport debugSupport;
@@ -83,9 +83,9 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
             return (IExpando)wrapperFunction;
         }
 
-        public void Load(ScriptInfo script) {
+        public void Load(Script script) {
             this.threading.InvokeAsRequired(
-                () => this.host.LoadScript(script.Content, script.Name)
+                () => this.host.LoadScript(script)
             );
         }
 
@@ -121,7 +121,7 @@ namespace MbUnit.JavaScript.Engines.Microsoft {
         private string GetErrorMessage(object scriptError) {
             var errorObject = scriptError as IScriptObject;
             if (errorObject == null || !errorObject.ContainsKey("message"))
-                return "JavaScript evaluation failed: " + scriptError.ToString() + ".";
+                return "JavaScript evaluation failed: " + scriptError + ".";
 
             return (string)errorObject["message"];
         }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CEFA82BA-9494-4457-B77F-2825B36DB4B3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -91,6 +91,7 @@
     <Compile Include="Engines\Microsoft\Caching\WeakReferenceCache.cs" />
     <Compile Include="Engines\Microsoft\Caching\WeakReferenceEqualityComparer.cs" />
     <Compile Include="Engines\Microsoft\Types\ThreadAwareComScriptObject.cs" />
+    <Compile Include="Script.cs" />
     <Compile Include="Engines\ScriptException.cs" />
     <Compile Include="Engines\ScriptFunctionDelegate.cs" />
     <Compile Include="Engines\IScriptEngine.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="References\Xml\XmlReferenceParser.cs" />
     <Compile Include="References\Xml\XmlResourceReferenceResolver.cs" />
     <Compile Include="ResourceNotFoundException.cs" />
-    <Compile Include="ScriptInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="js\Assert.js" />
@@ -158,8 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engines\Microsoft\ExceptionWrapper.js.txt" />
+    <EmbeddedResource Include="js\Core\Formatter.js" />
     <EmbeddedResource Include="js\ArrayAssert.js" />
-    <EmbeddedResource Include="js\External\json.js" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">
