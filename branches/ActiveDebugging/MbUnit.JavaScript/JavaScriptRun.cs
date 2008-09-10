@@ -1,4 +1,4 @@
-﻿/* 
+/* 
   Copyright (c) 2008-2009, Andrey Shchekin
   All rights reserved.
  
@@ -47,8 +47,10 @@ namespace MbUnit.JavaScript {
 
         private readonly JavaScriptDependencyResolver dependencyResolver;
 
-        public JavaScriptRun(IJavaScriptReferenceExtractor referenceExtractor) : base("JavaScript", false) {
-            this.engine = ScriptEngineFactory.Create();
+        public JavaScriptRun(IScriptEngine engine, IJavaScriptReferenceExtractor referenceExtractor)
+            : base("JavaScript", false) 
+        {
+            this.engine = engine;
             this.dependencyResolver = new JavaScriptDependencyResolver(referenceExtractor);
         }
 
@@ -64,14 +66,14 @@ namespace MbUnit.JavaScript {
         }
 
         internal IEnumerable<JavaScriptImportedFixture> Reflect(Type t) {
-            var scripts = new List<ScriptInfo>();
+            var scripts = new List<Script>();
 
             scripts.AddRange(this.ReflectAndLoadScripts(this.GetType()));
             scripts.AddRange(this.ReflectAndLoadScripts(t));
             
             scripts.ForEach(engine.Load);
 
-            var fixturesData = this.LoadTests(engine);
+            var fixturesData = this.LoadTests();
             foreach (IScriptObject fixtureData in fixturesData) {
                 var fixture = new JavaScriptImportedFixture {
                     Name     = (string)fixtureData["name"]
@@ -89,7 +91,7 @@ namespace MbUnit.JavaScript {
             }
         }
 
-        private IScriptArray LoadTests(IScriptEngine engine) {
+        private IScriptArray LoadTests() {
             string loadFunction = string.Format(
                 @"function() {{
                     {0} = new {1}();
@@ -97,10 +99,10 @@ namespace MbUnit.JavaScript {
                  }}", CurrentRunnerName, RunnerTypeName
             );
 
-            return (IScriptArray)engine.Eval("(" + loadFunction + ")()");
+            return (IScriptArray)this.engine.Eval("(" + loadFunction + ")()");
         }
 
-        private IEnumerable<ScriptInfo> ReflectAndLoadScripts(Type type) {
+        private IEnumerable<Script> ReflectAndLoadScripts(Type type) {
             var attributes = (JavaScriptReferenceAttribute[])type.GetCustomAttributes(
                 typeof(JavaScriptReferenceAttribute), true
             );
