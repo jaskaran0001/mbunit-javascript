@@ -3,7 +3,7 @@
 =General=
 *What is !MbUnit.JavaScript?*
 
-It is a JavaScript/.Net solution to unit-test your javascript code.
+It is a javascript unit-testing framework built in .NET.
 The main advantage is being able to use MbUnit GUI/console runners to do it, so you run  the tests in a build process without starting a browser.
 
 *How does it work?*
