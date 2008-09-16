@@ -1,7 +1,7 @@
 #summary MbUnit.JavaScript FAQ
 
 =General=
-*What is MbUnit.JavaScript?*
+*What is !MbUnit.JavaScript?*
 
 It is a JavaScript/.Net solution to unit-test your javascript code.
 The main advantage is being able to use MbUnit GUI/console runners to do it, so you run  the tests in a build process without starting a browser.
@@ -13,7 +13,7 @@ Since the engine can be instructed to run specific code, and all exceptions from
 
 *How is it related to MbUnit?*
 
-MbUnit.JavaScript relies on MbUnit tests runners to run the tests and visualize the results. Basically, it does not work without MbUnit.
+!MbUnit.JavaScript relies on MbUnit tests runners to run the tests and visualize the results. Basically, it does not work without MbUnit.
 
 *Why not NUnit/xUnit/...?*
 
@@ -37,7 +37,7 @@ For .NET developers, this project has several advantages over QUnit:
   # The APIs are MbUnit/NUnit APIs, so you have Assert.areEqual() instead of ok().
   # The APIs themselves are richer, for example, ArrayAssert.areElementsEqual.
 
-*Can I run QUnit tests from MbUnit.JavaScript?*
+*Can I run QUnit tests from !MbUnit.JavaScript?*
 
 Not directly, but in javascript you can probably make a wrapper.
 I think I will do one at some point.
