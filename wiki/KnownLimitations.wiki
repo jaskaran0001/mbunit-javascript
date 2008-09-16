@@ -1,0 +1,4 @@
+#summary The known limitations
+
+You can see all known limitations here:
+[http://code.google.com/p/mbunit-javascript/issues/list?q=type:Limitation List of known limitations].
