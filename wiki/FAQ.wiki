@@ -1,4 +1,5 @@
 #summary MbUnit.JavaScript FAQ
+#labels Featured
 
 ==General==
 *What is !MbUnit.JavaScript?*
