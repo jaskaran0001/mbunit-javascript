@@ -1,4 +1,4 @@
-/* 
+﻿/* 
   Copyright (c) 2008-2009, Andrey Shchekin
   All rights reserved.
  
@@ -25,9 +25,34 @@
 */
 
 using System;
+using System.IO;
 
 namespace MbUnit.JavaScript.References {
-    public interface IJavaScriptReference {
-        Script LoadScript();
+    internal class ScriptFileReference : IScriptReference {
+        public string Path                  { get; private set; }
+
+        public ScriptFileReference(string path) {
+            this.Path = path;
+        }
+
+        public Script LoadScript() {
+            var content = File.ReadAllText(this.Path);
+            return new Script(this.Path, content);
+        }
+
+        public bool Equals(ScriptFileReference reference) {
+            if (reference == null)
+                return false;
+
+            return this.Path == reference.Path;
+        }
+
+        public override bool Equals(object obj) {
+            return this.Equals(obj as ScriptFileReference);
+        }
+
+        public override int GetHashCode() {
+            return this.Path.GetHashCode();
+        }
     }
 }

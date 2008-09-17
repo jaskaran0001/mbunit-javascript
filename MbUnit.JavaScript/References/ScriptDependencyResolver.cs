@@ -28,21 +28,21 @@ using System;
 using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
-    public class JavaScriptDependencyResolver {
-        private readonly IJavaScriptReferenceExtractor referenceExtractor;
+    public class ScriptDependencyResolver {
+        private readonly IScriptReferenceExtractor referenceExtractor;
 
-        public JavaScriptDependencyResolver(IJavaScriptReferenceExtractor referenceExtractor) {
+        public ScriptDependencyResolver(IScriptReferenceExtractor referenceExtractor) {
             this.referenceExtractor = referenceExtractor;
         }
 
-        public IEnumerable<Script> LoadScripts(IEnumerable<IJavaScriptReference> entryScripts) {
+        public IEnumerable<Script> LoadScripts(IEnumerable<IScriptReference> entryScripts) {
             var scripts = new List<Script>();
             
             foreach (var entry in entryScripts) {
                 this.CollectReferencesRecursive(
                     entry, scripts,
-                    new Dictionary<IJavaScriptReference, bool>(),
-                    new Dictionary<IJavaScriptReference, bool>()
+                    new Dictionary<IScriptReference, bool>(),
+                    new Dictionary<IScriptReference, bool>()
                 );
             }
 
@@ -50,10 +50,10 @@ namespace MbUnit.JavaScript.References {
         }
 
         private void CollectReferencesRecursive(
-            IJavaScriptReference scriptReference,
+            IScriptReference scriptReference,
             ICollection<Script> allScripts,
-            IDictionary<IJavaScriptReference, bool> alreadyCollected,
-            IDictionary<IJavaScriptReference, bool> processing
+            IDictionary<IScriptReference, bool> alreadyCollected,
+            IDictionary<IScriptReference, bool> processing
         ) {
             if (processing.ContainsKey(scriptReference) || alreadyCollected.ContainsKey(scriptReference))
                 return;

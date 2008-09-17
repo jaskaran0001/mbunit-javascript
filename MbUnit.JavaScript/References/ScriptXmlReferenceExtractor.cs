@@ -26,9 +26,46 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml.XPath;
+
+using MbUnit.JavaScript.References.Xml;
 
 namespace MbUnit.JavaScript.References {
-    public interface IJavaScriptReferenceExtractor {
-        IEnumerable<IJavaScriptReference> GetReferences(IJavaScriptReference originalReference, string scriptContent);
+    public class ScriptXmlReferenceExtractor : IScriptReferenceExtractor {
+        private readonly XmlReferenceParser parser;
+        private readonly IXmlReferenceResolver resolver;
+
+        // ashmind: this makes me think of DI container, but it feels like an overkill.
+        // Still, this is too hacky.
+        public ScriptXmlReferenceExtractor() 
+            : this(
+                XmlReferenceParser.Default,
+                new XmlAllReferencesResolver(
+                    new XmlResourceReferenceResolver(),
+                    new XmlPathReferenceResolver(),
+                    new XmlPathToResourceReferenceResolver()
+                ) 
+            )
+        {
+        }
+
+        public ScriptXmlReferenceExtractor(XmlReferenceParser parser, IXmlReferenceResolver resolver) {
+            this.parser = parser;
+            this.resolver = resolver;
+        }
+
+        public IEnumerable<IScriptReference> GetReferences(IScriptReference originalReference, string scriptContent) {
+            var xml = this.parser.Parse(scriptContent);
+            var referenceNodes = xml.CreateNavigator().Select("reference");
+
+            foreach (XPathNavigator referenceNode in referenceNodes) {
+                // ashmind: Should we throw here or should we throw only if reference was not found?
+                // I think it should be made configurable in the future.
+
+                var reference = resolver.TryResolve(referenceNode, originalReference);
+                if (reference != null)
+                    yield return reference;
+            }
+        }
     }
 }

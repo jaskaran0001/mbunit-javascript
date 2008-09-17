@@ -35,8 +35,8 @@ using MbUnit.JavaScript.Internal;
 using MbUnit.JavaScript.References;
 
 namespace MbUnit.JavaScript {
-    [JavaScriptResourceReference("MbUnit.JavaScript.js.Core.Runner.js", typeof(JavaScriptRun))]
-    internal class JavaScriptRun : Run {
+    [ScriptResourceReference("MbUnit.JavaScript.js.Core.Runner.js", typeof(ScriptRun))]
+    internal class ScriptRun : Run {
         internal const string RunnerTypeName = "MbUnit.Core.Runner";
         internal const string CurrentRunnerName = RunnerTypeName + ".__current";
 
@@ -45,13 +45,13 @@ namespace MbUnit.JavaScript {
         // TODO: Fix it by referencing engine in each ScriptObject.
         private readonly IScriptEngine engine;
 
-        private readonly JavaScriptDependencyResolver dependencyResolver;
+        private readonly ScriptDependencyResolver dependencyResolver;
 
-        public JavaScriptRun(IScriptEngine engine, IJavaScriptReferenceExtractor referenceExtractor)
+        public ScriptRun(IScriptEngine engine, IScriptReferenceExtractor referenceExtractor)
             : base("JavaScript", false) 
         {
             this.engine = engine;
-            this.dependencyResolver = new JavaScriptDependencyResolver(referenceExtractor);
+            this.dependencyResolver = new ScriptDependencyResolver(referenceExtractor);
         }
 
         public override void Reflect(RunInvokerTree tree, RunInvokerVertex parent, Type t) {
@@ -65,7 +65,7 @@ namespace MbUnit.JavaScript {
             }
         }
 
-        internal IEnumerable<JavaScriptImportedFixture> Reflect(Type t) {
+        internal IEnumerable<ScriptImportedFixture> Reflect(Type t) {
             var scripts = new List<Script>();
 
             scripts.AddRange(this.ReflectAndLoadScripts(this.GetType()));
@@ -75,7 +75,7 @@ namespace MbUnit.JavaScript {
 
             var fixturesData = this.LoadTests();
             foreach (IScriptObject fixtureData in fixturesData) {
-                var fixture = new JavaScriptImportedFixture {
+                var fixture = new ScriptImportedFixture {
                     Name     = (string)fixtureData["name"]
                 };
                 fixture.Invokers = this.GetInvokers(fixture, fixtureData);
@@ -84,10 +84,10 @@ namespace MbUnit.JavaScript {
             }
         }
 
-        private IEnumerable<JavaScriptRunInvoker> GetInvokers(JavaScriptImportedFixture fixture, IScriptObject fixtureData) {
+        private IEnumerable<ScriptRunInvoker> GetInvokers(ScriptImportedFixture fixture, IScriptObject fixtureData) {
             var invokersData = (IScriptArray)fixtureData["invokers"];
             foreach (IScriptObject invokerData in invokersData) {
-                yield return new JavaScriptRunInvoker(this, fixture, invokerData);
+                yield return new ScriptRunInvoker(this, fixture, invokerData);
             }
         }
 
@@ -103,8 +103,8 @@ namespace MbUnit.JavaScript {
         }
 
         private IEnumerable<Script> ReflectAndLoadScripts(Type type) {
-            var attributes = (JavaScriptReferenceAttribute[])type.GetCustomAttributes(
-                typeof(JavaScriptReferenceAttribute), true
+            var attributes = (ScriptReferenceAttribute[])type.GetCustomAttributes(
+                typeof(ScriptReferenceAttribute), true
             );
             
             var references = Array.ConvertAll(attributes, a => a.Reference);

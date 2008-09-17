@@ -35,20 +35,20 @@ using MbUnit.JavaScript.References;
 
 namespace MbUnit.JavaScript.Tests.Of.References {
     [TestFixture]
-    [TestsOn(typeof(JavaScriptDependencyResolver))]
-    public class JavaScriptDependencyResolverTest : MockingTestBase {
+    [TestsOn(typeof(ScriptDependencyResolver))]
+    public class ScriptDependencyResolverTest : MockingTestBase {
         #region ScriptReferenceStub Class
 
-        private class ScriptReferenceStub : IJavaScriptReference {
-            public ScriptReferenceStub(string name, params IJavaScriptReference[] references) {
+        private class ScriptReferenceStub : IScriptReference {
+            public ScriptReferenceStub(string name, params IScriptReference[] references) {
                 this.Name = name;
-                this.References = new List<IJavaScriptReference>(references);
+                this.References = new List<IScriptReference>(references);
             }
 
             public string Name { get; private set; }
-            public List<IJavaScriptReference> References { get; private set; }
+            public List<IScriptReference> References { get; private set; }
 
-            public void AddReferences(params IJavaScriptReference[] references) {
+            public void AddReferences(params IScriptReference[] references) {
                 this.References.AddRange(references);
             }
 
@@ -67,7 +67,7 @@ namespace MbUnit.JavaScript.Tests.Of.References {
             var script1 = new ScriptReferenceStub("1", script2, script3, script4);
 
             var extractor = this.MockExtractor();
-            var resolver = new JavaScriptDependencyResolver(extractor);
+            var resolver = new ScriptDependencyResolver(extractor);
             var scriptNames = resolver.LoadScripts(new[] {script1}).Select(script => script.Name);
 
             CollectionAssert.AreElementsEqual(
@@ -86,7 +86,7 @@ namespace MbUnit.JavaScript.Tests.Of.References {
             script3.AddReferences(script1);
 
             var extractor = this.MockExtractor();
-            var resolver = new JavaScriptDependencyResolver(extractor);
+            var resolver = new ScriptDependencyResolver(extractor);
             var scriptNames = resolver.LoadScripts(new[] { script1 }).Select(script => script.Name);
 
             CollectionAssert.AreElementsEqual(
@@ -94,10 +94,10 @@ namespace MbUnit.JavaScript.Tests.Of.References {
             );
         }
 
-        private IJavaScriptReferenceExtractor MockExtractor() {
-            return Mock<IJavaScriptReferenceExtractor>(
+        private IScriptReferenceExtractor MockExtractor() {
+            return Mock<IScriptReferenceExtractor>(
                 mock => mock.Expect(x => x.GetReferences(
-                    It.IsAny<IJavaScriptReference>(),
+                    It.IsAny<IScriptReference>(),
                     It.IsAny<string>()
                 )).Returns(
                     (ScriptReferenceStub script, string content) => script.References

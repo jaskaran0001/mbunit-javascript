@@ -26,9 +26,26 @@
 
 using System;
 
-namespace MbUnit.JavaScript.References {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
-    public abstract class JavaScriptReferenceAttribute : Attribute {
-        public abstract IJavaScriptReference Reference { get; }
+using MbUnit.Framework;
+using MbUnit.JavaScript.References;
+
+namespace MbUnit.JavaScript.Tests.Of.References {
+    [TestFixture]
+    public class ScriptResourceReferenceTest {
+        [Test]
+        public void TestLoadContentThrowsMeaningfulExceptionWhenResourceWasNotFound() {
+            const string ResourceName = "No_Such_Resource";
+
+            var assembly = this.GetType().Assembly;
+            var reference = new ScriptResourceReference(ResourceName, assembly);
+
+            ExceptionAssert.Throws<ResourceNotFoundException>(
+                () => reference.LoadScript(),
+                ex => {
+                    Assert.AreEqual(assembly, ex.Assembly);
+                    Assert.AreEqual(ResourceName, ex.ResourceName);
+                }
+            );
+        }
     }
 }

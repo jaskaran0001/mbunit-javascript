@@ -40,8 +40,8 @@ namespace MbUnit.JavaScript.References.Xml {
             this.resolvers = resolvers;
         }
 
-        public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
-            IJavaScriptReference reference = null;
+        public IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original) {
+            IScriptReference reference = null;
             foreach (var resolver in this.resolvers) {
                 reference = resolver.TryResolve(referenceNode, original);
                 if (reference != null)

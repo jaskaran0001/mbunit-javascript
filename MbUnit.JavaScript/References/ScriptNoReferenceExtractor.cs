@@ -25,48 +25,12 @@
 */
 
 using System;
-using System.IO;
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
-    internal class JavaScriptResourceReference : IJavaScriptReference {
-        public string ResourceName { get; private set; }
-        public Assembly Assembly { get; private set; }
-
-        public JavaScriptResourceReference(string resourceName, Assembly assembly) {
-            this.ResourceName = resourceName;
-            this.Assembly = assembly;
-        }
-
-        public Script LoadScript() {
-            return new Script(this.ResourceName, this.LoadContent());
-        }
-
-        private string LoadContent() {
-            using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName)) {
-                if (stream == null)
-                    throw new ResourceNotFoundException(this.Assembly, this.ResourceName);
-
-                using (var reader = new StreamReader(stream)) {
-                    return reader.ReadToEnd();
-                }
-            }
-        }
-
-        public bool Equals(JavaScriptResourceReference reference) {
-            if (reference == null)
-                return false;
-
-            return this.Assembly == reference.Assembly
-                && this.ResourceName == reference.ResourceName;
-        }
-
-        public override bool Equals(object obj) {
-            return this.Equals(obj as JavaScriptResourceReference);
-        }
-
-        public override int GetHashCode() {
-            return this.Assembly.GetHashCode() ^ this.ResourceName.GetHashCode();
+    public class ScriptNoReferenceExtractor : IScriptReferenceExtractor {
+        public IEnumerable<IScriptReference> GetReferences(IScriptReference originalReference, string scriptContent) {
+            yield break;
         }
     }
 }

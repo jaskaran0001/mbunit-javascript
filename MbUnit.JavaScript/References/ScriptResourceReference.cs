@@ -25,47 +25,48 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Xml.XPath;
-
-using MbUnit.JavaScript.References.Xml;
+using System.IO;
+using System.Reflection;
 
 namespace MbUnit.JavaScript.References {
-    public class JavaScriptXmlReferenceExtractor : IJavaScriptReferenceExtractor {
-        private readonly XmlReferenceParser parser;
-        private readonly IXmlReferenceResolver resolver;
+    internal class ScriptResourceReference : IScriptReference {
+        public string ResourceName { get; private set; }
+        public Assembly Assembly { get; private set; }
 
-        // ashmind: this makes me think of DI container, but it feels like an overkill.
-        // Still, this is too hacky.
-        public JavaScriptXmlReferenceExtractor() 
-            : this(
-                XmlReferenceParser.Default,
-                new XmlAllReferencesResolver(
-                    new XmlResourceReferenceResolver(),
-                    new XmlPathReferenceResolver(),
-                    new XmlPathToResourceReferenceResolver()
-                ) 
-            )
-        {
+        public ScriptResourceReference(string resourceName, Assembly assembly) {
+            this.ResourceName = resourceName;
+            this.Assembly = assembly;
         }
 
-        public JavaScriptXmlReferenceExtractor(XmlReferenceParser parser, IXmlReferenceResolver resolver) {
-            this.parser = parser;
-            this.resolver = resolver;
+        public Script LoadScript() {
+            return new Script(this.ResourceName, this.LoadContent());
         }
 
-        public IEnumerable<IJavaScriptReference> GetReferences(IJavaScriptReference originalReference, string scriptContent) {
-            var xml = this.parser.Parse(scriptContent);
-            var referenceNodes = xml.CreateNavigator().Select("reference");
+        private string LoadContent() {
+            using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName)) {
+                if (stream == null)
+                    throw new ResourceNotFoundException(this.Assembly, this.ResourceName);
 
-            foreach (XPathNavigator referenceNode in referenceNodes) {
-                // ashmind: Should we throw here or should we throw only if reference was not found?
-                // I think it should be made configurable in the future.
-
-                var reference = resolver.TryResolve(referenceNode, originalReference);
-                if (reference != null)
-                    yield return reference;
+                using (var reader = new StreamReader(stream)) {
+                    return reader.ReadToEnd();
+                }
             }
+        }
+
+        public bool Equals(ScriptResourceReference reference) {
+            if (reference == null)
+                return false;
+
+            return this.Assembly == reference.Assembly
+                && this.ResourceName == reference.ResourceName;
+        }
+
+        public override bool Equals(object obj) {
+            return this.Equals(obj as ScriptResourceReference);
+        }
+
+        public override int GetHashCode() {
+            return this.Assembly.GetHashCode() ^ this.ResourceName.GetHashCode();
         }
     }
 }

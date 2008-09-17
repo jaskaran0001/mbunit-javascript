@@ -33,18 +33,18 @@ using MbUnit.JavaScript.Engines.Microsoft;
 using MbUnit.JavaScript.References;
 
 namespace MbUnit.JavaScript {
-    public class JavaScriptFixtureAttribute : TestFixturePatternAttribute {
-        private static readonly Type DefaultReferenceExtractorType = typeof(JavaScriptXmlReferenceExtractor);
+    public class ScriptFixtureAttribute : TestFixturePatternAttribute {
+        private static readonly Type DefaultReferenceExtractorType = typeof(ScriptXmlReferenceExtractor);
         private static readonly Type DefaultScriptEngineType = typeof(ComActiveScriptEngine);
         
         private Type referenceExtractorType;
         private Type scriptEngineType;
 
-        public JavaScriptFixtureAttribute() {
+        public ScriptFixtureAttribute() {
             this.ApartmentState = System.Threading.ApartmentState.STA;
         }        
         
-        public JavaScriptFixtureAttribute(string description) : base(description) {
+        public ScriptFixtureAttribute(string description) : base(description) {
             this.ApartmentState = System.Threading.ApartmentState.STA;
         }
 
@@ -60,9 +60,9 @@ namespace MbUnit.JavaScript {
 
         public override IRun GetRun() {
             var engine = (IScriptEngine)Activator.CreateInstance(this.ScriptEngineType);
-            var referenceExtractor = (IJavaScriptReferenceExtractor)Activator.CreateInstance(this.ReferenceExtractorType);
+            var referenceExtractor = (IScriptReferenceExtractor)Activator.CreateInstance(this.ReferenceExtractorType);
             
-            return new JavaScriptRun(engine, referenceExtractor);
+            return new ScriptRun(engine, referenceExtractor);
         }
     }
 }
