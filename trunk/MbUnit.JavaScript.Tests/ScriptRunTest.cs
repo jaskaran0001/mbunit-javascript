@@ -25,30 +25,14 @@
 */
 
 using System;
-using System.Reflection;
+using System.Collections.Generic;
+
+using MbUnit.Framework;
 
 using MbUnit.JavaScript.References;
 
-namespace MbUnit.JavaScript {
-    public class JavaScriptResourceReferenceAttribute : JavaScriptReferenceAttribute {
-        private readonly IJavaScriptReference reference;
-
-        public JavaScriptResourceReferenceAttribute(string resourceName, string assemblyName)
-            : this(resourceName, Assembly.Load(assemblyName))
-        {
-        }
-
-        public JavaScriptResourceReferenceAttribute(string resourceName, Type anyTypeFromRequiredAssembly) 
-            : this(resourceName, anyTypeFromRequiredAssembly.Assembly)
-        {
-        }
-
-        private JavaScriptResourceReferenceAttribute(string resourceName, Assembly assembly) {
-            this.reference = new JavaScriptResourceReference(resourceName, assembly);
-        }
-
-        public override IJavaScriptReference Reference {
-            get { return reference; }
-        }
+namespace MbUnit.JavaScript.Tests {
+    [TestFixture]
+    public class ScriptRunTest : MockingTestBase {
     }
 }

@@ -47,7 +47,7 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             var resolver = new XmlPathReferenceResolver();
             var xmlRoot = this.GetPathReferenceXml(referencePath);
 
-            var reference = resolver.TryResolve(xmlRoot, new JavaScriptFileReference(originalPath)) as JavaScriptFileReference;
+            var reference = resolver.TryResolve(xmlRoot, new ScriptFileReference(originalPath)) as ScriptFileReference;
 
             Assert.IsNotNull(reference);
             Assert.AreEqual(expectedPath, reference.Path);

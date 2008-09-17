@@ -30,21 +30,21 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     internal class XmlPathReferenceResolver : IXmlReferenceResolver {
-        public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
+        public IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original) {
             var path = referenceNode.GetAttribute("path", "");
             if (string.IsNullOrEmpty(path))
                 return null;
 
-            var originalAsFileReference = original as JavaScriptFileReference;
+            var originalAsFileReference = original as ScriptFileReference;
             if (originalAsFileReference == null && !Path.IsPathRooted(path))
                 return null;
 
             var fullPath = this.GetFullPath(path, originalAsFileReference);
 
-            return new JavaScriptFileReference(fullPath);
+            return new ScriptFileReference(fullPath);
         }
 
-        private string GetFullPath(string referencePath, JavaScriptFileReference original) {
+        private string GetFullPath(string referencePath, ScriptFileReference original) {
             if (Path.IsPathRooted(referencePath))
                 return referencePath;
 

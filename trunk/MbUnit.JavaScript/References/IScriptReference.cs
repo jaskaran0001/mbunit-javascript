@@ -1,4 +1,4 @@
-﻿/* 
+/* 
   Copyright (c) 2008-2009, Andrey Shchekin
   All rights reserved.
  
@@ -25,11 +25,9 @@
 */
 
 using System;
-using System.Collections.Generic;
 
-namespace MbUnit.JavaScript.Internal {
-    internal class JavaScriptImportedFixture {
-        public string Name { get; set; }
-        public IEnumerable<JavaScriptRunInvoker> Invokers { get; set; }
+namespace MbUnit.JavaScript.References {
+    public interface IScriptReference {
+        Script LoadScript();
     }
 }

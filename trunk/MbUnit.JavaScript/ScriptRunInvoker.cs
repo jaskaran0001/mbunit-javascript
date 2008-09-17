@@ -25,14 +25,36 @@
 */
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 
-using MbUnit.Framework;
+using MbUnit.Core.Invokers;
 
-using MbUnit.JavaScript.References;
+using MbUnit.JavaScript.Engines;
+using MbUnit.JavaScript.Internal;
 
-namespace MbUnit.JavaScript.Tests {
-    [TestFixture]
-    public class JavaScriptRunTest : MockingTestBase {
+namespace MbUnit.JavaScript {
+    internal class ScriptRunInvoker : RunInvoker {
+        private readonly string name;
+        private readonly IScriptObject invoker;
+        private readonly ScriptImportedFixture fixture;
+
+        public ScriptRunInvoker(ScriptRun run, ScriptImportedFixture fixture, IScriptObject invoker) 
+            : base(run) {
+
+            this.name = (string)invoker["name"];
+            this.fixture = fixture;
+            this.invoker = invoker;
+        }
+
+        public override object Execute(object o, IList args) {
+            if (args.Count > 0)
+                throw new NotImplementedException("Arguments are not implemented for JavaScript runs.");
+
+            return this.invoker.Invoke("execute");
+        }
+
+        public override string Name {
+            get { return this.fixture.Name + "." + this.name; }
+        }
     }
 }

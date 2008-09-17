@@ -25,10 +25,10 @@
 */
 
 using System;
-using System.Xml.XPath;
 
-namespace MbUnit.JavaScript.References.Xml {
-    public interface IXmlReferenceResolver {
-        IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original);
+namespace MbUnit.JavaScript.References {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
+    public abstract class ScriptReferenceAttribute : Attribute {
+        public abstract IScriptReference Reference { get; }
     }
 }

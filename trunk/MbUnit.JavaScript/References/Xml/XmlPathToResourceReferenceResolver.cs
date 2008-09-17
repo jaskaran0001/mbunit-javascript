@@ -49,12 +49,12 @@ namespace MbUnit.JavaScript.References.Xml {
         {
         }
 
-        public IJavaScriptReference TryResolve(XPathNavigator referenceNode, IJavaScriptReference original) {
+        public IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original) {
             var path = referenceNode.GetAttribute("path", "");
             if (string.IsNullOrEmpty(path))
                 return null;
 
-            var originalAsResourceReference = original as JavaScriptResourceReference;
+            var originalAsResourceReference = original as ScriptResourceReference;
             if (originalAsResourceReference == null || Path.IsPathRooted(path))
                 return null;
 
@@ -62,10 +62,10 @@ namespace MbUnit.JavaScript.References.Xml {
             var lookup = this.lookupFactory.CreateLookup(assembly);
 
             string resourceName = this.GuessResourceName(path, originalAsResourceReference, lookup);
-            return new JavaScriptResourceReference(resourceName, originalAsResourceReference.Assembly);
+            return new ScriptResourceReference(resourceName, originalAsResourceReference.Assembly);
         }
 
-        private string GuessResourceName(string referencePath, JavaScriptResourceReference original, IResourceLookup lookup) {
+        private string GuessResourceName(string referencePath, ScriptResourceReference original, IResourceLookup lookup) {
             // ashmind: This is some ugly, but tested code. I just haven't found the better way.
             
             var pathParts = PathSplitRegex.Split(referencePath);
@@ -111,7 +111,7 @@ namespace MbUnit.JavaScript.References.Xml {
             throw this.GetNotFoundException(referencePath, original, suggestedNames);
         }
 
-        private Exception GetNotFoundException(string referencePath, JavaScriptResourceReference original, List<string> suggestedNames) {
+        private Exception GetNotFoundException(string referencePath, ScriptResourceReference original, List<string> suggestedNames) {
             var namesString = string.Join(", ", suggestedNames.ToArray());
             return new ResourceNotFoundException(string.Format(
                 "Resource '{0}' referenced by {1} was not found in {2}. Following names were tried: {3}.",

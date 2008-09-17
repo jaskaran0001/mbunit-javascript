@@ -55,11 +55,11 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             Assert.AreEqual("System.Web.Extensions", reference.Assembly.GetName().Name);
         }
 
-        private JavaScriptResourceReference GetReference(string resourceName, string assemblyName) {
+        private ScriptResourceReference GetReference(string resourceName, string assemblyName) {
             var xml = this.GetResourceReferenceXml(resourceName, assemblyName);
             var reference = new XmlResourceReferenceResolver().TryResolve(xml, null);
 
-            return (JavaScriptResourceReference)reference;            
+            return (ScriptResourceReference)reference;            
         }
 
         private XPathNavigator GetResourceReferenceXml(string name, string assembly) {

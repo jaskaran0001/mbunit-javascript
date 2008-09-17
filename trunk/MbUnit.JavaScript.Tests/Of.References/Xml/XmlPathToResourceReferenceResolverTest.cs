@@ -52,8 +52,8 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             var lookupFactory = this.MockLookupFactoryWithOneExistingResource(expectedResourceName);
             var resolver = new XmlPathToResourceReferenceResolver(lookupFactory);
 
-            var original = new JavaScriptResourceReference(originalResourceName, this.GetType().Assembly);
-            var reference = (JavaScriptResourceReference)resolver.TryResolve(xml, original);
+            var original = new ScriptResourceReference(originalResourceName, this.GetType().Assembly);
+            var reference = (ScriptResourceReference)resolver.TryResolve(xml, original);
 
             Assert.IsNotNull(reference);
             Assert.AreSame(original.Assembly, reference.Assembly);

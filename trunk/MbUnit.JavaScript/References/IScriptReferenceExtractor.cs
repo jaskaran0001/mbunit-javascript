@@ -25,34 +25,10 @@
 */
 
 using System;
-using System.IO;
+using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
-    internal class JavaScriptFileReference : IJavaScriptReference {
-        public string Path                  { get; private set; }
-
-        public JavaScriptFileReference(string path) {
-            this.Path = path;
-        }
-
-        public Script LoadScript() {
-            var content = File.ReadAllText(this.Path);
-            return new Script(this.Path, content);
-        }
-
-        public bool Equals(JavaScriptFileReference reference) {
-            if (reference == null)
-                return false;
-
-            return this.Path == reference.Path;
-        }
-
-        public override bool Equals(object obj) {
-            return this.Equals(obj as JavaScriptFileReference);
-        }
-
-        public override int GetHashCode() {
-            return this.Path.GetHashCode();
-        }
+    public interface IScriptReferenceExtractor {
+        IEnumerable<IScriptReference> GetReferences(IScriptReference originalReference, string scriptContent);
     }
 }
