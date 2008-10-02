@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Disposer.cs" />
     <Compile Include="ExceptionAssert.cs" />
+    <Compile Include="Of.References\WildcardSupportTest.cs" />
     <Compile Include="ScriptRunTest.cs" />
     <Compile Include="JavaScriptTests.cs" />
     <Compile Include="MockingTestBase.cs" />
