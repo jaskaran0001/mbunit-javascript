@@ -29,6 +29,6 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     public interface IXmlReferenceResolver {
-        IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original);
+        IScriptReference TryResolve(XPathNavigator referenceNode, Script original);
     }
 }

@@ -54,15 +54,15 @@ namespace MbUnit.JavaScript.References {
             this.resolver = resolver;
         }
 
-        public IEnumerable<IScriptReference> GetReferences(IScriptReference originalReference, string scriptContent) {
-            var xml = this.parser.Parse(scriptContent);
+        public IEnumerable<IScriptReference> GetReferences(Script script) {
+            var xml = this.parser.Parse(script.Content);
             var referenceNodes = xml.CreateNavigator().Select("reference");
 
             foreach (XPathNavigator referenceNode in referenceNodes) {
                 // ashmind: Should we throw here or should we throw only if reference was not found?
                 // I think it should be made configurable in the future.
 
-                var reference = resolver.TryResolve(referenceNode, originalReference);
+                var reference = resolver.TryResolve(referenceNode, script);
                 if (reference != null)
                     yield return reference;
             }

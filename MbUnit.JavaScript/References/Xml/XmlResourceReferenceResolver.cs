@@ -34,7 +34,7 @@ namespace MbUnit.JavaScript.References.Xml {
         // .Net 2.0 compatibility, but there is no good way to load it from GAC otherwise.
         private const string DefaultAssemblyName = "System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35";
 
-        public IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original) {
+        public IScriptReference TryResolve(XPathNavigator referenceNode, Script original) {
             var resourceName = referenceNode.GetAttribute("name", "");
             if (string.IsNullOrEmpty(resourceName))
                 return null;

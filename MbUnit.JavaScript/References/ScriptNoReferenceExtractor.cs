@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
     public class ScriptNoReferenceExtractor : IScriptReferenceExtractor {
-        public IEnumerable<IScriptReference> GetReferences(IScriptReference originalReference, string scriptContent) {
+        public IEnumerable<IScriptReference> GetReferences(Script script) {
             yield break;
         }
     }

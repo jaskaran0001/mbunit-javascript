@@ -25,19 +25,40 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using IO = System.IO;
 
 namespace MbUnit.JavaScript.References {
     internal class ScriptFileReference : IScriptReference {
+        private static readonly WildcardSupport WildcardSupport = new WildcardSupport(
+            IO.Path.DirectorySeparatorChar, IO.Path.AltDirectorySeparatorChar, '.'
+        );
+
         public string Path                  { get; private set; }
 
         public ScriptFileReference(string path) {
             this.Path = path;
         }
 
-        public Script LoadScript() {
-            var content = File.ReadAllText(this.Path);
-            return new Script(this.Path, content);
+        public Script[] LoadScripts() {
+            if (!WildcardSupport.HasWildcards(this.Path))
+                return new[] { this.LoadScript(this.Path) };
+
+            var rootPath = WildcardSupport.GetFixedRoot(this.Path);
+            var paths = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories);
+
+            var scripts = new List<Script>();
+            foreach (var path in WildcardSupport.GetMatches(this.Path, paths)) {
+                scripts.Add(this.LoadScript(path));
+            }
+
+            return scripts.ToArray();
+        }
+
+        private Script LoadScript(string path) {
+            var content = File.ReadAllText(path);
+            return new Script(path, content, this);
         }
 
         public bool Equals(ScriptFileReference reference) {

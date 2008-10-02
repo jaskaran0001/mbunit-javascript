@@ -49,23 +49,23 @@ namespace MbUnit.JavaScript.References.Xml {
         {
         }
 
-        public IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original) {
+        public IScriptReference TryResolve(XPathNavigator referenceNode, Script original) {
             var path = referenceNode.GetAttribute("path", "");
             if (string.IsNullOrEmpty(path))
                 return null;
 
-            var originalAsResourceReference = original as ScriptResourceReference;
-            if (originalAsResourceReference == null || Path.IsPathRooted(path))
+            var originalReferenceAsResource = original.LoadedFrom as ScriptResourceReference;
+            if (originalReferenceAsResource == null || Path.IsPathRooted(path))
                 return null;
 
-            var assembly = originalAsResourceReference.Assembly;
+            var assembly = originalReferenceAsResource.Assembly;
             var lookup = this.lookupFactory.CreateLookup(assembly);
 
-            string resourceName = this.GuessResourceName(path, originalAsResourceReference, lookup);
-            return new ScriptResourceReference(resourceName, originalAsResourceReference.Assembly);
+            string resourceName = this.GuessResourceName(path, original, lookup);
+            return new ScriptResourceReference(resourceName, originalReferenceAsResource.Assembly);
         }
 
-        private string GuessResourceName(string referencePath, ScriptResourceReference original, IResourceLookup lookup) {
+        private string GuessResourceName(string referencePath, Script original, IResourceLookup lookup) {
             // ashmind: This is some ugly, but tested code. I just haven't found the better way.
             
             var pathParts = PathSplitRegex.Split(referencePath);
@@ -93,7 +93,7 @@ namespace MbUnit.JavaScript.References.Xml {
 
             var suggestedNames = new List<string>();
 
-            var resourceNameParts = original.ResourceName.Split('.');
+            var resourceNameParts = original.Name.Split('.');
             for (int i = resourceNameParts.Length - 1; i - skip >= 0; i--) {
                 var suggestedName = string.Join(".", resourceNameParts, 0, i - skip);
                 if (suggestedName.Length > 0)
@@ -111,12 +111,14 @@ namespace MbUnit.JavaScript.References.Xml {
             throw this.GetNotFoundException(referencePath, original, suggestedNames);
         }
 
-        private Exception GetNotFoundException(string referencePath, ScriptResourceReference original, List<string> suggestedNames) {
+        private Exception GetNotFoundException(string referencePath, Script original, List<string> suggestedNames) {
             var namesString = string.Join(", ", suggestedNames.ToArray());
+            var assembly = ((ScriptResourceReference)original.LoadedFrom).Assembly;
+
             return new ResourceNotFoundException(string.Format(
                 "Resource '{0}' referenced by {1} was not found in {2}. Following names were tried: {3}.",
-                    referencePath, original.ResourceName, original.Assembly, namesString
-            ), original.Assembly, namesString);
+                    referencePath, original.Name, assembly, namesString
+            ), assembly, namesString);
         }
     }
 }
