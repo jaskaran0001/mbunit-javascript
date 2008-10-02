@@ -29,6 +29,6 @@ using System.Collections.Generic;
 
 namespace MbUnit.JavaScript.References {
     public interface IScriptReferenceExtractor {
-        IEnumerable<IScriptReference> GetReferences(IScriptReference originalReference, string scriptContent);
+        IEnumerable<IScriptReference> GetReferences(Script script);
     }
 }

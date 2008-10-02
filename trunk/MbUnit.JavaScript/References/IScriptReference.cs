@@ -28,6 +28,6 @@ using System;
 
 namespace MbUnit.JavaScript.References {
     public interface IScriptReference {
-        Script LoadScript();
+        Script[] LoadScripts();
     }
 }

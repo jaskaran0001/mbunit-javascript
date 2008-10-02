@@ -52,11 +52,13 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             var lookupFactory = this.MockLookupFactoryWithOneExistingResource(expectedResourceName);
             var resolver = new XmlPathToResourceReferenceResolver(lookupFactory);
 
-            var original = new ScriptResourceReference(originalResourceName, this.GetType().Assembly);
+            var originalReference = new ScriptResourceReference(originalResourceName, this.GetType().Assembly);
+            var original = new Script(originalResourceName, "", originalReference);
+
             var reference = (ScriptResourceReference)resolver.TryResolve(xml, original);
 
             Assert.IsNotNull(reference);
-            Assert.AreSame(original.Assembly, reference.Assembly);
+            Assert.AreSame(originalReference.Assembly, reference.Assembly);
             Assert.AreEqual(expectedResourceName, reference.ResourceName);
         }
 

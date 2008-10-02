@@ -37,23 +37,26 @@ namespace MbUnit.JavaScript.Tests.Of.References {
     [TestFixture]
     [TestsOn(typeof(ScriptDependencyResolver))]
     public class ScriptDependencyResolverTest : MockingTestBase {
-        #region ScriptReferenceStub Class
+        #region Private Classes
 
-        private class ScriptReferenceStub : IScriptReference {
-            public ScriptReferenceStub(string name, params IScriptReference[] references) {
-                this.Name = name;
-                this.References = new List<IScriptReference>(references);
+        private class ScriptStub : Script, IScriptReference {
+            public ScriptStub(string name, params ScriptStub[] scripts) : base(name, name, null) {
+                this.References = new List<IScriptReference>();
+                this.AddReferences(scripts);
             }
 
-            public string Name { get; private set; }
             public List<IScriptReference> References { get; private set; }
 
-            public void AddReferences(params IScriptReference[] references) {
-                this.References.AddRange(references);
+            public void AddReferences(params ScriptStub[] scripts) {
+                this.References.AddRange(scripts);
             }
 
-            public Script LoadScript() {
-                return new Script(this.Name, "stub");
+            public Script[] LoadScripts() {
+                return new[] { this };
+            }
+
+            public override string ToString() {
+                return this.Name;
             }
         }
 
@@ -61,10 +64,10 @@ namespace MbUnit.JavaScript.Tests.Of.References {
 
         [Test]
         public void TestLoadScripts() {
-            var script4 = new ScriptReferenceStub("4");
-            var script3 = new ScriptReferenceStub("3", script4);
-            var script2 = new ScriptReferenceStub("2", script4);
-            var script1 = new ScriptReferenceStub("1", script2, script3, script4);
+            var script4 = new ScriptStub("4");
+            var script3 = new ScriptStub("3", script4);
+            var script2 = new ScriptStub("2", script4);
+            var script1 = new ScriptStub("1", script2, script3, script4);
 
             var extractor = this.MockExtractor();
             var resolver = new ScriptDependencyResolver(extractor);
@@ -77,9 +80,9 @@ namespace MbUnit.JavaScript.Tests.Of.References {
 
         [Test]
         public void TestAvoidRecursiveReferences() {
-            var script1 = new ScriptReferenceStub("1");
-            var script2 = new ScriptReferenceStub("2");
-            var script3 = new ScriptReferenceStub("3");
+            var script1 = new ScriptStub("1");
+            var script2 = new ScriptStub("2");
+            var script3 = new ScriptStub("3");
 
             script1.AddReferences(script2);
             script2.AddReferences(script3);
@@ -96,11 +99,10 @@ namespace MbUnit.JavaScript.Tests.Of.References {
 
         private IScriptReferenceExtractor MockExtractor() {
             return Mock<IScriptReferenceExtractor>(
-                mock => mock.Expect(x => x.GetReferences(
-                    It.IsAny<IScriptReference>(),
-                    It.IsAny<string>()
-                )).Returns(
-                    (ScriptReferenceStub script, string content) => script.References
+                mock => mock.Expect(
+                    x => x.GetReferences(It.IsAny<Script>())
+                ).Returns(
+                    (ScriptStub script) => script.References
                 )
             );
         }

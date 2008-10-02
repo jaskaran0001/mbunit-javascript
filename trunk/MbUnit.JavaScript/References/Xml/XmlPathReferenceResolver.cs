@@ -30,25 +30,25 @@ using System.Xml.XPath;
 
 namespace MbUnit.JavaScript.References.Xml {
     internal class XmlPathReferenceResolver : IXmlReferenceResolver {
-        public IScriptReference TryResolve(XPathNavigator referenceNode, IScriptReference original) {
+        public IScriptReference TryResolve(XPathNavigator referenceNode, Script original) {
             var path = referenceNode.GetAttribute("path", "");
             if (string.IsNullOrEmpty(path))
                 return null;
 
-            var originalAsFileReference = original as ScriptFileReference;
-            if (originalAsFileReference == null && !Path.IsPathRooted(path))
+            var originalIsFile = original.LoadedFrom is ScriptFileReference;
+            if (!originalIsFile && !Path.IsPathRooted(path))
                 return null;
 
-            var fullPath = this.GetFullPath(path, originalAsFileReference);
+            var fullPath = this.GetFullPath(path, original);
 
             return new ScriptFileReference(fullPath);
         }
 
-        private string GetFullPath(string referencePath, ScriptFileReference original) {
+        private string GetFullPath(string referencePath, Script original) {
             if (Path.IsPathRooted(referencePath))
                 return referencePath;
 
-            var scriptDirectory = Path.GetDirectoryName(original.Path);
+            var scriptDirectory = Path.GetDirectoryName(original.Name);
 
             return Path.GetFullPath(Path.Combine(scriptDirectory, referencePath));
         }

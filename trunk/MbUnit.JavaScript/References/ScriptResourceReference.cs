@@ -25,11 +25,14 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
 namespace MbUnit.JavaScript.References {
     internal class ScriptResourceReference : IScriptReference {
+        private static readonly WildcardSupport WildcardSupport = new WildcardSupport('.');
+
         public string ResourceName { get; private set; }
         public Assembly Assembly { get; private set; }
 
@@ -38,14 +41,27 @@ namespace MbUnit.JavaScript.References {
             this.Assembly = assembly;
         }
 
-        public Script LoadScript() {
-            return new Script(this.ResourceName, this.LoadContent());
+        public Script[] LoadScripts() {
+            if (!WildcardSupport.HasWildcards(this.ResourceName))
+                return new[] { this.LoadScript(this.ResourceName) };
+
+            var resourceNames = this.Assembly.GetManifestResourceNames();
+            var scripts = new List<Script>();
+            foreach (var path in WildcardSupport.GetMatches(this.ResourceName, resourceNames)) {
+                scripts.Add(this.LoadScript(path));
+            }
+
+            return scripts.ToArray();
         }
 
-        private string LoadContent() {
-            using (var stream = this.Assembly.GetManifestResourceStream(this.ResourceName)) {
+        private Script LoadScript(string resourceName) {
+            return new Script(resourceName, this.LoadContent(resourceName), this);
+        }
+
+        private string LoadContent(string resourceName) {
+            using (var stream = this.Assembly.GetManifestResourceStream(resourceName)) {
                 if (stream == null)
-                    throw new ResourceNotFoundException(this.Assembly, this.ResourceName);
+                    throw new ResourceNotFoundException(this.Assembly, resourceName);
 
                 using (var reader = new StreamReader(stream)) {
                     return reader.ReadToEnd();
