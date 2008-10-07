@@ -49,11 +49,14 @@ function RowTest() {
 }
 
 RowTest.prototype = {
+    applyDecorators : Test.prototype.applyDecorators,
+
     getRunInvokers : function(fixture, methodName) {
         return this._rows
                    .select(function(row) { 
                         return this._getRunInvoker(fixture, methodName, row); 
-                    }, this);
+                    }, this)
+                   .select(this.applyDecorators, this);
     },
 
     _getRunInvoker : function(fixture, methodName, row) {
