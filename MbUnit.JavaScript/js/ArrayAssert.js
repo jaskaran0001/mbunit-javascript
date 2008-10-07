@@ -28,8 +28,23 @@
   POSSIBILITY OF SUCH DAMAGE.
 */
 
+with (MbUnit.Core) {
+
 var ArrayAssert = {
-    areEquivalent : function(expected, actual) {
+    _resolveMessageOrEquals : function(messageOrEquals, otherMessageOrEquals) {        
+        var firstIsFunction = (typeof messageOrEquals == 'function');
+        
+        var options = {
+            equals : firstIsFunction ? messageOrEquals : otherMessageOrEquals,
+            message : !firstIsFunction ? messageOrEquals : otherMessageOrEquals
+        };
+        
+        return options;
+    },
+
+    areEquivalent : function(expected, actual, messageOrEquals, otherMessageOrEquals) {
+        var options = this._resolveMessageOrEquals(messageOrEquals, otherMessageOrEquals);
+    
         var notFoundInExpected = actual.concat([]);
         var notFoundInActual = expected.concat([]);
                 
@@ -49,19 +64,23 @@ var ArrayAssert = {
 
         if (notFoundInExpected.length == 0 && notFoundInActual.length == 0)
             return;
-        
+               
         var message = [
             "Arrays are not equivalent.\r\n",
-            "Expected: ", MbUnit.Core.Formatter.toString(expected), "\r\n",
-            "Actual: ", MbUnit.Core.Formatter.toString(actual), "\r\n"
+            "Expected: ", Formatter.toString(expected), "\r\n",
+            "Actual: ", Formatter.toString(actual), "\r\n"
         ];
+        
+        if (options.message) {
+            message.unshift(options.message, "\r\n");
+        }
 
         if (notFoundInActual.length > 0) {
-            message.push("Missing elements: ", MbUnit.Core.Formatter.toString(notFoundInActual), "\r\n");
+            message.push("Missing elements: ", Formatter.toString(notFoundInActual), "\r\n");
         }
 
         if (notFoundInExpected.length > 0) {
-            message.push("Unexpected elements: ", MbUnit.Core.Formatter.toString(notFoundInExpected), "\r\n");
+            message.push("Unexpected elements: ", Formatter.toString(notFoundInExpected), "\r\n");
         }
 
         Assert.fail(message.join(''));
@@ -91,10 +110,10 @@ var ArrayAssert = {
 
         var message = [
             "Arrays are not equal.\r\n",
-            "Expected: ", MbUnit.Core.Formatter.toString(expected), "\r\n",
-            "Actual: ", MbUnit.Core.Formatter.toString(actual), "\r\n",
+            "Expected: ", Formatter.toString(expected), "\r\n",
+            "Actual: ", Formatter.toString(actual), "\r\n",
             "At index ", failedIndex, 
-            " actual [", MbUnit.Core.Formatter.toString(actual[failedIndex]), "] != expected [", MbUnit.Core.Formatter.toString(expected[failedIndex]) ,"].\r\n"
+            " actual [", Formatter.toString(actual[failedIndex]), "] != expected [", Formatter.toString(expected[failedIndex]) ,"].\r\n"
         ];
 
         Assert.fail(message.join(''));        
@@ -104,3 +123,5 @@ var ArrayAssert = {
         ArrayAssert.areElementsEqual(expected, actual, ArrayAssert._comparers.sameness);
     }
 };
+
+}
