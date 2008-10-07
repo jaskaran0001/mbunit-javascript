@@ -29,13 +29,8 @@
 function Test(attributesThenMethod) {
     /// <param name="attributesThenMethod" mayBeNull="false" optional="false" parameterArray="true" elementType="Object" />
     
-    Test.processArguments(arguments);
-    
-    var decorators = arguments.attributes
-                              .where(function(attribute) { return attribute.getRunInvoker; });
-        
+    Test.processArguments(arguments);        
     Object.extend(arguments.method, Test.prototype);
-    arguments.method._decorators = decorators;
     
     return arguments.method;
 }
@@ -52,7 +47,19 @@ Test.processArguments = function(arguments) {
     
     arguments.attributes = attributes;
     arguments.method = method;
+    
+    var decorators = arguments.attributes
+                              .where(function(attribute) { return attribute.getRunInvoker; });
+    
+    arguments.method._decorators = decorators;
 }
+
+Test.prototype.applyDecorators = function(invoker) {
+    this._decorators.forEach(function(decorator) {
+        invoker = decorator.getRunInvoker(invoker);
+    });
+    return invoker;
+},
 
 Test.prototype.getRunInvokers = function(fixture, methodName) {
     var test = this;
@@ -60,9 +67,7 @@ Test.prototype.getRunInvokers = function(fixture, methodName) {
         name: methodName,
         execute: function() { test.apply(fixture, arguments); }
     };
-    this._decorators.forEach(function(decorator) {
-        invoker = decorator.getRunInvoker(invoker);
-    });
+    invoker = this.applyDecorators(invoker);
 
     return [invoker];
 };

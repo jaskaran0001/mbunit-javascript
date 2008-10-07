@@ -66,6 +66,23 @@ Array.prototype.select = Array.prototype.select || function(selector, thisObject
     return this.map(selector, thisObject);
 };
 
+Array.prototype.indexOf = Array.prototype.indexOf || function(value) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] === value)
+            return i;
+    }
+    
+    return -1;
+};
+
+Array.prototype.remove = Array.prototype.remove || function(value) {
+    var index = this.indexOf(value);
+    if (index < 0)
+        return;
+    
+    this.splice(index, 1);
+};
+
 Array.prototype.where = Array.prototype.where || Array.prototype.filter;
 
 Object.extend = Object.extend || function(target, source) {

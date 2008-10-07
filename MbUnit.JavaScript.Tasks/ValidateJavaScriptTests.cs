@@ -30,15 +30,15 @@ namespace MbUnit.JavaScript.Tasks {
         private bool ExecuteSafe() {
             var assembly = Assembly.LoadFrom(this.AssemblyPath.ItemSpec);
             var explorer = new FixtureExplorer(assembly);
-            var exceptionsDetected = false;
+            var syntaxExceptionsDetected = false;
 
             explorer.Explore();
             foreach (Fixture fixture in explorer.FixtureGraph.Fixtures) {
                 fixture.Load(NoFilter);
-                exceptionsDetected = this.DetectExceptions(fixture) || exceptionsDetected;
+                syntaxExceptionsDetected = this.DetectExceptions(fixture) || syntaxExceptionsDetected;
             }
 
-            return !exceptionsDetected;
+            return !syntaxExceptionsDetected;
         }
 
         private bool DetectExceptions(Fixture fixture) {
@@ -47,7 +47,7 @@ namespace MbUnit.JavaScript.Tasks {
                 var failed = invokerVertex.Invoker as FailedLoadingRunInvoker;
                 if (failed != null) {
                     this.DescribeException(failed.Exception);
-                    return true;
+                    return failed.Exception is ScriptSyntaxException;
                 }
             }
 
@@ -67,7 +67,7 @@ namespace MbUnit.JavaScript.Tasks {
                 return;
             }
 
-            Log.LogErrorFromException(ex, true);
+            Log.LogWarningFromException(ex, true);
         }
 
         private string GetPath(Script script) {
