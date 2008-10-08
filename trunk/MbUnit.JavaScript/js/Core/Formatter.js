@@ -1,4 +1,6 @@
-﻿/* 
+﻿/// <reference path="../Common.js" />
+
+/* 
   Copyright (c) 2008-2009, Andrey Shchekin
   All rights reserved.
  
@@ -24,7 +26,6 @@
   POSSIBILITY OF SUCH DAMAGE.
 */
 
-MbUnit = window.MbUnit || {};
 MbUnit.Core = MbUnit.Core || {};
 
 MbUnit.Core.Formatter = {

@@ -28,7 +28,7 @@
 
 function Row(args) {
     /// <param name="args" optional="false" parameterArray="true">Row arguments.</param>   
-    var rowValues = [];
+    var rowValues = MbUnit.extend([]);
     for (var i = 0; i < arguments.length; i++) {
         rowValues[i] = arguments[i];
     }

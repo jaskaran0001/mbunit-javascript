@@ -28,7 +28,7 @@
 
 function TestFixture(body) {
     /// <param name="body" mayBeNull="false" optional="false" type="Object">Test fixture body.</param>        
-    Object.extend(body, TestFixture.prototype);
+    MbUnit.extend(body, TestFixture.prototype);
     
     return body;
 }

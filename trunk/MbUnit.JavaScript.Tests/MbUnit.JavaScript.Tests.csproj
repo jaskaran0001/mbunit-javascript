@@ -39,7 +39,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\[References]\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="QuickGraph, Version=2.21.1.0, Culture=neutral, PublicKeyToken=975e84d0c8d6464d" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

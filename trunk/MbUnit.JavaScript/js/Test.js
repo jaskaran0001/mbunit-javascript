@@ -30,7 +30,7 @@ function Test(attributesThenMethod) {
     /// <param name="attributesThenMethod" mayBeNull="false" optional="false" parameterArray="true" elementType="Object" />
     
     Test.processArguments(arguments);        
-    Object.extend(arguments.method, Test.prototype);
+    MbUnit.extend(arguments.method, Test.prototype);
     
     return arguments.method;
 }
@@ -38,7 +38,7 @@ function Test(attributesThenMethod) {
 Test.processArguments = function(arguments) {
     /// <param name="arguments" mayBeNull="false" optional="false" type="Arguments" />
 
-    var attributes = [];
+    var attributes = MbUnit.extend([]);
     for (var i = 0; i < arguments.length - 1; i++) {
         attributes.push(arguments[i]);
     }
@@ -69,5 +69,5 @@ Test.prototype.getRunInvokers = function(fixture, methodName) {
     };
     invoker = this.applyDecorators(invoker);
 
-    return [invoker];
+    return MbUnit.extend([invoker]);
 };
