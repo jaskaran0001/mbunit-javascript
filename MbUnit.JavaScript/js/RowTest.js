@@ -44,7 +44,7 @@ function RowTest() {
         
     method._rows = rowAttributes.select("row");
 
-    Object.extend(method, RowTest.prototype);
+    MbUnit.extend(method, RowTest.prototype);
     return method;
 }
 

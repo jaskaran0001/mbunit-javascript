@@ -45,22 +45,25 @@ var ArrayAssert = {
     areEquivalent : function(expected, actual, messageOrEquals, otherMessageOrEquals) {
         var options = this._resolveMessageOrEquals(messageOrEquals, otherMessageOrEquals);
     
-        var notFoundInExpected = actual.concat([]);
-        var notFoundInActual = expected.concat([]);
-                
-        expected.forEach(function(expectedValue) {
-            var found = false;        
-            actual.forEach(function(actualValue) {
+        var notFoundInExpected = MbUnit.extend(actual.concat([]));
+        var notFoundInActual   = MbUnit.extend(expected.concat([]));
+
+        for (var i = 0; i < expected.length; i++) {
+            var expectedValue = expected[i];
+            var found = false;
+
+            for (var j = 0; j < actual.length; j++) {
+                var actualValue = actual[j];
                 if (expectedValue === actualValue) {
                     notFoundInActual.remove(actualValue);
                     found = true;
-                    return;
+                    break;
                 }
-            });
-            
+            }
+
             if (found)
                 notFoundInExpected.remove(expectedValue);
-        });
+        }
 
         if (notFoundInExpected.length == 0 && notFoundInActual.length == 0)
             return;

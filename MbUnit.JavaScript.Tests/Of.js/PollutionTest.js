@@ -7,13 +7,20 @@ var PollutionTest = TestFixture({
         
         for (var i = 0; i < objectNamesToTest.length; i++) {
             var name = objectNamesToTest[i];
-            
-            var enumerable = [];
-            for (var key in __global[name].prototype) {
-                enumerable.push(key);
-            }
-            
-            ArrayAssert.areEquivalent([], enumerable, name + ".prototype is polluted by MbUnit.JavaScript.");
+            this.assertIsNotPolluted(__global[name], name);            
+            this.assertIsNotPolluted(__global[name].prototype, name + ".prototype");
         }
-    })
+    }),
+    
+    assertIsNotPolluted : function(object, name) {
+        var enumerable = [];
+        for (var key in object) {
+            if (/^__MbUnit/.test(key)) // correctly namespaced
+                continue;
+
+            enumerable.push(key);
+        }
+        
+        ArrayAssert.areEquivalent([], enumerable, name + " is polluted by MbUnit.JavaScript.");        
+    }
 });
