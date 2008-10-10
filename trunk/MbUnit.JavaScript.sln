@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MbUnit", "MbUnit", "{7D6929
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Tasks", "MbUnit.JavaScript.Tasks\MbUnit.JavaScript.Tasks.csproj", "{749546EA-6506-4553-8C88-0B0EBE6BAE76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Html.UI", "MbUnit.JavaScript.Html.UI\MbUnit.JavaScript.Html.UI.csproj", "{A0F0B345-64A3-4F31-90F8-60CF68274B38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{749546EA-6506-4553-8C88-0B0EBE6BAE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{749546EA-6506-4553-8C88-0B0EBE6BAE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{749546EA-6506-4553-8C88-0B0EBE6BAE76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0F0B345-64A3-4F31-90F8-60CF68274B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0F0B345-64A3-4F31-90F8-60CF68274B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0F0B345-64A3-4F31-90F8-60CF68274B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0F0B345-64A3-4F31-90F8-60CF68274B38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
