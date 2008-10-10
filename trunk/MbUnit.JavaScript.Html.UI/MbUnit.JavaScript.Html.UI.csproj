@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A0F0B345-64A3-4F31-90F8-60CF68274B38}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -66,6 +66,10 @@
       <Name>MbUnit.JavaScript</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="MbUnit.JavaScript.UI.css" />
+    <Content Include="web.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
   <UsingTask AssemblyFile="..\MbUnit.JavaScript.Tasks\bin\$(Configuration)\MbUnit.JavaScript.Tasks.dll" TaskName="CombineScriptsFromResources" />
@@ -74,11 +78,7 @@
   <Target Name="BeforeBuild">
   </Target> -->
   <Target Name="AfterBuild">
-    <CombineScriptsFromResources
-          OriginalAssemblyPath="..\MbUnit.JavaScript\bin\$(Configuration)\MbUnit.JavaScript.dll"
-          OriginalResources="MbUnit.JavaScript.Framework.js; MbUnit.JavaScript.js.Core.Runner.js"
-          StripComments="true"
-          CombinedFile="MbUnit.JavaScript.js" />
+    <CombineScriptsFromResources OriginalAssemblyPath="..\MbUnit.JavaScript\bin\$(Configuration)\MbUnit.JavaScript.dll" OriginalResources="MbUnit.JavaScript.Framework.js; MbUnit.JavaScript.js.Core.Runner.js" StripComments="true" CombinedFile="MbUnit.JavaScript.js" />
   </Target>
   <ProjectExtensions>
     <VisualStudio>
@@ -91,6 +91,9 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

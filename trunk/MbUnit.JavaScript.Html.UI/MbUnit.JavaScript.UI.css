@@ -1,0 +1,15 @@
+﻿a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+ul.Tree, .Tree ul {
+	list-style: none;
+}
+
+.Succeeded a {
+	color: green;
+}
