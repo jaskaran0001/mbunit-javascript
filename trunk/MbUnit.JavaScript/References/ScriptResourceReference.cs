@@ -30,7 +30,7 @@ using System.IO;
 using System.Reflection;
 
 namespace MbUnit.JavaScript.References {
-    internal class ScriptResourceReference : IScriptReference {
+    public class ScriptResourceReference : IScriptReference {
         private static readonly WildcardSupport WildcardSupport = new WildcardSupport('.');
 
         public string ResourceName { get; private set; }

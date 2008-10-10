@@ -30,7 +30,7 @@ using System.IO;
 using IO = System.IO;
 
 namespace MbUnit.JavaScript.References {
-    internal class ScriptFileReference : IScriptReference {
+    public class ScriptFileReference : IScriptReference {
         private static readonly WildcardSupport WildcardSupport = new WildcardSupport(
             IO.Path.DirectorySeparatorChar, IO.Path.AltDirectorySeparatorChar, '.'
         );

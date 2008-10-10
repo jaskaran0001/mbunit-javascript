@@ -51,7 +51,12 @@ MbUnit.Core.Runner.prototype = {
     },
     
     _isFixture : function(value) {
-        return (value && value.getRunInvokers);
+        try {
+            return (value && value.getRunInvokers);
+        }
+        catch(ex) {
+            return false;
+        }
     },
     
     _loadFixture : function(name, type) {        

@@ -24,7 +24,7 @@
   POSSIBILITY OF SUCH DAMAGE.
 */
 
-window = this.window || this;
+if (!window) window = this;
 MbUnit = this.MbUnit || {};
 
 MbUnit.extend = function(target, source) {
