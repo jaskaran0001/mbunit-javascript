@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript", "MbUnit.JavaScript\MbUnit.JavaScript.csproj", "{CEFA82BA-9494-4457-B77F-2825B36DB4B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Tests", "MbUnit.JavaScript.Tests\MbUnit.JavaScript.Tests.csproj", "{E348E333-254C-430F-92B3-1F6B7CFE26AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{749546EA-6506-4553-8C88-0B0EBE6BAE76} = {749546EA-6506-4553-8C88-0B0EBE6BAE76}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "[References]", "[References]", "{3AA2CE58-072E-4487-A978-6E6D33803903}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,6 +27,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Tasks", "MbUnit.JavaScript.Tasks\MbUnit.JavaScript.Tasks.csproj", "{749546EA-6506-4553-8C88-0B0EBE6BAE76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Html.UI", "MbUnit.JavaScript.Html.UI\MbUnit.JavaScript.Html.UI.csproj", "{A0F0B345-64A3-4F31-90F8-60CF68274B38}"
+	ProjectSection(ProjectDependencies) = postProject
+		{749546EA-6506-4553-8C88-0B0EBE6BAE76} = {749546EA-6506-4553-8C88-0B0EBE6BAE76}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
