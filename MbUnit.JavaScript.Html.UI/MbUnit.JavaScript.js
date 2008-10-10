@@ -1,5 +1,5 @@
 // MbUnit.JavaScript.js.Common.js
-if (!window) window = this;
+if (!this.window) window = this;
 MbUnit = this.MbUnit || {};
 
 MbUnit.extend = function(target, source) {
@@ -514,7 +514,7 @@ ExpectedException.prototype = {
 // MbUnit.JavaScript.Framework.js
 
 // MbUnit.JavaScript.js.Common.js
-if (!window) window = this;
+if (!this.window) window = this;
 MbUnit = this.MbUnit || {};
 
 MbUnit.extend = function(target, source) {

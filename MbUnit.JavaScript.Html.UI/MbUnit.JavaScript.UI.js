@@ -1,5 +1,5 @@
 ﻿var $ = document.getElementById;
-var $new = function(name, options, parent) {
+var $add = function(name, options, parent) {
     options = options || {};
     parent = parent || document.body;
 
@@ -14,45 +14,54 @@ var $new = function(name, options, parent) {
 var MbUnit = { UI : {} };
 
 MbUnit.UI = {
-    load : function() {
-//        var sandbox = $new("iframe", { src: 'MbUnit.JavaScript.UI.Empty.html' });
-//        sandbox.style.display = "none";
-//        
-//        this.sandbox = sandbox.contentDocument;
-        
+    load: function() {
+        //        var sandbox = $new("iframe", { src: 'MbUnit.JavaScript.UI.Empty.html' });
+        //        sandbox.style.display = "none";
+        //        
+        //        this.sandbox = sandbox.contentDocument;
+
         this.sandbox = window;
         this.tree = document.getElementById('tree');
-        
+
         var that = this;
-        this._loadTests(function() { that._findTests(); });
+        this._loadTests(function() { that._showTests(); });
     },
-    
-    _loadTests : function(finished) {
+
+    _loadTests: function(finished) {
         var that = this;
         this._loadScript("MbUnit.JavaScript.js", function() {
             that.runner = new that.sandbox.MbUnit.Core.Runner();
-        
-            var query = /\?scripts=(.+)$/.exec(window.location.href);
-            if (query)        
+
+            var query = /\?tests=(.+)$/.exec(window.location.href);
+            if (query)
                 that._loadScript(query[1], finished);
             else
                 finished();
         });
     },
-    
-    _loadScript : function(src, whenloaded) {
-        var script = $new("script", { 
-            src:    src,
-            type:  'text/javascript',
+
+    _loadScript: function(src, whenloaded) {
+        var script = $add("script", {
+            src: src,
+            type: 'text/javascript',
             onload: whenloaded
         }, this.sandbox.document.body);
     },
-    
-    _findTests : function() {
+
+    _showTests: function() {
         var fixtures = this.runner.load();
-        for (var i = 0; i < fixtures.length; i++) {
-            var li = $new('li', {}, this.tree);
-            li.innerHtml = fixtures[i].name;
+        this._showTestHierarchy(fixtures, this.tree);
+    },
+
+    _showTestHierarchy: function(tests, root) {
+        for (var i = 0; i < tests.length; i++) {
+            var li = $add('li', { className: "Succeeded" }, root);
+            var span = $add('a', { href: "#", innerHTML: tests[i].name }, li);
+
+            if (tests[i].invokers) {
+                var ul = $add('ul', {}, li);
+                this._showTestHierarchy(tests[i].invokers, ul);
+            }
         }
     }
 };
