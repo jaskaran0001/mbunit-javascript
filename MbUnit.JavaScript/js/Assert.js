@@ -32,6 +32,14 @@ function AssertionFailureException(message) {
     this.message = message;
 }
 
+function ExceptionNotThrownException() {
+    this.message = "ExceptionNotThrownException";
+}
+
+function ExceptionTypeMismatchException() {
+    this.message = "ExceptionTypeMismatchException";
+}
+
 var Assert = {
     _fail : {
         is : function(value, unexpected, message) {
@@ -153,7 +161,23 @@ var Assert = {
     isNotNaN : function(value) {
         if (!isFinite(value))
             Assert._fail.is(value, NaN);
-    } 
+    },
+    
+    throws : function(action, exceptionType) {
+        var exception;        
+        try {
+            action();
+        }
+        catch (ex) {
+            exception = ex;
+        }
+        
+        if (!exception)
+            throw new ExceptionNotThrownException();
+        
+        if (exceptionType && exception.constructor !== exceptionType)
+            throw new ExceptionTypeMismatchException();
+    }
 };
 
 }
