@@ -22,5 +22,9 @@ var PollutionTest = TestFixture({
         }
         
         ArrayAssert.areEquivalent([], enumerable, name + " is polluted by MbUnit.JavaScript.");        
+    },
+    
+    assertDoesNotDefineWindow : function(object, name) {
+        Assert.isUndefined(window);
     }
 });

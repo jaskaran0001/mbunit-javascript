@@ -30,8 +30,12 @@
 MbUnit.Core = MbUnit.Core || {};
 MbUnit.Core.Invokers = MbUnit.Core.Invokers || {};
 
-function ExceptionNotThrownException() {}
-function ExceptionTypeMismatchException() {}
+function ExceptionNotThrownException() {
+    this.message = "ExceptionNotThrownException";
+}
+function ExceptionTypeMismatchException() {
+    this.message = "ExceptionTypeMismatchException";
+}
 
 MbUnit.Core.Invokers.ExpectedExceptionRunInvoker = function(invoker, exceptionType) {
     this._invoker = invoker;
