@@ -92,6 +92,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Of.js\ArrayAssertTest.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Of.js\RowTestTest.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\MbUnit.JavaScript.Tasks\$(OutputPath)\MbUnit.JavaScript.AutoValidate.targets" Condition="Exists('..\MbUnit.JavaScript.Tasks\$(OutputPath)\MbUnit.JavaScript.AutoValidate.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

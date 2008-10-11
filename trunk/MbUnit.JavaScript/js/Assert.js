@@ -34,8 +34,12 @@ function AssertionFailureException(message) {
 
 var Assert = {
     _fail : {
-        is : function(value, unexpected) {
-            Assert.fail(["Assertion failed: [[", Formatter.toString(value), "]] is ", Formatter.toString(unexpected), "."].join(''));
+        is : function(value, unexpected, message) {
+            message = message ? message + " " : "";
+            Assert.fail([
+                message,
+                "Assertion failed: [[", Formatter.toString(value), "]] is ", Formatter.toString(unexpected), "."
+            ].join(''));
         },
         
         comparison : function(expected, isNotOperator, actual, message) {
@@ -77,7 +81,7 @@ var Assert = {
     
     areNotSame : function(expected, actual, message) {
         /// <summary>
-        /// Verifies that two objects are not same (using !== operator). If they are same
+        /// Verifies that two values are not same (using !== operator). If they are same
         /// an AssertionException is thrown.
         /// </summary>
         /// <param name="expected">The expected value.</param>
@@ -103,7 +107,7 @@ var Assert = {
     
     areNotEqual : function(expected, actual, message) {
         /// <summary>
-        /// Verifies that two objects are not equal (using != operator). If they are equal
+        /// Verifies that two values are not equal (using != operator). If they are equal
         /// an AssertionException is thrown.
         /// </summary>
         /// <param name="expected">The expected value.</param>
@@ -124,9 +128,26 @@ var Assert = {
             Assert._fail.is(value, false);
     },
 
-    isDefined : function(value) {
+    isDefined : function(value, message) {
+        /// <summary>
+        /// Verifies that value is defined. If it is undefined an AssertionException is thrown.
+        /// </summary>
+        /// <param name="value">The value to verify.</param>
+        /// <param name="message">The message to be displayed if the assertion fails.</param>
+        
         if (value === undefined)
-            Assert._fail.is(value, undefined);
+            Assert._fail.is(value, undefined, message);
+    },
+
+    isUndefined : function(value, message) {
+        /// <summary>
+        /// Verifies that value is undefined. If it is defined an AssertionException is thrown.
+        /// </summary>
+        /// <param name="value">The value to verify.</param>
+        /// <param name="message">The message to be displayed if the assertion fails.</param>
+    
+        if (value !== undefined)
+            Assert._fail.comparison(undefined, '!==', value, message);
     },
     
     isNotNaN : function(value) {

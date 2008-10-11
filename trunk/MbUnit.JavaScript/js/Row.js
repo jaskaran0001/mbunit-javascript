@@ -45,7 +45,7 @@ Row.prototype.updateNamedArguments = function(expectedRowLength) {
     /// <param name="expectedRowLength" type="Number" optional="false">
     ///    Expected count of row values before positional arguments start.
     /// </param>
-    
+        
     var named = this.row.splice(expectedRowLength, this.row.length - expectedRowLength);
     if (named.length > 1)
         throw new InvalidOperationException();
@@ -55,5 +55,5 @@ Row.prototype.updateNamedArguments = function(expectedRowLength) {
     
     named = named[0];
     
-    this.expectedException = named.expectedException;
+    this.row.expectedException = named.expectedException;
 };
