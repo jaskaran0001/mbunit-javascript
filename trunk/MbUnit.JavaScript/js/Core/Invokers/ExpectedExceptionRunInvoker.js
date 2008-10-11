@@ -30,13 +30,6 @@
 MbUnit.Core = MbUnit.Core || {};
 MbUnit.Core.Invokers = MbUnit.Core.Invokers || {};
 
-function ExceptionNotThrownException() {
-    this.message = "ExceptionNotThrownException";
-}
-function ExceptionTypeMismatchException() {
-    this.message = "ExceptionTypeMismatchException";
-}
-
 MbUnit.Core.Invokers.ExpectedExceptionRunInvoker = function(invoker, exceptionType) {
     this._invoker = invoker;
     this.name = invoker.name;
@@ -47,21 +40,11 @@ MbUnit.Core.Invokers.ExpectedExceptionRunInvoker = function(invoker, exceptionTy
 
 MbUnit.Core.Invokers.ExpectedExceptionRunInvoker.prototype = {
     execute : function() {
+        var invoker = this._invoker;
         var result;
-        var caught;
-        
-        try {
-            result = this._invoker.execute();
-        }
-        catch (ex) {
-            caught = ex;
-        }
-        
-        if (!caught)
-            throw new ExceptionNotThrownException();
-        
-        if (caught.constructor !== this._exceptionType)
-            throw new ExceptionTypeMismatchException();
+        Assert.throws(function() {
+            result = invoker.execute();
+        }, this._exceptionType);
         
         return result;
     }
