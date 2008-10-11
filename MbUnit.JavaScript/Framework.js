@@ -1,4 +1,5 @@
-﻿/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.Core.Formatter.js" />
+﻿/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.Common.js" />
+/// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.Core.Formatter.js" />
 /// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.Assert.js" />
 /// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.ArrayAssert.js" />
 /// <reference assembly="MbUnit.JavaScript" name="MbUnit.JavaScript.js.Test.js" />
