@@ -15,16 +15,18 @@ var MbUnit = { UI : {} };
 
 MbUnit.UI = {
     load: function() {
-        //        var sandbox = $new("iframe", { src: 'MbUnit.JavaScript.UI.Empty.html' });
-        //        sandbox.style.display = "none";
-        //        
-        //        this.sandbox = sandbox.contentDocument;
-
-        this.sandbox = window;
-        this.tree = document.getElementById('tree');
-
         var that = this;
-        this._loadTests(function() { that._showTests(); });
+        
+        this.sandboxFrame = $add("iframe", {
+            className: 'Hidden',
+            src: 'Sandbox.html',
+            onload: function(e) {
+                that.sandbox = that.sandboxFrame.contentWindow;
+                that.tree = document.getElementById('tree');
+                
+                that._loadTests(function() { that._showTests(); });            
+            }
+        });
     },
 
     _loadTests: function(finished) {
