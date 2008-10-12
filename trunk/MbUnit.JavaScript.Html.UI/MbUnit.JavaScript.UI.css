@@ -10,6 +10,10 @@ ul.Tree, .Tree ul {
 	list-style: none;
 }
 
+.Hidden {
+	display: none;
+}
+
 .Succeeded a {
 	color: green;
 }
