@@ -1,4 +1,7 @@
-﻿var $ = document.getElementById;
+﻿/// <reference path="external\persist.js" />
+/// <reference path="external\jquery-1.2.6.js" />
+/// <reference path="external\jquery.elastic.js" />
+
 var $add = function(name, options, parent) {
     options = options || {};
     parent = parent || document.body;
@@ -15,6 +18,9 @@ var MbUnit = { UI : {} };
 
 MbUnit.UI = {
     load: function() {
+        //var storage = new Persist.Store('TestFiles');
+        $('textarea').elastic();
+        
         var that = this;
         
         this.sandboxFrame = $add("iframe", {
@@ -22,9 +28,9 @@ MbUnit.UI = {
             src: 'Sandbox.html',
             onload: function(e) {
                 that.sandbox = that.sandboxFrame.contentWindow;
-                that.tree = document.getElementById('tree');
+                that.tree = $('#tree')[0];
                 
-                that._loadTests(function() { that._showTests(); });            
+                that._loadTests(function() { that._showTests(); });
             }
         });
     },
