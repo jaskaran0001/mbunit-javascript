@@ -3,9 +3,20 @@
   <head>
     <title>MbUnit.JavaScript HTML UI</title>
     <link rel="stylesheet" href="MbUnit.JavaScript.UI.css" />
+    
+    <!-- script type="text/javascript" src="external/persist.js"></script -->
+    <script type="text/javascript" src="external/jquery-1.2.6.js"></script>
+    <script type="text/javascript" src="external/jquery.elastic.js"></script>
     <script type="text/javascript" src="MbUnit.JavaScript.UI.js"></script>    
   </head>
-  <body>
+  <body>        
     <ul id="tree" class="Tree"></ul>
+    
+    <form action="#">
+      <label for="testList">Tests:</label>
+      
+      <textarea id="testList" class="TestList" rows="1" cols="80"></textarea><!-- 
+   --><input type="button" value="Load" />
+    </form>    
   </body>
 </html>

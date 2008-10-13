@@ -1,4 +1,12 @@
-﻿a {
+﻿form * {
+	vertical-align: middle;
+}
+
+textarea {
+	display: inline-block !important;
+}
+
+a {
 	text-decoration: none;
 }
 
