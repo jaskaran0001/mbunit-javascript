@@ -2,6 +2,10 @@
 	vertical-align: middle;
 }
 
+label {
+	display: block;
+}
+
 textarea {
 	display: inline-block !important;
 }
@@ -10,18 +14,31 @@ a {
 	text-decoration: none;
 }
 
-a:hover {
-	text-decoration: underline;
-}
-
 ul.Tree, .Tree ul {
 	list-style: none;
+}
+
+.Tree li a {
+	color: black;
+	background: url('images/notrun.png') no-repeat left center;
+	padding-left: 20px;
+	margin-left: -20px;
 }
 
 .Hidden {
 	display: none;
 }
 
-.Succeeded a {
+.Tree .Passed > a {
+	background-image: url('images/passed.png');
 	color: green;
+}
+
+.Tree .Failed > a {
+	background-image: url('images/failed.png');
+	color: red;
+}
+
+.Copyrights {
+	font-size: 80%;
 }
