@@ -70,6 +70,9 @@
     <Content Include="external\jquery-1.2.6.js" />
     <Content Include="external\jquery.elastic.js" />
     <Content Include="external\persist.js" />
+    <Content Include="images\failed.png" />
+    <Content Include="images\notrun.png" />
+    <Content Include="images\passed.png" />
     <Content Include="MbUnit.JavaScript.UI.css" />
     <Content Include="Sandbox.html" />
     <Content Include="web.config" />
