@@ -1,4 +1,15 @@
-﻿form * {
+﻿html, body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body > * {
+	margin-left: 10px;
+}
+
+form * {
 	vertical-align: middle;
 }
 
@@ -14,8 +25,33 @@ a {
 	text-decoration: none;
 }
 
+.Hidden {
+	display: none;
+}
+
 ul.Tree, .Tree ul {
 	list-style: none;
+}
+
+.Tree ul {
+	padding-left: 20px;
+}
+
+.Tree {
+	width: 50%;
+	height: 60%;
+	overflow: auto;
+	padding: 0;
+	
+	border: solid 1px gray;
+}
+
+.Tree > li {
+	margin-left: 35px;
+}
+
+.Tree > li:first-child {
+	margin-top: 10px;
 }
 
 .Tree li a {
@@ -23,10 +59,8 @@ ul.Tree, .Tree ul {
 	background: url('images/notrun.png') no-repeat left center;
 	padding-left: 20px;
 	margin-left: -20px;
-}
-
-.Hidden {
-	display: none;
+	
+	white-space: nowrap;
 }
 
 .Tree .Passed > a {

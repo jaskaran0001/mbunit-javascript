@@ -144,7 +144,9 @@ MbUnit.UI = {
     _passTest : function(test) {
         test.node
             .removeClass("Failed")
-            .addClass("Passed");        
+            .addClass("Passed");
+        
+        test.node.attr("title", null);   
     }
 };
 
