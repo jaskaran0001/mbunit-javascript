@@ -60,8 +60,10 @@ MbUnit.UI = {
             that.runner = new that.sandbox.MbUnit.Core.Runner();           
 
             var query = /\?tests=(.+)$/.exec(window.location.href);
-            if (query)
-                that._testList.val(query[1]);
+            if (query) {
+                var tests = query[1].split(',').join('\r\n');
+                that._testList.focus().val(tests);
+            }
                 
             finished();
         });
