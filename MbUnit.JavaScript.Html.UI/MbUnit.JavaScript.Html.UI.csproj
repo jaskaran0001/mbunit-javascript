@@ -68,17 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="external\jquery-1.2.6.js" />
-    <Content Include="external\jquery.elastic.js" />
-    <Content Include="external\persist.js" />
     <Content Include="images\failed.png" />
     <Content Include="images\notrun.png" />
     <Content Include="images\passed.png" />
     <Content Include="MbUnit.JavaScript.UI.css" />
     <Content Include="Sandbox.html" />
     <Content Include="web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="external\persist.js.MIT" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
