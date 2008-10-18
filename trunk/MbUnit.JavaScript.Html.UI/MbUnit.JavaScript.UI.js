@@ -1,6 +1,4 @@
-﻿/// <reference path="external\persist.js" />
-/// <reference path="external\jquery-1.2.6.js" />
-/// <reference path="external\jquery.elastic.js" />
+﻿/// <reference path="external\jquery-1.2.6.js" />
 
 // Extensions
 
@@ -33,48 +31,89 @@ MbUnit.UI = {
                 that.sandbox = that.sandboxFrame[0].contentWindow;
                 that.tree = $('#tree');
                 
-                that._loadTests(function() { that._showTests(); });
+                that._loadFramework(function() {
+                    that._loadTestsFromQuery();
+                });
             }
         });
     },
     
     _setupUIElements : function() {
-        $('textarea').elastic();
-        this._testList = $('#testList');
+        this._testInput = $('#inputTestPath');
+        var loadMethods = {
+            standard : function() {
+                var path = that._testInput.val();
+                that.loadTests(path);                
+            },
+            
+            firefox3 : function() {
+                var content = that._testInput[0].files[0].getAsText('utf-8');
+                content += '\r\n' + 'window.parent.MbUnit.UI._showTests();';
+                
+                that._loadScriptFromString(content);                
+            }
+        };
+        
+        // Wonderful world of workarounds:
+        // http://stackoverflow.com/questions/81180/how-to-get-the-file-path-from-html-input-form-in-firefox-3
+        var loadTestsFromInput = this._testInput[0].files ? loadMethods.firefox3 : loadMethods.standard;
         
         var that = this;
-        $('#loadTests').click(function() {
-            var paths = that._testList.val()
-                                .replace(/\r\n?/g, '\n')
-                                .split('\n');
-
-            $.each(paths, function(index, path) {
-                that._loadScript(path, function() { that._showTests(); });
-            });
-        });
+        $('#loadTests').click(loadTestsFromInput);
     },
-
-    _loadTests: function(finished) {
+  
+    _loadFramework: function(loaded) {
         var that = this;
         this._loadScript("MbUnit.JavaScript.js", function() {
-            that.runner = new that.sandbox.MbUnit.Core.Runner();           
-
-            var query = /\?tests=(.+)$/.exec(window.location.href);
-            if (query) {
-                var tests = query[1].split(',').join('\r\n');
-                that._testList.focus().val(tests);
-            }
-                
-            finished();
+            that.runner = new that.sandbox.MbUnit.Core.Runner();                
+            loaded();
         });
+    },
+    
+    _loadTestsFromQuery : function() {
+        var query = /\?tests=(.+)$/.exec(window.location.href);
+        if (!query)
+            return;
+        
+        var tests = query[1].split(',');
+        this.loadTests(tests);
+    },
+    
+    loadTests : function() {
+        var paths = [];
+        $.each(arguments, function() {
+            if (this.length && this.push)
+                paths = paths.concat(this);
+            else
+                paths.push(this);
+        });
+    
+        var yetToLoad = paths.length;
+        var that = this;
+        
+        var loaded = function() {
+            yetToLoad -= 1;
+            if (yetToLoad === 0)
+                that._showTests();                
+        };
+    
+        $.each(paths, function() { that._loadScript(this, loaded); });
     },
 
     _loadScript: function(src, whenloaded) {
-        var script = $add("script", {
+        $add("script", {
             src: src,
             type: 'text/javascript',
             onload: whenloaded
         }, this.sandbox.document.body);
+    },
+    
+    // Firefox 3 workaround
+    _loadScriptFromString: function(content, whenloaded) {
+        $add("script", {
+            type: 'text/javascript',
+            textContent: content
+        }, this.sandbox.document.body); 
     },
 
     _showTests: function() {
