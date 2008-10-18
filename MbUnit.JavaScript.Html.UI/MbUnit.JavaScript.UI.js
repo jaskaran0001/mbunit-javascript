@@ -51,26 +51,22 @@ MbUnit.UI = {
     
     _setupUIElements : function() {
         this._testInput = $('#inputTestPath');
-        var loadMethods = {
-            standard : function() {
-                var path = that._testInput.val();
-                that.loadTests(path);                
-            },
-            
-            firefox3 : function() {
-                var content = that._testInput[0].files[0].getAsText('utf-8');
-                content += '\r\n' + 'window.parent.MbUnit.UI._showTests();';
-                
-                that._loadScriptFromString(content);                
-            }
-        };
         
         // Wonderful world of workarounds:
         // http://stackoverflow.com/questions/81180/how-to-get-the-file-path-from-html-input-form-in-firefox-3
-        var loadTestsFromInput = this._testInput[0].files ? loadMethods.firefox3 : loadMethods.standard;
+        var getFileUrlMethods = {
+            standard : function(input) { return input.value; },            
+            firefox3 : function(input) { return input.files[0].getAsDataURL(); }
+        };
+        
+        var input = this._testInput[0];
+        var getFileUrl = input.files ? getFileUrlMethods.firefox3 : getFileUrlMethods.standard;
         
         var that = this;
-        $('#loadTests').click(loadTestsFromInput);
+        $('#loadTests').click(function() {
+             var path = getFileUrl(input);
+             that.loadTests(path);
+        });
     },
   
     _loadFramework: function(loaded) {
@@ -119,14 +115,6 @@ MbUnit.UI = {
         }, this.sandbox.document.body);
     },
     
-    // Firefox 3 workaround
-    _loadScriptFromString: function(content, whenloaded) {
-        $add("script", {
-            type: 'text/javascript',
-            textContent: content
-        }, this.sandbox.document.body); 
-    },
-
     _showTests: function() {
         var fixtures = this.runner.load();
         
