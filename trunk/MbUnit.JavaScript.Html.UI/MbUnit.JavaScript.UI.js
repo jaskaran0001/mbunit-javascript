@@ -133,61 +133,73 @@ MbUnit.UI = {
         }
     },
     
-    _showTestNode : function(root, test) {
-        var that = this;
-    
-        var li = $add('li', {}, root);
-        test.node = li;
+    _showTestNode : function(root, test) {    
+        var li = $add('li', {}, root);        
+        test.ui = new MbUnit.UI.Test(test, li);
         
         $add('a', { href: "#", innerHTML: test.name }, li)
             .click(function(event) { 
-                that._runTest(test);
+                test.ui.run();
                 event.preventDefault();
             });
         
         return li;           
-    },
-    
-    _runTest : function(test) {
+    }
+};
+
+// MbUnit.UI.Test
+
+MbUnit.UI.Test = function(test, node) {
+    this._test = test;
+    this._node = node;
+};
+
+MbUnit.UI.Test.prototype = {
+    run : function() {
         var that = this;
+        var test = this._test;
         
-        if (test.invokers) {   
-            var passed = true;
-            $.each(test.invokers, function(index, test) {
-                passed = that._runTest(test) && passed;                
-            });
-            passed ? this._passTest(test) : this._failTest(test);
-                        
-            return passed;
-        }
+        if (test.invokers)
+            return this._runChildren();
     
         try {
             test.execute();
         }
         catch(ex) {
-            this._failTest(test, ex);
+            this._fail(ex);
             return false;
         }
         
-        this._passTest(test);
+        this._pass();
         return true;
     },
     
-    _failTest : function(test, ex) {
-        test.node
+    _runChildren : function() {
+        var test = this._test;
+        var passed = true;
+        $.each(test.invokers, function(index, test) {
+            passed = test.ui.run() && passed;                
+        });
+        passed ? this._pass() : this._fail();
+        
+        return passed;
+    },
+    
+    _fail : function(ex) {
+        this._node
             .removeClass("Passed")
             .addClass("Failed");
         
         if (ex)
-            test.node.attr("title", ex.message || ex);
+            this._node.attr("title", ex.message || ex);
     },
     
-    _passTest : function(test) {
-        test.node
+    _pass : function(test) {
+        this._node
             .removeClass("Failed")
             .addClass("Passed");
         
-        test.node.attr("title", null);   
+        this._node.attr("title", null);   
     }
 };
 
