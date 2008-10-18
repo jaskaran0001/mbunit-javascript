@@ -4,4 +4,6 @@
   </PropertyGroup>
 
   <UsingTask AssemblyFile="$(MbUnitJavaScriptTasksAssembly)" TaskName="ValidateJavaScriptTests" />
+  <UsingTask AssemblyFile="$(MbUnitJavaScriptTasksAssembly)" TaskName="CombineScriptsFromResources" />
+  <UsingTask AssemblyFile="$(MbUnitJavaScriptTasksAssembly)" TaskName="CreateHtmlUILoadScript" />  
 </Project>
