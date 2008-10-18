@@ -52,7 +52,7 @@ MbUnit.Core.Runner.prototype = {
     
     _isFixture : function(value) {
         try {
-            return (value && value.getRunInvokers);
+            return value && typeof value.getRunInvokers === 'function';
         }
         catch(ex) {
             return false;
