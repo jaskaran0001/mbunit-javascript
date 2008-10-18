@@ -26,14 +26,14 @@ namespace MbUnit.JavaScript.Tasks {
 
             var resolver = new ScriptDependencyResolver(new ScriptXmlReferenceExtractor());
             var scripts = resolver.LoadScripts(references);
-            using (var streamWriter = new StreamWriter(this.CombinedFile.ItemSpec)) {
+            using (var writer = new StreamWriter(this.CombinedFile.ItemSpec)) {
                 foreach (var script in scripts) {
-                    streamWriter.WriteLine("// " + script.Name);
+                    writer.WriteLine("// " + script.Name);
 
                     var content = script.Content;
                     if (this.StripComments)
                         content = this.RemoveComments(content);
-                    streamWriter.WriteLine(content);
+                    writer.WriteLine(content);
                 }
             }
 
