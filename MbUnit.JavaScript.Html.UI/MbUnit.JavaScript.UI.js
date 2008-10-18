@@ -43,7 +43,7 @@ MbUnit.UI = {
                 that.tree = $('#tree');
                 
                 that._loadFramework(function() {
-                    that._loadTestsFromQuery();
+                    that._loadTestsFromLocation();
                 });
             }
         });
@@ -55,16 +55,17 @@ MbUnit.UI = {
         // Wonderful world of workarounds:
         // http://stackoverflow.com/questions/81180/how-to-get-the-file-path-from-html-input-form-in-firefox-3
         var getFileUrlMethods = {
-            standard : function(input) { return input.value; },            
+            simple   : function(input) { return input.value; },            
             firefox3 : function(input) { return input.files[0].getAsDataURL(); }
         };
         
         var input = this._testInput[0];
-        var getFileUrl = input.files ? getFileUrlMethods.firefox3 : getFileUrlMethods.standard;
+        var getFileUrl = input.files ? getFileUrlMethods.firefox3 : getFileUrlMethods.simple;
         
         var that = this;
         $('#loadTests').click(function() {
              var path = getFileUrl(input);
+             window.location.hash = 'test=' + path;
              that.loadTests(path);
         });
     },
@@ -77,13 +78,13 @@ MbUnit.UI = {
         });
     },
     
-    _loadTestsFromQuery : function() {
-        var query = /\?tests=(.+)$/.exec(window.location.href);
-        if (!query)
+    _loadTestsFromLocation : function() {
+        var test = /test=(.+)$/.exec(window.location.hash);
+        if (!test)
             return;
         
-        var tests = query[1].split(',');
-        this.loadTests(tests);
+        test = test[1];
+        this.loadTests(test);
     },
     
     loadTests : function() {
