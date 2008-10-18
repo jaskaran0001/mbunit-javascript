@@ -8,7 +8,18 @@ var $add = function(name, options, parent) {
 
     var element = parent[0].ownerDocument.createElement(name);
     for (var key in options) {
-        element[key] = options[key];
+        if (key === 'onload' && element.attachEvent) {
+            var onload = options[key];
+            element.attachEvent("onreadystatechange", function(e) { 
+                var target = e.srcElement;
+                if(target.readyState == "complete")
+                    onload.call(target); 
+            });
+                
+            continue;
+        }
+    
+        element[key] = options[key];                
     }    
     parent[0].appendChild(element); // .append does not work
     return $(element);
