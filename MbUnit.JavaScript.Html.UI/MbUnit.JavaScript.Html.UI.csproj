@@ -83,7 +83,7 @@
   <Target Name="BeforeBuild">
   </Target> -->
   <Target Name="AfterBuild">
-    <CombineScriptsFromResources OriginalAssemblyPath="..\MbUnit.JavaScript\bin\$(Configuration)\MbUnit.JavaScript.dll" OriginalResources="MbUnit.JavaScript.Framework.js; MbUnit.JavaScript.js.Core.Runner.js" StripComments="true" CombinedFile="MbUnit.JavaScript.js" />
+    <CombineScriptsFromResources OriginalAssemblyPath="..\MbUnit.JavaScript\bin\$(Configuration)\MbUnit.JavaScript.dll" OriginalResources="MbUnit.JavaScript.Framework.Pure.js; MbUnit.JavaScript.js.Core.Runner.js" StripComments="true" CombinedFile="MbUnit.JavaScript.js" />
   </Target>
   <ProjectExtensions>
     <VisualStudio>

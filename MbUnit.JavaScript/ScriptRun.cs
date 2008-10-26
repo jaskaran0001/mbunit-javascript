@@ -36,6 +36,7 @@ using MbUnit.JavaScript.References;
 
 namespace MbUnit.JavaScript {
     [ScriptResourceReference("MbUnit.JavaScript.js.Core.Runner.js", typeof(ScriptRun))]
+    [ScriptResourceReference("MbUnit.JavaScript.js.Compatibility.js", typeof(ScriptRun))]
     internal class ScriptRun : Run {
         internal const string RunnerTypeName = "MbUnit.Core.Runner";
         internal const string CurrentRunnerName = RunnerTypeName + ".__current";
