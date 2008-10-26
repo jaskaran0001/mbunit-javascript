@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engines\Microsoft\ExceptionWrapper.js.txt" />
+    <EmbeddedResource Include="js\Compatibility.js" />
+    <EmbeddedResource Include="Framework.Pure.js" />
     <EmbeddedResource Include="js\Core\Formatter.js" />
     <EmbeddedResource Include="js\ArrayAssert.js" />
   </ItemGroup>

@@ -31,6 +31,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MbUnit.JavaScript.Html.UI",
 		{749546EA-6506-4553-8C88-0B0EBE6BAE76} = {749546EA-6506-4553-8C88-0B0EBE6BAE76}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{2512BBF1-7534-420F-AFA1-ABACF627A7FE}"
+	ProjectSection(SolutionItems) = preProject
+		[References]\js\jquery-1.2.6.js = [References]\js\jquery-1.2.6.js
+		[References]\js\prototype-1.6.0.2.js = [References]\js\prototype-1.6.0.2.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +65,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7D6929B2-EBB3-4684-910A-A84C6950DC48} = {3AA2CE58-072E-4487-A978-6E6D33803903}
+		{2512BBF1-7534-420F-AFA1-ABACF627A7FE} = {3AA2CE58-072E-4487-A978-6E6D33803903}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = 
