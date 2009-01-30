@@ -34,6 +34,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{2512BBF1-7534-420F-AFA1-ABACF627A7FE}"
 	ProjectSection(SolutionItems) = preProject
 		[References]\js\jquery-1.2.6.js = [References]\js\jquery-1.2.6.js
+		[References]\js\jquery-1.3.1.js = [References]\js\jquery-1.3.1.js
 		[References]\js\prototype-1.6.0.2.js = [References]\js\prototype-1.6.0.2.js
 	EndProjectSection
 EndProject
