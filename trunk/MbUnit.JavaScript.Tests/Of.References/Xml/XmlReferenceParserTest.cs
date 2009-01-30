@@ -50,5 +50,14 @@ namespace MbUnit.JavaScript.Tests.Of.References.Xml {
             XPathAssert.NodesExist(references, @"reference[@name='Testing.Test2.js' and @assembly='Testing']");
             XPathAssert.NoNodesExist(references, @"reference[@name='ShouldNotBeFound.js']");
         }
+
+        [Test]
+        public void TestParseDoesNotThrowOnNonXmlComments() {
+            const string Script = @"/// A comment: < />";
+
+            ExceptionAssert.DoesNotThrow(
+                () => new XmlReferenceParser().Parse(Script)
+            );
+        }
     }
 }

@@ -51,5 +51,9 @@ namespace MbUnit.JavaScript.Tests {
                 typeof(TException), "Expected exception was not thrown."
             );
         }
+
+        public static void DoesNotThrow(Block block) {
+            block();
+        }
     }
 }
