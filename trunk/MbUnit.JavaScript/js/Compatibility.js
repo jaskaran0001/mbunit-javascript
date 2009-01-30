@@ -27,19 +27,32 @@
 // This code emulates the browser, allowing frameworks such as JQuery to be loaded into test context
 window = this;
 (function() {
-    var doNothing = function() {};    
-    var element = { appendChild : doNothing }
+    var doNothing = function() {}; 
+    var returnObject = function() { return {}; };
+    var returnArray = function() { return []; };
+       
+    var element = {
+        appendChild : doNothing,
+        insertBefore : doNothing,
+        removeChild : doNothing,
+        
+        getElementsByTagName : returnArray,
+        
+        style : { display : {} }
+    };
     var returnElement = function() { return element; };
-    
-    
+        
     // prototype.js sniffing
     window.attachEvent = doNothing;
     
     window.document = {
-        write          : doNothing,
-        getElementById : returnElement,
-        createElement  : returnElement,
-        createTextNode : returnElement
+        write           : doNothing,
+        getElementById  : returnElement,
+        createElement   : returnElement,
+        createComment   : returnObject,
+        createTextNode  : returnElement,
+        
+        documentElement : element
     };
 })();
 

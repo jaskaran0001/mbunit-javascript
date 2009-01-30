@@ -30,7 +30,12 @@ using System.Linq;
 
 namespace MbUnit.JavaScript.Tests.Compatibility {
     [ScriptFixture]
-    [ScriptResourceReference("MbUnit.JavaScript.Tests.Compatibility.js.jquery-**.js", typeof(CanLoadJQuery))]
-    public class CanLoadJQuery {
+    [ScriptResourceReference("MbUnit.JavaScript.Tests.Compatibility.js.jquery-1.2.6.js", typeof(CanLoadJQuery126))]
+    public class CanLoadJQuery126 {
+    }
+
+    [ScriptFixture]
+    [ScriptResourceReference("MbUnit.JavaScript.Tests.Compatibility.js.jquery-1.3.1.js", typeof(CanLoadJQuery131))]
+    public class CanLoadJQuery131 {
     }
 }
