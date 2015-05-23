@@ -1,0 +1,1 @@
+Proceed to [the list of all known limitations](http://code.google.com/p/mbunit-javascript/issues/list?q=type:Limitation).
